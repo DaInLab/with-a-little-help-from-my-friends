@@ -1,0 +1,776 @@
+---
+title: 'Estilos de Uso dos Espaços Virtuais de Aprendizagem: Diferentes Perfis e Formatos
+  nas Gerações Digitais'
+author:
+- "Grupo de Pesquisa LInDa - Laboratório de Inteligência de Dados"
+- Priscilla Aparecida Sanatana Bittencourt
+- João Pedro Albino
+date: "`r format(Sys.time(), '%d/%m/%Y')`"
+output:
+  html_document: default
+  pdf_document: 
+    latex_engine: xelatex
+    keep_tex: yes
+  word_document: default
+subtitle: Análise Exploratória para a Tese EUEV e Gerações
+editor_options:
+  markdown:
+    wrap: sentence
+---
+
+```{r, include=FALSE}
+options(tinytex.verbose = TRUE)
+```
+
+```{r setup, include=FALSE}
+# Função para obter em qual ambiente (Sistema Operacional) o RStudio está sendo executado
+get_os <- function(){
+  sysinf <- Sys.info()
+  if (!is.null(sysinf)){
+    os <- sysinf['sysname']
+    if (os == 'Darwin')
+      os <- "osx"
+  } else { ## mystery machine
+    os <- .Platform$OS.type
+    if (grepl("^darwin", R.version$os))
+      os <- "osx"
+    if (grepl("linux-gnu", R.version$os))
+      os <- "linux"
+  }
+  tolower(os)
+}
+if (get_os() == "windows"){
+  knitr::opts_knit$set(root.dir = "D:/Github/espaco-virtual-e-geracoes")
+  knitr::opts_knit$set(fig_path = ".png", list(fig.path = "D:/Github/espaco-virtual-e-geracoes/final/", label = "aed"), 1:2)
+}
+if (get_os() == "osx"){
+     knitr::opts_knit$set(root.dir = "/Users/jpalbino/Library/Mobile Documents/com~apple~CloudDocs/GitHub/espaco-virtual-e-geracoes")
+     knitr::opts_knit$set(fig_path = ".png", list(fig.path = "/Users/jpalbino/Library/Mobile Documents/com~apple~CloudDocs/GitHub/espaco-virtual-e-geracoes/final/figura-", label = "aed"), 1:2)
+}
+
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+## 3 PROCEDIMENTOS METODOLÓGICOS
+
+De maneira mais sucinta, a análise dos materiais realizou-se conforme os tópicos:  
+1º - Aplicação do RACI nos materiais levantados na revisão sistemática da literatura;  
+2º - Baseado nas respostas positivas e que foram obtidas do resultado da aplicação do roteiro RACI para com os materiais que foram levantados na revisão sistemática, mais especificamente na coluna 5 (a observação e descrição realizada dos aspectos observados nas investigações)  
+3º - Neste tópico serão demonstrados os procedimentos metodológicos para a coleta, análise e interpretação dos dados relativos à representação detalhada dos diferentes perfis e usos do digital nas gerações de acordo com os apontamentos identificados na revisão sistemática da literatura relativas ao questionário sobre os estilos de uso do espaço virtual.
+
+## 4 RESULTADOS OBTIDOS E DISCUSSÃO DA INVESTIGAÇÃO
+
+Neste Capítulo são apresentados os resultados desta investigação, bem como os resultados e a discussão das análises realizadas com dados secundários referentes aos estilos de uso do espaço virtual.
+Os dados primários foram coletados em trabalhos identificados na pesquisa bibliográfica exploratória e compartilhados mediante solicitação (Anexo 3) e autorizados para utilização neste trabalho.  
+Este Capítulo está subdividido em três partes:  
+- **primeira parte**: apresenta os resultados referentes a revisão sistemática da literatura;  
+- **segunda parte**: apresenta os procedimentos de coleta e análise exploratória de dados à luz do que foi identificado em relação a revisão sistemática da literatura concernentes aos estilos de uso do espaço virtual e relativas à representação detalhada dos diferentes perfis e usos do digital nas gerações;  
+- **terceira parte**: apresenta os resultados e a discussão das análises dos dados, em consonância com o objetivo principal da investigação.
+
+### 4.1 Primeira parte: resultados da revisão sistemática da literatura
+
+A apresentação dos dados coletados nos repositórios durante a leitura inicial foi realizada por meio de tabelas, com a sugestão do tema em questão de cada investigação e a quantidade de estudos com a palavra-chave da mesma temática.  
+Posteriormente, houve uma escolha mais criteriosa e objetiva dos materiais encontrados para cada tema proposto nesta investigação.  
+A exploração e análise dos materiais encontrados se deu por meio de leituras mais aprofundadas, nas quais se possibilitou a discussão e a confrontação do texto teórico descrito no Capítulo 2 - Fundamentação Teórica.  
+Para a construção da base teórica do item 3.1, intitulado como: "A influência da tecnologia na vida das pessoas e na sociedade", utilizou-se a investigação exploratória e bibliográfica, considerando os seguintes conceitos-chave: *"o impacto das tecnologias na vida das pessoas"* e *"importance of technologies in people's lives"*.  
+Limitou-se o período específico entre 2018 e 2021 e em diferentes idiomas, pois era importante encontrar dados mais recentes publicados sobre este tema, a fim de selecionar o material mais recente.  
+O levantamento bibliográfico foi realizado em bases de dados Brasileiras e Portuguesas:  
+- Google acadêmico de Portugal, acesso pelo link: <https://scholar.google.pt/>;  
+- Biblioteca do Conhecimento Online (b-on), acesso pelo link: <https://www.b-on.pt/>;  
+- Repositório aberto da UAb, acesso pelo link: <https://repositorioaberto.uab.pt/>;  
+- Repositórios Científicos de Acesso Aberto de Portugal (RCAAP), acesso pelo link: <https://www.rcaap.pt/>;  
+- Repositórios das UNESP, acesso pelo link: <https://repositorio.unesp.br/>;  
+- Google acadêmico do Brasil, acesso pelo link: <https://scholar.google.com.br/>;  
+- Scielo, acesso pelo link: <https://scielo.org/>  
+A partir da pesquisa bibliográfica, foram obtidos os resultados demonstrados no Quadro 3:
+
+Quadro 3 : Resultado do levantamento Bibliográfico (2018-2021)
+
+| Base de dados                       | Palavra-chave 1[^1] | Palavra-chave 2[^2] |
+|:------------------------------------|:-------------------:|:-------------------:|
+| <https://scholar.google.pt/>        |       32.800        |       16.600        |
+| <https://www.b-on.pt/>              |        6.011        |       212.992       |
+| <https://repositorioaberto.uab.pt/> |        2.312        |        1.371        |
+| <https://www.rcaap.pt/>             |         486         |         97          |
+| <https://repositorio.unesp.br/>     |       42.993        |       16.270        |
+| <https://scholar.google.com.br/>    |       17.300        |       16.500        |
+| <https://scielo.org/>               |          4          |          0          |
+| Totais                              |       101.906       |       263.830       |  
+Fonte: Elaborado pela pesquisadora (2022).  
+
+[^1]: Palavra-chave 1: a importância das tecnologia na vida das pessoas
+[^2]: Palavra-chave 2: importance of technologies in people's lives
+
+Como pode ser aferido pelo Quadro 3, a pesquisa exploratória realizada com as quatro palavras-chave selecionadas também resultou em um número considerável de artigos, dissertações, teses e livros, similar ao que pôde ser constatado nas buscas referentes ao Quadro 2.  
+No Anexo 3 pode-se observar o processo utilizado de busca para selecionar quais documentos incluir nos resultados da pesquisa.  
+Pode-se também observar no Quadro 3 que os resultados iniciais da busca foram muito amplos, mesmo restringindo-se o conteúdo das investigações por meio das palavras-chave e a limitação dos anos.
+Dentre os resultados obtidos no levantamento bibliográfico, os tipos de fontes que aparecem como resultados foram bastante relevantes e expressivos, constando-se de Revistas Acadêmicas, Resenhas, Relatórios, Publicações da Especialidade, entre outros.  
+Pelo conjunto de documentos obtidos na busca, inferiu-se que um número reduzido de conteúdo bibliográfico e documental alcançado seriam efetivamente pertinentes a esta investigação.
+Desta forma, de acordo com o roteiro RACI e por meio de leitura parcimoniosa dos resumos das publicações, selecionou-se de forma criteriosa os materiais que constam nas referências bibliográficas desta pesquisa.  
+Portanto, para fechar o foco no tema desta pesquisa, foi necessária uma seleção criteriosa do material levantado, utilizando-se para tanto os recursos do roteiro de análise de conteúdo para investigação - RACI (Tabela ???), além de leitura aprofundada do material bibliográfico.
+Desta forma, foram selecionados os seguintes autores como principais bases para o tema desta tese: Bates (2017), Martino (2014), Carr (2011), Kerckhove (2009), Castells (2004) e Carvalho (2006).  
+Para a construção da base teórica referentes a história da internet e das tecnologias de informação e comunicação, utilizou-se a investigação exploratória e bibliográfica, considerando os seguintes conceitos-chave: "história da internet", "história das tecnologias", "the history of the internet" e "history of technologies".
+Limitou-se o período de buscas entre os anos de 2018 e 2021, em diferentes idiomas, buscando selecionar os conteúdos mais recentes publicados sobre o tema.  
+Esse levantamento bibliográfico também foi realizado em bases de dados Brasileiras e Portuguesas, tais como:  
+- Google acadêmico de Portugal, acesso pelo link: <https://scholar.google.pt/>;  
+- Biblioteca do Conhecimento Online (b-on), acesso pelo link: <https://www.b-on.pt/>;  
+- Repositório da Universidade Aberta (UAb) de Portugal, acesso pelo link: <https://repositorioaberto.uab.pt/>;  
+- Repositórios Científicos de Acesso Aberto de Portugal (RCAAP), acesso pelo link: <https://www.rcaap.pt/>;  
+- Repositórios das UNESP, acesso pelo link: <https://repositorio.unesp.br/>;  
+- Google acadêmico do Brasil, acesso pelo link: <https://scholar.google.com.br/>;  
+- Biblioteca Eletrônica Científica Online (Scielo), acesso pelo link: <https://scielo.org/>.
+A partir do levantamento bibliográfico, foram obtidos os resultados demonstrados no Quadro 4:
+
+Quadro 4: Resultado do levantamento Bibliográfico (2018-2021)
+
+| Base de dados                       | Palavra-chave 1[^3] | Palavra-chave 2[^4] | Palavra-chave 3[^5] | Palavra-chave 4[^6] |
+|:--------------|:-------------:|:-------------:|:-------------:|:-------------:|
+| <https://scholar.google.pt/>        |         380         |        1.270        |       17.300        |         355         |
+| <https://www.b-on.pt/>              |          0          |          0          |          0          |          0          |
+| <https://repositorioaberto.uab.pt/> |        2.311        |        1.155        |        1.935        |        1.222        |
+| <https://www.rcaap.pt/>             |         476         |         405         |         621         |         524         |
+| <https://repositorio.unesp.br/>     |       22.126        |        1.145        |        7.909        |        4.248        |
+| <https://scholar.google.com.br/>    |       17.000        |        1.280        |       16.700        |         356         |
+| <https://scielo.org/>               |         36          |         32          |         131         |         78          |
+| Totais                              |       42.329        |        5.287        |       44.596        |        6.783        |
+
+[^3]: Palavra-chave 1 - A História da internet
+[^4]: Palavra-chave 2 - the history of the internet
+[^5]: Palavra-chave 3 - história das tecnologias
+[^6]: Palavra-chave 4 - history of technologies
+
+Fonte: Elaborado pela pesquisadora (2022).
+
+Como pode ser aferido pelo Quadro 4, a pesquisa exploratória realizada com as quatro palavras-chave selecionadas também resultou em um número considerável de artigos, dissertações, teses e livros, similar ao que pôde ser constatato nas buscas referentes ao Quadro 3.  
+Dentre o total de resultados apresentados, destacam-se, no Quadro 4, os diversos tipos de fontes que aparecem como resultados, dentre eles: revistas acadêmicas, resenhas, relatórios, publicações da especialidade, entre outros.  
+Pelo conjunto de documentos obtidos na busca, inferiu-se que um número reduzido de conteúdo bibliográfico e documental alcançado seriam efetivamente pertinentes a esta investigação.
+Desta forma, de acordo com o roteiro RACI e por meio de leitura parcimoniosa dos resumos das publicações, selecionou-se de forma criteriosa os materiais que constam nas referências bibliográficas desta pesquisa.  
+Para a construção da fundamentação teórica do item 2.2, intitulado como: "os estilos de uso do espaço virtual", utilizou-se o roteiro RACI para a investigação exploratória e bibliográfica, além de buscas em bases de dados disponíveis online utilizando-se das palavras-chave: "estilos de uso do espaço virtual"; "questionário estilos de uso do espaço virtual" e "uso do espaço virtual".
+Restringiu-se o período específico de exploração nas bases de dados de publicações científicas entre os anos de 2008 e 2020 e em diferentes idiomas, pois este foi o período em que o questionário "Estilos de uso do espaço virtual" foi desenvolvido e aplicado por diferentes investigadores em diferentes países.  
+Parte desta etapa foi realizada em Portugal, durante o ano de 2018, período em que a pesquisadora realizou o estágio doutoral na Universidade Aberta (UAb) de Lisboa.
+Após este período imersivo da pesquisa, a pesquisa bibliográfica e documental continuou quando do retorno ao Brasil, estendendo-se até o ano de 2020.  
+O resumo dos resultados desta busca exploratória e bibliográfica pode ser visualizado no Anexo 1.
+Foram selecionados trinta e nove resultados encontrados com base nesta busca específica, conforme demonstrado no Quadro 5.
+Parte deste resultado foi utilizado para compor as referências desta investigação, além de subsidiar o referencial teórico.
+
+Quadro 5: Resultado do levantamento Bibliográfico (2008-2020)
+
+| Palavra-chave                                 | Biblioteca do Conhecimento Online | Google acadêmico Portugal |
+|:----------------|:---------------------------------:|:------------------:|
+| estilos de uso del espacio virtual            |                 2                 |            10             |
+| estilos de uso do espaço virtual              |                 6                 |            15             |
+| questionário estilos de uso do espaço virtual |                 1                 |             5             |
+| **Total**                                     |                 9                 |            30             |
+
+Fonte: Elaborado pela pesquisadora (2022).
+
+Após realizada a pesquisa exploratória com as palavras-chave: "estilos de uso del espacio virtual", "estilos de uso do espaço virtual" e "questionário estilos de uso do espaço virtual" obteve-se um resultado relevante, mesmo limitando-se o período de pesquisa entre 2008 a 2020.
+Foram alcançados o total de 39 documentos, compreendendo-se artigos, dissertações, teses e livros.
+Os resultados da pesquisa nas bases de dados Biblioteca do Conhecimento Online (B-on) e Google acadêmico, ambos de Portugal, está demonstrado no Quadro 5.  
+A partir dessa busca exploratória e bibliográfica, foi realizada uma análise documental para a seleção do material com o auxílio do RACI, o roteiro de análise de conteúdo para investigação (Tabela ???), desenvolvido com objetivo de selecionar o material pertinente para esta tese.
+A escolha dos documentos baseou-se em critérios de análise nas dimensões de exploração, análise, e seleção para a identificação dos temas relacionados aos estilos de uso do espaço virtual, componentes do roteiro de análise de conteúdo.
+Além do RACI, a seleção também foi fundamentada em critérios baseados em estudos e pesquisas realizados anteriormente ao desenvolvimento deste trabalho pela pesquisadora.  
+Em síntese, o estudo bibliográfico e exploratório identificou o material utilizado para subsidiar inicialmente a investigação, que resultou nos documentos relacionados no Quadro 6:
+
+Quadro 6: Estudo bibliográfico e exploratório no período de 2008 a 2020
+
+| Tipo de documento | Quantidade |                                                                                  Autores                                                                                   |
+|:-------------------------|:----------------:|:---------------------------:|
+| Artigos           |     3      | TERÇARIOL, A. A. L.; BARROS, D. M. V. (2017); MIRANDA, L.; MORAIS, C.; GOULÃO, F.; BARROS, D. M.V.; (2012); ARANDA, P. C. G.; POLANCO, P. O. P.; HERRERA, P. J. C. (2017). |
+| Dissertações      |     3      |                                                 FREITAS, J. M. A. (2013); MENDES, A. G. L. M. (2015); SILVA, A. C. (2011).                                                 |
+| Teses             |     4      |                        LESSA, V. E. (2018); GOMES, F. D. (2018); FERNANDES, F. (2018); BARRERA, A. V.; GAYTAN, B. G. R.; MANCILLA, M. A. A. (2016).                        |
+
+Fonte: Elaborado pela pesquisadora (2022).
+
+Em linhas gerais, os artigos apresentaram estudos exploratórios, dissertando sobre o objetivo de identificar os estilos de uso do espaço virtual predominantemente em grupos de estudantes e professores, e os resultados desses estudos salientam a importância de se identificar tais estilos com o propósito de desenvolver estratégias para o uso colaborativo e criativo dos ambientes online neste grupo de usuários do espaço virtual.
+Os estudos exploratórios contidos nos artigos também revelaram uma breve reflexão com relação ao ensino presencial e à distância, assinalando que o uso das mídias sociais pode ampliar as oportunidades de aprendizagem individual e colaborativa.
+As dissertações expuseram, de forma geral, que os estilos de aprendizagem no virtual podem se modificar ou se adaptar de acordo com o contexto ao qual os indivíduos estão inseridos, influenciando no processo de ensino e aprendizagem dos estudantes, além de identificar o estilo de uso do espaço virtual predominante em cada investigação realizada.  
+As teses analisadas tratam de estudos realizados com estudantes, nas quais se pode perceber que, de maneira geral, todas observaram o processo de ensino e aprendizagem com o objetivo de entenderem os estudantes em seu contexto.
+Os resultados das teses analisadas mostraram maneiras de colaborar e incentivar o desenvolvimento de novos modelos de ensinar e aprender.  
+O levantamento bibliográfico e exploratório também foi importante no momento para identificar quais investigadores aplicaram e utilizaram a teoria dos "estilos de uso do espaço virtual" em suas investigações.  
+Posteriormente ao processo de consulta aos bancos de dados referente a temática dos estilos de uso do espaço virtual, houve a necessidade de atualização das obras consultadas durante a fase inicial da pesquisa, portanto, fez-se necessária nova pesquisa bibliográfica abrangendo o tema.  
+Realizou-se nova investigação exploratória e bibliográfica, consultando os seguintes conceitos-chave: "estilos de uso do espaço virtual"; "questionário estilos de uso do espaço virtual" e "uso do espaço virtual".
+Ampliou-se o período de abrangência das buscas, compreendendo os anos entre 2018 e 2021 e expandiu-se também o número das bases de dados consultadas, pois pretendia-se visualizar as atualizações destes conceitos neste período.  
+A partir desta pesquisa atualizada, obteve-se os resultados, demonstrados no Quadro 7:
+
+Quadro 7: Resultado do levantamento Bibliográfico (2018-2021)
+
+| Base de dados                       | Palavra-chave 1[^7] | Palavra-chave 2[^8] | Palavra-chave 3[^9] |
+|:----------------|:-----------------:|:-----------------:|:-----------------:|
+| <https://scholar.google.pt/>        |         77          |         18          |          3          |
+| <https://www.b-on.pt/>              |          0          |          0          |          0          |
+| <https://repositorioaberto.uab.pt/> |         15          |          2          |          1          |
+| <https://www.rcaap.pt/>             |          2          |          1          |          0          |
+| <https://repositorio.unesp.br/>     |       41.141        |       42.024        |          0          |
+| <https://scholar.google.com.br/>    |         77          |         18          |          3          |
+| <https://scielo.org/>               |          0          |          0          |          0          |
+| Totais                              |       41.582        |        5.287        |       42.063        |
+
+[^7]: Palavra-chave 1 - estilos de uso do espaço virtual
+
+[^8]: Palavra-chave 2 - estilos de uso del espacio virtual
+
+[^9]: Palavra-chave 3 - questionário estilos de uso do espaço virtual
+
+Fonte: Elaborado pela pesquisadora (2022).
+
+Como pode ser observado no Quadro 7, utilizando-se um período ampliado para as buscas nas bases de dados, a quantidade de documentos recuperados superou, em muito, os observados no Quadro 6, demonstrando que o tema "estilos de uso do espaço virtual" e correlatos encontra-se bastante frequente.
+Com tais resultados atualizados, observou-se também a necessidade de atualização e ampliação das buscas referentes aos conceitos-chave inerentes à questão de pesquisa desta tese, compreendendo então o conjunto de palavras-chave "espaço virtual" e "gerações digitais".
+Para efetivar o levantamento bibliográfico e exploratório inerente ao tema deste trabalho, determinou-se que o período de buscas contivesse os anos entre 2018 (último ano da pesquisa bibliográfica anterior) e 2021 nas mesmas bases de dados já especificadas anteriormente.  
+A partir desta atualização e ampliação na pesquisa original realizada, uma ampla variedade de documentos foi recuperada, cujos resultados condensados estão demonstrados no Quadro 8.
+Uma visão mais detalhada dos resultados obtidos também pode ser visualizada no Anexo XXX.
+
+Quadro 8: Resultado ampliado do levantamento Bibliográfico
+
+| Base de dados                       | Palavra-chave 1[^10] | Palavra-chave 2[^11] |
+|:------------------------------------|:--------------------:|:--------------------:|
+| <https://scholar.google.pt/>        |        18.000        |        18.600        |
+| <https://www.b-on.pt/>              |          0           |          0           |
+| <https://repositorioaberto.uab.pt/> |        1.407         |        18.600        |
+| <https://www.rcaap.pt/>             |          11          |          3           |
+| <https://repositorio.unesp.br/>     |        2.119         |         535          |
+| <https://scholar.google.com.br/>    |        12.600        |         129          |
+| <https://scielo.org/>               |          42          |          2           |
+| Totais                              |        41.582        |        5.287         |
+
+[^10]: Palavra-chave 1 - espaço virtual
+
+[^11]: Palavra-chave 2 - gerações digitais
+
+Fonte: Elaborado pela pesquisadora (2022).
+
+A partir dessa extensa busca exploratória e bibliográfica e, novamente, com o auxílio do roteiro RACI (Tabela ???), efetuou-se uma análise documental para escolha de material relacionado à esta tese, considerando-se temas relacionados aos estilos de uso do espaço virtual e às gerações digitais.
+Além dos critérios de análise nas dimensões de análise de conteúdo do RACI, a escolha também foi abalizada em juízo crítico baseados em estudos e pesquisas realizados anteriormente pela pesquisadora, notadamente quando do desenvolvimento da dissertação (BITTENCOURT, 2016) e artigos BITTENCOURT e ALBINO, 2017).  
+Em linhas gerais, os artigos apresentaram... dissertando sobre o objetivo de ......  
+Com relação à questão do uso geracional da tecnologia ....  
+O levantamento bibliográfico e exploratório também foi importante para identificar quais documentos recuperados na busca nas bases de dados utilizaram o questionário de estilos de uso em seus trabalhos.
+
+### 4.2 Segunda parte: procedimentos de coleta e análise exploratória de dados
+
+Neste tópico serão demonstrados os procedimentos metodológicos para a coleta, análise e interpretação dos dados que foram compartilhados à esta tese por pesquisadores identificados, no processo de revisão sistemática da literatura, relativos ao uso do Questionário Estilo de Uso do Espaço Virtual -- CEUEV.  
+
+#### 4.2.1 Obtenção dos dados não submetidos a processamento  
+
+Os dados secundários utilizados nesta tese foram compartilhados por pesquisadores identificados no processo de revisão sistemática da literatura, relativos ao uso do Questionário Estilo de Uso do Espaço Virtual -- CEUEV.
+Tal instrumento de pesquisa, desenvolvido em Barros (2018) e especificado em Barros (2013), versa sobre identificar como as pessoas utilizam e aprendem no espaço virtual e quais estilos de aprendizagem podem ser considerados neste novo espaço.  
+Como citado anteriormente, Barros (2009) categorizou quatro tendências de uso dos estilos do espaço virtual, já discutidas na Fundamentação Teórica e que nesta etapa da tese serão utilizados com a terminologia:  
+    - **Estilo de Uso A**: Uso Participativo no Espaço Virtual  
+    - **Estilo de Uso B**: Busca e Pesquisa no Espaço Virtual  
+    - **Estilo de Uso C**: Estruturação e Planejamento no Espaço Virtual  
+    - **Estilo de Uso D**: Ação Concreta e Produção no Espaço Virtual  
+Em síntese, em Barros (2013), o estilo de uso do espaço virtual é definido como situações de utilização dos aplicativos e ferramentas determinam as características de um usuário na busca, no planejamento e na utilização de informação no digital.  
+Outro construto importante também tratado na Fundamentação Teórica em como as tecnologias digitais evoluem a cada dia e as pessoas, independentemente da nomenclatura utilizada para nomeá-las (nativos, imigrantes, habitantes, visitantes ou transeuntes), suas usuárias, estão adotando, cada grupo de indivíduos com suas características, mostrou-se interessante pesquisar as propensões de uso dos estilos do espaço virtual e as formas de utilização da tecnologia pelos conjunto de pessoas (gerações) e, assim, possivelmente compreender de que forma o uso dos espaços virtuais por pessoas em diferentes faixas etárias, impacta o seu cotidiano.  
+De forma concisa, a análise e interpretação dos dados dos questionários CEUEV e as características geracionais relativas distinguiriam uma representação detalhada dos diferentes perfis e usos do digital nas gerações de acordo com os apontamentos identificados, convergindo diretamente à resposta da pergunta de pesquisa desta tese.  
+Portanto, para o andamento desta investigação tornou-se necessário coletar dados referentes ao questionário CEUEV (Barros, 2013), junto a pesquisadores do tema identificados na revisão sistemática da literatura relativas a aplicação deste instrumento de pesquisa nos seus trabalhos.
+Após a identificação dos pesquisadores, foi necessário entrar em contato com os pesquisadores do tema.
+Uma carta, cujo modelo é mostrado no Anexo 2, foi enviada a cada um dos autores dos artigos, dissertações e teses selecionados, com o intuito de solicitar o compartilhamento dos dados, obtidos inteiramente dos questionários ou em formato de planilha de dados, referentes ao uso do CEUEV, coletados em suas respectivas investigações.
+Porém, apesar da pluralidade de trabalhos recuperados na pesquisa aos bancos de dados e da tentativa de contato com os autores das pesquisas, houve morosidade para o retorno das mensagens enviadas eletronicamente e, após este tempo decorrido poucos pesquisadores responderam ao contato e compartilharam seus dados primários, resultando assim na primeira dificuldade encontrada para acesso aos dados obtidos diretamente dos questionários e não submetidos a processamento, definidos como dados brutos (HAI, KAMBER E PEI, 2011; WICKHAM E GROLEMUND, 2017).
+Desta forma, as fontes obtidas e que serão utilizadas nesta tese estão sumarizadas no Quadro nnn.
+
+Quadro nnn: Fontes de dados utilizadas
+
+| Pesquisadores                              |   País   | Tipo de documento |                                                          Título                                                           | Ano de publicação |
+|:-----------|:----------:|:----------:|:-----------------------:|:----------:|
+| María Carmen López Berlanga et. al         | Espanha  |      Artigo       |                       El estilo de uso del espacio virtual con estudiantes de Educación Secundaria                        |       2018        |
+| Alejandro Villegas Barrera                 |  México  |    Monografia     |                            Herramienta para la creación de un Entorno Personal de Aprendizaje                             |       2017        |
+| Marcos Andrei Ota                          |  Brasil  |       Tese        | Adaptatividade em Ambientes Virtuais: uma proposta para personalizar a aprendizagem em cursos híbridos de ensino superior |       2018        |
+| Adriana Aparecida de Lima Terçariol et. al |  Brasil  |      Artigo       |              Os Estilos de Uso dos Espaços Virtuais e as Redes Sociais na Pedagogia: Um Estudo Exploratório               |       2017        |
+| Daniela Melaré Vieira Barros               |  Brasil  |                   |                                                                                                                           |    2010 - 2019    |
+| Daniela Melaré Vieira Barros               | Portugal |                   |                                                                                                                           |    2018 - 2019    |
+| Cristina Sánchez Romero et. al             | Espanha  |      Artigo       |            Estudio de Identificación de Los Estilos Del Uso Del Virtual de Los Seniors: perspectivas iniciales            |       2020        |
+
+Fonte: Elaborado pela pesquisadora (2022).
+
+#### 4.2.2 Processo de Mineração e análise dos dados  
+
+De acordo com Hai, Kamber e Pei (2011), mineração de dados (ou em inglês data mining) é o processo de extração e descoberta de padrões em conjuntos de dados (datasets) envolvendo métodos na interseção entre aprendizado de máquina, estatística e sistemas de banco de dados.
+A mineração, um subcampo interdisciplinar de ciência da computação e estatística, tem como objetivo geral extrair informações de um conjunto de dados e transformar as informações em uma estrutura compreensível para uso posterior.
+A mineração de dados é a etapa de análise do processo de "descoberta de conhecimento em bancos de dados", ou **KDD** (Knowledge Discovery in Databases).  
+A descoberta de conhecimento em bases de dados tem como objetivo encontrar padrões intrínsecos aos dados nela contidos, apresentando-os de forma a facilitar sua assimilação como conhecimento, definem Silva, Peres e Boscarioli (2016).
+Ainda segundo esses autores, a mineração de dados é definida em termos do esforço para a descoberta de padrões e, a partir dos padrões descobertos, gerar conhecimento útil para um processo de tomada de decisão.
+Trata-se, portanto, da aplicação de técnicas, implementadas por meio de algoritmos computacionais, capazes de receber, como entrada, um conjunto de dados e devolver, como saída, um padrão de comportamento, o qual pode ser expresso, pr exemplo, uma função de mapeamento, ou a modelagem de um perfil (SILVA, PERES e BOSCARIOLI, 2016).  
+Os processos fundamentais da mineração de dados a partir de fontes de dados (bancos de dados, relatórios, logs de acesso, transações etc.) consistem em: (a) limpeza (remoção de ruídos e redundâncias, remoção de duplicidades etc.); (b) preparação dos dados (preenchimento de informações, detecção de anomalias (outliers), dados faltantes etc.); (c) modelagem dos dados; e (d) implantação da solução. (HAI, KAMBE e PEI, 2011).  
+
+#### 4.2.3 Análise exploratória dos dados  
+
+Trabalhos recentes na área de ciência de dados, tais como Tyagi (2022), Kotu (2019) e Wickham e Grolemund (2017) consideram a prospecção de dados como pertencente ao campo da ciência de dados, no qual o processo de mineração abrange as técnicas, ferramentas e métodos relativos ao processo de obter insights valiosos a partir de dados estruturados e não estruturados.
+Muitas vezes, os termos mais genéricos e utilizados em larga escala, *analítica* - do termo em inglês *analytics* - e *análise de dados* - ou, quando se refere a métodos concretos, *inteligência artificial* e *aprendizado de máquina*, são mais apropriados, afirma Tyagi (2022). 
+Por tanto, nesta tese, os termos mineração e análise de dados serão utilizados de forma alternada e com o mesmo objetivo: processo de obtenção de valiosos **insights** a partir da análise e interpretação dos dados.
+Um *insight* é um acontecimento cognitivo que pode ser associado a capacidade de ter uma compreensão clara, profunda e às vezes repentina de um problema ou situação complicada podendo ser sinônimo de compreensão, conhecimento, intuição[^12]. *Insight* também pode ser definido como a perspicácia ou a capacidade de apreender alguma coisa e acontece quando uma solução surge de forma repentina[^13].
+  
+Para a análise e interpretação dos dados coletados pelos pesquisadores será utilizada neste tópico da tese o *framework* - termo inglês que, em tradução direta, significa estrutura ou arcabouço, em português - definido em Wickham e Grolemund (2017) e representado na Figura NNN.
+
+[^12]: Conforme definição em Significados. Porto: 7Graus, 2020. Disponível em: <https://www.significados.com.br/insight/#:~:text=O%20que%20significa%20Insight%3A&text=Um%20insight%20é%20um%20acontencimento,solução%20surge%20de%20forma%20repentina>. Acesso em: 26 jun. 2022.  
+
+[^13]: Conforme definição em OxFordLanguages, 2022, Oxford University Press. Disponível em: <https://dictionary.cambridge.org/dictionary/english-portuguese/insight>. Acesso em: 01 jun. 2022.  
+
+<!--#if (get_os() == "windows")
+![Figura NNN. Estrutura para análise e interpretação de dados.](D:/Github/espaco-virtual-e-geracoes/final/estrutura_aed.png) -->
+
+<!--#if (get_os() == "osx") -->
+![Figura NNN. Estrutura para análise e interpretação de dados.](figura-aed1.png)
+
+Fonte: Baseado em Wickham e Grolemund, 2017.
+
+De acordo com Kotu (2019), a grande maioria dos frameworks em ciência de dados apresentam como características um arcabouço genérico muito semelhante ao processo *CRISP-DM*, abreviação de *CRoss Industry Standard Process for Data Mining*, que pode ser traduzido como Processo Padrão Inter-Indústrias para Mineração de Dados.  
+Ainda de acordo com o autor, o CRISP-DM é um framework de processo de mineração de dados que descreve abordagens comumente usadas por especialistas em mineração de dados para resolver um problema específico.  
+Como em qualquer estrutura de processo, um processo de ciência de dados recomenda a execução de um determinado conjunto de tarefas para obter a saída ideal.  
+O processo de extração de informações e conhecimento dos dados é iterativo, ou seja, é referente a um processo que é feito de novo, repetido ou reiterado, que é realizado inúmeras vezes[^14].
+As etapas dentro do processo de ciência de dados não são lineares e precisam passar por muitos loops[^15], ir e voltar entre as etapas e, às vezes, voltar à primeira etapa para redefinir a declaração do problema da ciência de dados.  
+O arcabouço de ciência de dados apresentada na Figura NNN é um conjunto genérico de etapas que é agnóstico de problema, algoritmo e ferramenta para análise de dados. O objetivo fundamental de qualquer processo que envolva a apreciação e a interpretação de dados é abordar a questão da análise, afirma Kotu (2019).  
+Em resumo, as etapas do processo da Figura NNN podem ser explicitadas como sendo compostas por:  
+    1. **Importar** os dados de alguma fonte (Banco de dados, ou planilha) para o ambiente de ciência de dados;  
+    2. **"Arrumar"** (no original, em inglês *tidy*) ou **organizar**/**pré-processar** os dados no formato de *dataframe* no ambiente de ciência de dados limpando os dados faltantes (*missing data*), campos digitados errados etc. Um *dataframe*, segundo Wickham e Grolemund (2017), são objetos de dados genéricos no ambiente de ciência de dados usados para armazenar dados tabulares. O *dataframe* pode ser visto como uma tabela em que cada linha corresponde a um registo ou uma observação e suas colunas têm nomes e podem conter diferentes tipos de dados. Em resumo, um *dataframe* é composto de três componentes principais: *dados,linhas e colunas*.  
+    3. **Transformar** os dados, de forma que possam ser aplicadas as técnicas estatísticas. Em alguns casos, transformar os campos categóricos alfanuméricos (por exemplo sexo, ou faixa etária) em campos categóricos numéricos (exemplo: sexo feminino = 1, sexo masculino = 2, não respondeu = 3). Nesta fase também são desenvolvidos os códigos (programas) para a elaboração das análises.  
+    4. **Visualizar**. Nesta etapa são gerados os gráficos e elaborado o relatório da análise.  
+    5. **Modelar**. Elaboração de modelos com os dados após a análise exploratória dos dados. Um *modelo estatístico* é uma representação da realidade na qual definimos a relação entre variáveis para entender e prever o comportamento de um fenômeno.  
+    6. **Comunicar**. Envio ou submissão do relatório final com as análises realizadas e as conclusões obtidas.
+
+[^14]: Conforme definido em LEXICO, Dicionário Online de Português. Porto: 7Graus, 2018. Disponível em: <https://www.lexico.pt/iterativo/>. Acesso em: 10/06/2022.
+
+[^15]: Conjunto de instruções que um programa de computador percorre e repete um significativo número de vezes até que sejam alcançadas as condições desejadas. Conforme definido em OxFordLanguages, 2022, Oxford University Press. Disponível em: <https://languages.oup.com/google-dictionary-pt/>. Acesso em: 10 jun. 2022.  
+
+#### 4.2.3.1 Importação e preparação dos dados  
+
+Após o compartilhamento dos dados coletados pelos investigadores, houve necessidade de normalização e padronização dos mesmos para uso nas análises realizadas nesta tese. Tal processo é definido como limpeza, preparação e tratamento de dados, uma das etapas do processo de mineração de dados (Hai, Kamber e Pei, 2011), correspondendo a fase de pré-processamento (ou *arrumar*) da Figura NNN. Ainda na etapa inicial de pré-processamento dos dados brutos e com a finalidade de atingir os objetivos propostos e fundamentar, com a análise dos dados compartilhados, a resposta à pergunta de pesquisa desta tese, algumas colunas das planilhas originais foram selecionadas, logo, não foram utilizadas todas as variáveis (ou colunas), dos trabalhos apurados do Quadro nnn.  
+Assim, para esta investigação foram escolhidos os campos: nome do pesquisador; país onde foi aplicado o questionário; gênero e idade do respondente; e o estilo de uso do espaço virtual; variáveis estas que foram considerados relevantes para análise e interpretação.  
+De acordo com Wickham (2014), 80% do processo de análise de dados é consumido no processo de limpeza e preparação dos dados. Segundo o autor, a preparação de dados não é apenas uma primeira etapa, mas deve ser repetida muitas vezes ao longo da análise, à medida que novos problemas surgem ou novos dados são coletados e acrescentados. Apesar da quantidade de tempo que leva, ainda existem poucos trabalhos de pesquisa sobre como limpar bem os dados, processo também definido como *higienização* (da SILVA, 2021). 
+Parte do desafio é a amplitude de atividades que a higienização de dados engloba atividades, tais como: verificação de valores discrepantes; análise das datas informadas; atribuição de valores ausentes; dentre outras define da Silva (2021). 
+Para lidar com tal dificuldade, esta tese se concentrou, primeiramente em um aspecto importante da limpeza de dados, organizando os dados compartilhados e estruturando o conjunto de dados para facilitar a posterior análise.  
+Para tanto, a pesquisadora utilizou-se do apoio oferecido pelos recursos humanos e técnicos do Laboratório de Inteligência de Dados – LinDa, grupo multidisciplinar de pesquisa da UNESP-Bauru que tem como finalidade apoiar e desenvolver pesquisas relacionadas à “ciência de dados” e, em particular, estudar estruturas de dados e suas aplicações onde seja possível extrair "inteligência".  
+Inicialmente, os dados recebidos foram compilados pela pesquisadora em um *workbook* utilizando o aplicativo de computador (software) Excel® da Microsoft®, constituído de diferentes tabelas formadas com todas as colunas e linhas das planilhas originais (*worksheets*) compartilhadas. Uma amostra do conteúdo das planilhas de trabalho em Excel® com os dados brutos, ou *dados não numericamente organizados*, é mostrada na Figura zzz.  
+
+![Figura ZZZa. Dados não numericamente organizados.](figura-aed2.png)
+![Figura ZZZb. Dados não numericamente organizados.](figura-aed3.png)
+![Figura ZZZc. Dados não numericamente organizados.](figura-aed4.png)
+![Figura ZZZd. Dados não numericamente organizados.](figura-aed5.png)
+
+Fonte: Elaborado pela pesquisadora (2022).
+
+Como pode ser observado na Figura zzz, algumas tabelas recebidas continham os dados primários recolhidos nas pesquisas diretamente dos questionários CEUEV aplicados, outros foram enviados com dados faltantes e outros já pré-processados com a decodificação dos estilos de uso.
+A próxima etapa do processo se consistiu na preparação dos dados recebidos, ainda utilizando os recursos do software Excel®. Segundo Wickham (2014), a preparação de dados é o processo de reunir, combinar, estruturar e organizar os dados brutos para que possam ser usados nos procedimentos de AED e também para os processos de visualização desses dados. Os componentes da preparação de dados incluem, de acordo com Silva (2021): o pré-processamento de dados; documentação dos procedimentos utilizados; criação dos dicionários de dados; limpeza; validação e transformação; e envolve também buscar nas fontes externas originais dos dados a complementação dos dados faltantes (missing data). 
+Para finalizar esta etapa, em algumas das investigações recebidas a pesquisadora retornou o contato com os pesquisadores dos trabalhos selecionados para solicitar o envio dos dados faltantes bem como orientação e apoio no preenchimento desses campos, uma tarefa manual e criteriosa que demandou várias semanas.
+Após esta etapa inicial, os dados compartilhados foram compilados e geraram uma versão de trabalho do conjunto de dados em formato Excel®. Uma amostra do *dataset* pode ser visualizada na Figura aaa.
+
+![Figura aaa. Amostra do dataset inicial de trabalho.](figura-aed6.png)
+
+Fonte: Elaborado pela pesquisadora (2022).
+
+
+#### 4.2.3.2 Tratamento dos dados  
+
+Segundo da Silva (2021), um dos principais objetivos da preparação de dados é garantir que os dados brutos que estão sendo preparados para processamento e análise sejam precisos e consistentes para que os resultados dos aplicativos de análise sejam válidos.  
+Como visto na Figura zzz, os dados geralmente são criados com valores ausentes, imprecisões ou outros erros, e conjuntos de dados separados geralmente têm formatos diferentes que precisam ser reconciliados quando combinados. Corrigir erros de dados, validar a qualidade dos dados e consolidar conjuntos de dados são grandes partes dos projetos de preparação de dados, afirma Wickham (2014).  
+Após a fase inicial de preparação de dados, a próxima etapa envolve encontrar dados relevantes para garantir que os aplicativos de análise forneçam informações significativas e insights acionáveis para a tomada de decisões. 
+Os dados nesta nova geralmente são enriquecidos e otimizados para torná-los mais informativos e úteis - por exemplo, combinando conjuntos de dados internos e externos -, criando novos campos de dados, eliminando valores discrepantes e abordando conjuntos de dados desequilibrados que podem distorcer os resultados da análise. Esta fase, de acordo com Wickham (2014), da Silva (2021) e Askham (2022), pode ser definida como **tratamento dos dados**. 
+Portanto, na fase de tratamento, os dados são estruturados e organizados para estar de acordo com os requisitos da **Análise Exploratória de Dados (AED)**. Além de serem estruturados, afirma da Silva (2021), os dados normalmente devem ser transformados em um formato padronizado e utilizável, como por exemplo, a criação de novas variáveis ou colunas que agreguem valores das existentes. O *enriquecimento de dados*, por outro lado, aprimora e otimiza os *datasets* conforme necessário, por meio de medidas como aumentar e adicionar dados, define Askham (2022).  
+Datasets são definidos por Wickham e Grolemund (2017) como grupos de dados relacionados compostos por uma ou mais tabelas, mas que podem ser manipuladas como uma unidade por um computador.  
+Na etapa de tratamento, rotinas automatizadas desenvolvidas em um ambiente de desenvolvimento integrado são executadas nos dados para transformar, organizar e estruturar e validar sua consistência, integridade e precisão (Wickham , 2014). Os dados assim preparados são então armazenados em um repositório e usados diretamente para a AED ou então disponibilizados para que outros usuários possam também utilizá-los.
+Para a realização das etapas de preparação, transformação, organização e estruturação serão utilizados nesta tese os recursos da Linguagem R, um software livre de programação voltada ao tratamento, análise e visualização de dados. A linguagem é largamente utilizada por acadêmicos, estatísticos e analistas de dados para realizar projetos de AED. Foi criada originalmente no departamento de Estatística da Universidade de Auckland, Nova Zelândia e sua manutenção é realizada por uma comunidade de colaboradores voluntários que contribuem para melhoria e otimização da linguagem e com a expansão das suas funcionalidades básicas por meio de bibliotecas, ou packages residentes no repositório CRAN-R (The Comprehensive R Archive Network) (LINGUAGEM R, 2022)[^16].  
+Com o objetivo de facilitar e agilizar o processo de desenvolvimento na linguagem R dos cálculos estatísticos e geração de gráficos apresentados nesta tese, utilizou-se também o Ambiente de Desenvolvimento Integrado (do inglês Integrated Development Environment – IDE) RStudio, um programa de computador de fonte aberta com características e ferramentas de apoio ao desenvolvimento acelerado de software (LINGUAGEM R, 2022).  
+Portanto, como tarefa inicial para a organização e estruturação dos dados, no Quadro yyy é possível visualizar o dicionário de dados com os nomes e as definições das variáveis utilizadas na AED desta tese.  
+Um glossário ou dicionário de dados, de acordo com Askham (2022), é utilizado para armazenar um conjunto limitado de metadados[^17] concentrados nos nomes e definições relacionadas aos dados físicos e objetos relacionados.    
+
+[^16]: <https://cran.r-project.org/>. 
+
+[^17]: Metadados, ou Metainformação, são dados sobre outros dados. Um item de um metadado pode dizer do que se trata aquele dado, geralmente uma informação inteligível por um computador. Os metadados facilitam o entendimento dos relacionamentos e a utilidade das informações dos dados. METADADOS (2022).
+
+Quadro yyy: Dicionário de dados
+
+| Nome da variável | Tipo de variável | Conteúdo                                                                                                                                                                                                                                                                 | Descrição                                                   |
+|:------------|:-----------:|:---------------------|:------------------------|
+| pesquisador      |      texto       |                                                                                                                                                                                                                                                                          | Nome do(s) pesquisador(es) responsável(is) pela pesquisa    |
+| data.ano         |       data       | dd/mm/aaaa                                                                                                                                                                                                                                                               | Dia, mês e ano em que o questionário foi aplicado           |
+| pais             |      texto       | Brasil, Espanha, México ou Portugal                                                                                                                                                                                                                                       | Países onde o questionário CEUEV foi aplicado                 |
+| genero           |      texto       | Feminino, Masculino ou NR                                                                                                                                                                                                                                                 | Gênero do inquirido                                         |
+| idade            |      texto       | de 11 a 14 anos, de 14 a 17 anos, de 17 a 20 anos, de 20 a 30 anos, de 30 a 40 anos, de 40 a 50 anos, de 50 a 60 anos, de 60 a 70 anos, acima de 70 anos. | Faixa etária dos respondentes                               |
+| estilo           |      texto       | **Estilo de Uso A**:Uso Participativo no Espaço Virtual; **Estilo de Uso B**:Busca e Pesquisa no Espaço Virtual; **Estilo de Uso C**:Estruturação e Planejamento no Espaço Virtual; **Estilo de Uso D**:Ação Concreta e Produção no Espaço Virtual; **Não Identificado** | Estilos de uso do espaço virtual definidos em BARROS (2013) |
+
+Fonte: Elaborado pela pesquisadora (2022).
+
+De acordo com Silva, Peres e Boscarioli (2016) a AED compreende, em conceitos estatísticos a análise descritiva, uma ferramenta capaz de descrever ou resumir dados, mostrando aspectos importantes do conjunto de dados como o tipo de distribuição associada aos valores mais representativos do conjunto, e permitindo criar visualizações referentes à tais aspectos.   
+De forma geral, a análise exploratória é uma abordagem à análise de conjuntos de dados de modo a resumir suas características principais, frequentemente com métodos visuais. Um modelo estatístico pode ou não ser usado, mas primariamente a AED tem como objetivo observar o que os dados podem nos dizer além da modelagem formal ou do processo de teste de hipóteses (WICKHAM e GROLEMUND, 2017).  
+
+#### 4.2.3.3 Transformação dos dados  
+
+Na Figura aed-code1 é mostrado um pequeno recorte ou um *snipset*[^18] de código fonte na linguagem R para realizar as tarefas de importar o *dataset* original em formato Excel® par o ambiente de desenvolvimento RStudio e sua conversão em um dataframe. 
+
+Figura ead-code1. Fragmento de código de transformação.  
+
+```{r transformacao_dados, message=FALSE, warning=FALSE}
+# - ETAPA INICIAL
+# --- Importação e preparação dos dados
+# setwd("~/Downloads/Tese Priscilla/r-codes") # versão inicial em 30/04/2022.
+# versão atual do projeto intitulado "espaco-virtual-e-geracoes" no GitHub
+
+
+#setwd("/Users/jpalbino/Library/Mobile Documents/com~apple~CloudDocs/GitHub/espaco-virtual-e-geracoes")
+
+library(readxl)
+dbf <- read_excel("dados/dados_transformados/dados brutos formatados.xlsx")
+
+string_idade <- c(14, 17,20,30,40,50,60,70,80)
+names(string_idade) <- c("de 11 a 14 anos.", "de 14 a 17 anos.", "de 17 a 20 anos.",
+                         "de 20 a 30 anos.", "de 30 a 40 anos.", "de 40 a 50 anos.",
+                         "de 50 a 60 anos.", "de 60 a 70 anos.", "acima de 70 anos.")
+
+for (i in 1:nrow(dbf)) {
+  if (!is.na(as.numeric(dbf$idade[i]))) {
+    for (j in 1:length(string_idade)) {
+      if (as.numeric(dbf$idade[i]) < string_idade[[j]]) {
+        dbf$idade[i] <- names(string_idade[j])
+        break
+      }
+    }
+  }
+}
+  
+library(writexl)
+write_xlsx(
+  dbf,
+  path ="dados/dados_transformados/dados_brutos_transformados.xlsx",
+  col_names = TRUE,
+  format_headers = TRUE,
+  use_zip64 = FALSE
+)
+# ------
+# para a segunda etapa
+library(readxl)
+dbf02 <- read_excel("dados/dados_transformados/dados_brutos_transformados.xlsx", sheet = "Sheet1", col_names = FALSE)
+# limpando
+dbf02$faixa = dbf02$...1
+dbf02$...1 = NULL
+```
+Fonte: Elaborado pela autora (2022).
+
+[^18]: Snippet: é um termo de programação para uma pequena região de código-fonte. São unidades operacionais definidas para serem incorporadas em programas maiores. Conforme definido em: SNIPSET. In: Wikipedia, The Free Encyclopedia. Flórida: Wikimedia Foundation, 2022. Disponível em: <https://en.wikipedia.org/w/index.php?title=Snippet_(programming)&oldid=1085945801>. Acesso em: 2 mai. 2022.
+
+Neste pequeno fragmento de código R (chunk) da Figura aed-code1 pode ser visualizado como um o script de um programa será renderizado em uma saída no formato de documento, utilizando recursos do ambiente integrado RStudio ou simplesmente exibir o código para ilustração.
+
+Diversas tarefas foram realizadas no processo de ingestão e transformação dos dados originais compartilhados até se chegar ao *dataset* base para sua utilização nesta tese.
+Em resumo, foram realizados: 
+      - O conteúdo da variável (coluna) **pesquisador** contém o nome do(a) principal pesquisador(a) responsável pela pesquisa apenas para efeito de identificação. Por padrão, considerou-se o primeiro nome na lista de autores do trabalho selecionado.  
+      - A variável **data.ano** internamente na linguagem R utiliza o formato padrão internacional ISO 8601[^19], o qual expressa as datas no formato ano, mês e dia (aaaa-mm-dd). Para uso nesta tese, foi adotado o formato padrão brasileiro para datas *dia*, *mês* e *ano* (dd-mm-aaaa) para tanto convertendo o formato ISO em uma sequência de caracteres (string) com o argumento *format = “%m-%d-%Y”*.  
+      - Nos dados demográficos nos questionários coletados dos trabalhos compartilhados, as possíveis respostas para que o indivíduo se identificasse quanto ao sexo era feminino e masculino, com a possibilidade de o respondente deixar o campo em branco quando optava por não se manifestar. Portanto, neste trabalho, para a variável **genero** foram consideradas três alternativas: masculino, feminino e **NR** (Não respondeu).  O conteúdo “NR” foi estabelecido com o intuito de evitar que a conteúdo da variável não se configurasse como *missing data* (dado faltante).  
+      - O conteúdo da variável **idade** passou por um procedimento de normalização e padronização para utilizar uma classificação de acordo com o formato de faixas etárias definido no Dicionário de Dados do Quadro yyy. Como os trabalhos originais dos pesquisadores foram realizados por diferentes grupos de indivíduos, diferentes distribuições para as idades ou faixas etárias foram utilizadas e tiveram que ser alocadas em uma mesma escala. Tal processo de padronização foi utilizado para reduzir a redundância, aumentar a integridade dos dados e facilitar sua posterior análise.  
+      - O conteúdo da variável estilo em alguns dos trabalhos compartilhados já vieram pré-definidas, seguindo os critérios estabelecidos em Barros (2013) e mostradas no ANEXO 4 desta tese. Outros pesquisadores forneceram os dados brutos, sem a definição do estilo de uso, mas com os campos referentes às colunas numeradas de 1 a 40, representando os estilos de tipo A, B, C e D, preenchidas em planilhas Excel®. Desta forma, foi necessário o desenvolvimento de um fragmento de código em R (chunk) para especificá-los, de acordo com os as colunas selecionadas pelo respondente, definido por Barros (2013) como sendo:  
+          **Estilo de uso A**: total das respostas às questões correspondentes as colunas 1, 6, 11, 14, 20, 23, 32, 35, 39, 40.  
+          **Estilo de uso B**: total das respostas às questões correspondentes as colunas 2, 5, 10, 15, 19, 24, 31, 33, 34, 36.  
+          **Estilo de uso C**: total das respostas às questões correspondentes as colunas 3, 7, 9, 16, 18, 25, 27, 28, 30, 37.  
+          **Estilo de uso D**: total das respostas às questões correspondentes as colunas 4, 8, 12, 13, 17, 21, 22, 26, 29, 38.   
+
+[^19]: Conforme definido em: ISO 8601. Data elements and interchange formats – Information interchange – Representation of dates and times. International Organization for Standardization (2004, 1988, 1997, ...). Disponível em: <https://www.qsl.net/g1smd/isopdf.htm>. Acesso em 01 jun. 2022.  
+
+[^20]: Conforme definido em: Comma-separated values. In: Wikipedia, The Free Encyclopedia. Flórida: Wikimedia Foundation, 2022. Disponível em: < https://en.wikipedia.org/w/index.php?title=Comma-separated_values&oldid=1100789945>. Acesso em: 2 jun. 2022.  
+
+[^21]: Conforme definido em: <https://www.foa.unesp.br/#!/instituicao/biblioteca/plano-de-gestao-de-dados/>.     
+
+
+Após as transformações detalhadas anteriormente, outros procedimentos foram desenvolvidos e implementados, gerando ao final do processo um *dataset* em formato CSV[^20], denominado **dados_minerados.csv**, o qual foi utilizado nas análises desenvolvidas neste trabalho. 
+A escolha de tal formato para o armazenamento dos dados deve-se ao fato que o CSV é um tipo de arquivo de texto simples, que separa os valores das colunas por vírgulas com um formato terminador de linha padrão. OArquivos CSV também são muito utilizados em pesquisas científicas e de uso geral nas áreas de engenharia, saúde, manufatura e finanças para troca de dados entre programas e sistemas.
+Os dados, códigos, procedimentos, geração de gráficos, além de toda documentação, dentre outras informações a respeito da análise exploratória de dados utilizadas nesta tese, podem ser obtidas no repositório da plataforma GitHub® no repositório localizado no sítio da plataforma em: <https://github.com/DaInLab/espaco-virtual-e-geracoes>. 
+O Plano de Gestão de Dados (PGD)[^21] desta tese está definido através de ferramenta padrão para criação, armazenamento e gestão dos dados gerados pelas pesquisas científicas na UNESP no sítio da plataforma DMPTOOL em: https://dmptool.org/plans/80764. O PGD é um documento formal elaborado no início do projeto em que são descritas e documentadas as principais atividades do ciclo de vida dos dados, desde a sua coleta, processamento, análise, tratamento, disponibilização e preservação. 
+
+4.2.3.4 Visualização dos dados  
+
+Nesta etapa da tese serão mostrados e discutidos os gráficos resultantes da AED realizada.  
+De acordo com Tyagi (2022), a visualização de dados é uma das etapas finais da AED e tem o intuito de traduzir informações em um contexto visual, como um mapa ou gráfico, visando tornar os dados mais fáceis de serem compreendidos pelo cérebro humano e proporcionar o entendimento dos dados mostrados e assim extrair insights. 
+O principal objetivo da visualização de dados, afirma da Silva (2021), é facilitar a identificação de padrões, tendências e outliers em conjuntos de dados. O termo é frequentemente usado de forma intercambiável com outros, tais como: gráficos de informações, visualização de informações e gráficos estatísticos.  
+A visualização de dados é uma das etapas do processo de ciência de dados, afirmam Wickham e Grolemund (2017), onde após os dados serem coletados, importados, arrumados e transformados, devem ser visualizados para que as conclusões sejam tiradas. A visualização de dados também é um elemento da disciplina mais ampla da arquitetura de apresentação de dados que visa identificar, localizar, manipular, formatar e fornecer dados da maneira mais eficiente possível, resumem os autores.  
+Na Figura aed-code2 é mostrado um *snippet* do código na linguagem R para realizar a importação do *dataset* de trabalho "dados_minerados.csv" para o ambiente de desenvolvimento RStudio e sua conversão no dataframe denominado "euevgera". 
+
+Figura ead-code2. Fragmento de código de importação.  
+
+```{r importacao_dados_transformados, echo=TRUE}
+# Importando os dados do dataset "dados_minerados.csv" para o ambiente R
+# Criando o dataframe de trabalho denominado "euevgera"
+# ----
+setClass('myDate')
+setAs("character","myDate", function(from) as.Date(from, format="%d/%m/%Y") )
+
+euevgera <- read.table("./dados/dados_minerados.csv", 
+                       header = TRUE, sep = ";", as.is = T,
+                       colClasses = c("character", "myDate", "character", "factor", "factor", "character"))
+total_casos <- nrow(euevgera) # número total de observações no dataframe
+```
+
+Fonte: Elaborado pela autora (2022).  
+
+Os dados recebidos são referentes a quatro países, Brasil, Espanha, México e Portugal, totalizando **`r total_casos`** observações, conforme pode-se visualizar no Gráfico 1.
+
+```{r grafico_1, echo=FALSE}
+# Gráfico 1: Quantidade de casos por país
+# concatenando os dados
+casos_pais <- table(euevgera$pais)
+# Acertando os campos para o Gráfico 1: adicionando coluna "Total Geral"
+# Utilizando o barplot
+soma_pais_grafico <- table(euevgera$pais)
+soma_pais_grafico[5] <- sum(soma_pais_grafico)
+names(soma_pais_grafico) <- c("Brasil", "Espanha", "Mexico", "Portugal", "Total Geral")
+pct_pais <- paste(round(unname(soma_pais_grafico) / (unname(soma_pais_grafico[5])) * 100), "%")
+# Utilizando barplot
+graph.pais <- barplot(as.vector(soma_pais_grafico),
+                      main = "Gráfico 1: Quantidade de casos por país",
+                      xlab = "País de origem dos dados", 
+                      ylab = "CEUEV Questionários Aplicados",
+                      col = "orange",
+                      ylim = c(0,max(soma_pais_grafico) + 139),
+                      names.arg = names(soma_pais_grafico))
+text(x = graph.pais, y = soma_pais_grafico, label = unname(soma_pais_grafico), cex=1,pos=3)
+axis(1, at=graph.pais, labels=paste("(",pct_pais,")"), tick=F, las=1, line=-1, cex=0.5)
+
+# Dados do Gráfico 2
+casos_genero <- table(euevgera$genero)
+#casos_genero
+#     feminino masculino 
+#511       553       347
+
+# Acertando os casos "em branco" ou "não respondeu" como "NS/NR"
+names(casos_genero) <- c("Não Respondeu", "Feminino", "Masculino")
+#casos_genero
+# Não Respondeu  Feminino Masculino 
+#           511       553       347
+pct_genero <- paste(round(unname(casos_genero) / sum(unname(casos_genero)) * 100), "%")
+#pct_genero
+#[1] "36 %" "39 %" "25 %"
+
+```
+
+Fonte: Elaborado pela autora (2022).  
+
+Observa-se, no Gráfico 1, uma desigualdade referente a quantidade de dados recebidos de cada país, percebendo então que o Brasil foi o país com mais casos coletados `r soma_pais_grafico[[1]]` ou `r pct_pais[[1]]`.
+Para esta análise considerou-se essa amostra de dados uma amostra com valores discrepantes pois as quantidades numéricas se diferem consideravelmente entre os países.  
+Utilizou-se das técnicas da análise descritiva como principal objetivo de resumir, sumarizar e explorar o comportamento dos dados, para enfim extrair informações úteis.  
+Pode-se observar no Gráfico 2, que **`r pct_genero[2]`** (**`r casos_genero[2]`** dos respondentes) são de pessoas do sexo feminino e **`r pct_genero[3]`** (**`r casos_genero[3]`** pessoas) são do sexo masculino. Verifica-se também, que **`r casos_genero[1]`** respondentes, ou **`r pct_genero[1]`** da amostra, preferiram não se manifestar ou não responderam a este questionamento no questionário CEUEV original. Entretanto, tais dados foram considerados importantes e serão utilizados nesta AED. 
+
+
+```{r grafico_2, echo=FALSE }
+#Gráfico 2: Quantidade de respondentes por sexo
+
+# Gráfico tipo "pizza"
+pie(casos_genero,
+    edges = 200, radius = 0.8,
+    clockwise = F,
+    density = NULL, angle = 90, col = c("red", "orange", "yellow"),
+    labels = paste(names(casos_genero), "-", pct_genero),
+    main = "Gráfico 2: Quantidade de respondentes por gênero")
+
+``` 
+
+Fonte: Elaborado pela pesquisadora (2022).  
+
+
+Na figura do Gráfico 3, são mostradas as faixas etárias dos respondentes, correspondentes às faixas definidas no Dicionário de dados do Quadro yyy.  
+
+```{r faixa-etaria-ddados, echo=FALSE}
+# Gráfico 3 Novo ! Faixa Etária dos respondentes
+casos_idade <- table(euevgera$idade)
+#casos_idade
+#                 acima de 70 anos  de 11 a 14 anos  de 14 a 17 anos  de 17 a 20 anos  de 20 a 30 anos 
+#              76               14               83              120              130              252 
+#de 30 a 40 anos  de 40 a 50 anos  de 50 a 60 anos  de 60 a 70 anos 
+#            270              269              135               62
+
+names(casos_idade) <- c("SR/ND", "+70 anos","11-14 anos","14-17 anos","17-20 anos","20-30 anos",
+                        "30-40 anos","40-50 anos","50-60 anos","60 a 70 anos")
+#casos_idade
+#       SR/ND     +70 anos   11-14 anos   14-17 anos   17-20 anos   20-30 anos   30-40 anos   40-50 anos 
+#          76           14           83          120          130          252          270          269 
+#  50-60 anos 60 a 70 anos 
+#         135           62 
+
+#Cálculo da porcentagem das faixas etárias
+pct_idade <- paste(round(unname(casos_idade) / sum(unname(casos_idade)) * 100,0), "%")
+#pct_idade
+#[1] "5 %"  "1 %"  "6 %"  "9 %"  "9 %"  "18 %" "19 %" "19 %" "10 %" "4 %"
+
+# Gráfico do tipo barra das faixas etárias
+graph.idade <- barplot(casos_idade, 
+                       main = "Gráfico 3: Faixa etária dos respondentes",
+                       xlab = "Faixa Etária", 
+                       ylab = "Quantidade",
+                       col = "orange",
+                       ylim = c(0,max(casos_idade) + 30))
+text(x = graph.idade, y = casos_idade, label = unname(casos_idade), cex=1, pos=3)
+axis(1, at=graph.idade, labels=paste("(", pct_idade, ")"), tick=F, las=1, line=-1.0, cex.axis= 1.1)
+
+```
+
+Fonte: Elaborado pela pesquisadora (2022).  
+
+Observa-se na figura do Gráfico 3 que nos dados compartilhados pelos pesquisadores dos trabalhos selecionados e compilados nesta tese, compreendem uma ampla faixa etária, abrangendo desde jovens (indivíduos até 19 anos), adultos (indivíduos com idade entre 20 até 59 anos) até idosos (pessoas com 60 anos ou mais), seguindo, dessa forma, uma divisão da população por geração de acordo com a época em que nasceram, ou seja, de acordo com as idades (CARVALHO, 2018). 
+Entretanto, afirma Carvalho (2018), devido ao aumento da expectativa de vida da população em geral, as tradicionais faixas etárias sofreram nova definição, elevando principalmente a proporção de pessoas idosas. Aqui no Brasil, com a nova idade mínima exigida para a aposentadoria, após a aprovação da Proposta de Emenda à Constituição n° 6, de 2019 (PEC 06/2019) estabeleceu a Emenda Constitucional nº 103 de 12/11/2019[^22] alterando o sistema de previdência social e estabelecendo novas regras de transição e disposições transitórias aos 62 anos até o ano de 2031 e aos homens que completam 65 anos até 2027.  
+Outro fator auxiliando na redefinição das idades nas faixas etárias seria a entrada cada vez mais antecipada dos jovens ao mundo definido como adulto, com a expansão das responsabilidades e atividades atribuídas a esse grupo de indivíduos, como permissão para votar ou conduzir automóveis para os maiores de 16 anos e até mesmo responsabilidade penal, que em alguns países inicia aos 14 ou 16 anos.   
+Sendo assim, em publicações recentes encontra-se a divisão das faixas etárias na forma: jovens, formada por pessoas com até 15 anos; adultos, considerando indivíduos com idade entre 16 até 64 anos; e idosos seriam sujeitos com 65 anos em diante (CARVALHO, 2018).  
+Portanto, na figura do Gráfico 4 podemos observar a divisão das faixas etárias dos dados coletados para este trabalho mostrando uma nova distribuição, de acordo com a divisão das faixas etárias proposta em Carvalho (2018).  
+
+[^22]: Conforme consta em: <Emenda Constitucional nº 103 de 12/11/2019. Disponível em https://legis.senado.leg.br/norma/31727296>. Acesso em 01 jun. 2022. 
+
+```{r faixa-etaria-redefinida, echo=FALSE}
+# Versão 3, utilizando a definição divisão das faixas etárias em Carvalho (2018):
+# Jovens - Indivíduos de até 15 anos;
+# Adultos - Indivíduos com idade entre 16 até 64 anos;
+# Idosos - Indivíduos de 65 anos em diante.
+# Agregando as idades menores, de 11 à 17 anos!
+idade_concat3 <- data.frame(idade=as.character(euevgera$idade))
+for (k in 1:nrow(idade_concat3)) {
+  if((idade_concat3$idade[k] == "de 11 a 14 anos") || (idade_concat3$idade[k] == "de 14 a 17 anos")) idade_concat3$idade[k] <- "de 11 a 15 anos"
+  if((idade_concat3$idade[k] == "de 17 a 20 anos") || (idade_concat3$idade[k] == "de 20 a 30 anos")
+     || (idade_concat3$idade[k] == "de 30 a 40 anos") || (idade_concat3$idade[k] == "de 40 a 50 anos")
+     || (idade_concat3$idade[k] == "de 50 a 60 anos")) idade_concat3$idade[k] <- "de 16 a 64 anos"
+  if((idade_concat3$idade[k] == "de 60 a 70 anos") || (idade_concat3$idade[k] == "acima de 70 anos")) idade_concat3$idade[k] <- "acima de 64 anos"
+  }
+
+casos_idade_concat3 <- table(idade_concat3$idade)
+#casos_idade_concat3
+#                acima de 64 anos  de 11 a 15 anos  de 16 a 64 anos
+#             76               76              203             1056
+names(casos_idade_concat3) <- c("Não Respondeu", "acima de 64 anos","até 15 anos","entre 16 até 64 anos")
+#casos_idade_concat3
+#Não Respondeu     acima de 64 anos          até 15 anos entre 16 até 64 anos 
+#           76                   76                  203                 1056 
+
+#Cálculo da porcentagem das faixas etárias
+pct_idade3 <- paste(round(unname(casos_idade_concat3) / sum(unname(casos_idade_concat3)) * 100,0), "%")
+#pct_idade3
+#[1] "5 %"  "5 %"  "14 %" "75 %" 
+
+# Gráfico do tipo barra das faixas etárias
+graph.idade_concat3 <- barplot(casos_idade_concat3, 
+                              main = "Gráfico 4: Faixa etária dos respondentes redefinida",
+                              xlab = "Faixa Etária", 
+                              ylab = "Quantidade",
+                              col = "orange",
+                              ylim = c(0,max(casos_idade_concat3) + 100))
+text(x = graph.idade_concat3, y = casos_idade_concat3, label = unname(casos_idade_concat3), cex=1, pos=3)
+axis(1, at=graph.idade_concat3, labels=paste("(", pct_idade3, ")"), tick=F, las=1, line=-1.0, cex.axis= 1.1)
+```
+
+Fonte: Elaborado pela pesquisadora (2022).
+
+No Gráfico 4 observa-se que na figura foi levado em consideração o aumento da idade média dos indivíduos considerados adultos compreendendo **`r pct_idade3[4]`** dos dados (**`r casos_idade_concat3[4]`** indivíduos), ao mesmo tempo o envelhecimento da população acima de 64 anos, representando **`r pct_idade3[2]`** da amostra recolhida (**`r casos_idade_concat3[2]`** indivíduos), englobando a proporção de idosos apresentada nos dados compartilhados.  
+Também a faixa etária dos jovens, formada por pessoas com até 15 anos, apresentam sua representação nos dados compartilhados, correspondendo a **`r casos_idade_concat3[3]`** indivíduos, ou **`r pct_idade3[4]`** do total de **`r total_casos`** casos.  
+Portanto, essa nova configuração, distribuindo os indivíduos pelas faixas etárias do Gráfico 4, resultou na estrutura etária da população utilizada nas análises exploratórias deste trabalho.  
+
+```{r ano_aplicacao, echo=FALSE, include = FALSE}
+# Gráfico 5: Intervado de tempo dos dados (data time span)
+# Fonte: <https://datasharkie.com/how-to-create-time-series-plot-in-r/>
+if (!("tidyverse") %in% installed.packages()) install.packages("tidyverse")
+require(tidyverse)
+if (!("lubridate") %in% installed.packages()) install.packages("lubridate")
+require(lubridate)
+
+# Dataframe temporário, sumarizando quantidade de questionarios por ano 
+df_teste <- euevgera %>% group_by(year(data.ano)) %>% summarise(n=n())
+colnames (df_teste) <-c("ano", "qtd") # inserindo os nomes das variáveis
+
+# Calculando o percentual de questionários por ano e inserindo o símbolo de percentual
+pct_qtd_ano <- paste(round(df_teste$qtd / sum(df_teste$qtd) * 100,0), "%")
+
+# descobrindo o ano com maior número de aplicações (determinar o índice de máximo)
+ano_maior_qtd <- df_teste$ano[which.max(df_teste$qtd)]
+# [1] 2017 # ano com maior quantidade
+
+# encontrando o segundo maior?
+# para isso, deve-se eliminar do vetor o primeiro maior
+result <- df_teste[-c(which.max(df_teste$qtd)),]
+ano_maior_qtd_2 <- result$ano[which.max(result$qtd)]
+# [1] 2018
+```
+
+Quanto ao período em que os questionários foram aplicados, a imagem do Gráfico 5 mostra a relação existente entre o ano de aplicação e o número de questionários aplicados contidos na amostra utilizada nesta tese.
+
+```{r plotando_qtd_ano, echo=FALSE}
+plot(x = df_teste$ano, y = df_teste$qtd, 
+     type = "b", 
+     pch = 19, 
+     col = "red",
+     main = 'Gráfico 5 - Questionários CEUEV aplicados por ano',
+     xlab = "Ano de aplicação", ylab = "Quantidade de Respondentes") # plotando o gráfico
+text(x = df_teste$ano, y = df_teste$qtd, label = pct_qtd_ano, cex=1, pos=4) # inserindo as porcentagens no gráfico
+
+```
+
+Observa-se no Gráfico 5 que o ano de **`r ano_maior_qtd`** individualmente possui o maior número de aplicações de CEUEV desta amostra, perfazendo **`r df_teste$qtd[which.max(df_teste$qtd)]`** questionários, ou **`r pct_qtd_ano[which.max(df_teste$qtd)]`** do total. Em seguida, em **`r ano_maior_qtd_2`**, **`r result$qtd[which.max(result$qtd)]`** questionários foram aplicados, perfazendo um total de  **`r paste(round(result$qtd[which.max(result$qtd)] / sum(df_teste$qtd) * 100,0), "%")`** do total.
+
+```{r estilos-de-uso_calculos,  include=FALSE, echo=FALSE}
+# Gráfico 6 Novo/Modificdo: Quantidade de respondentes por Estilo de Uso do espaço virtual
+library(stringr)
+estilos_de_uso_geral <- euevgera$estilo # selecionando todos os casos da variável estilo de uso
+
+estilo_uso_A <- length(na.omit(str_match(estilos_de_uso_geral, "Estilo de Uso A - Uso Participativo no Espaço Virtual")))
+estilo_uso_B <- length(na.omit(str_match(estilos_de_uso_geral, "Estilo de Uso B - Busca e Pesquisa no Espaço Virtual")))
+estilo_uso_C <- length(na.omit(str_match(estilos_de_uso_geral, "Estilo de Uso C - Estruturação e Planejamento no Espaço Virtual")))
+estilo_uso_D <- length(na.omit(str_match(estilos_de_uso_geral, "Estilo de Uso D - Ação Concreta e Produção no Espaço Virtual")))
+estilo_uso_Nao_Identificado <- length(na.omit(str_match(estilos_de_uso_geral, "Não Identificado")))
+#estilo_uso_NR <- length(na.omit(str_match(estilos_de_uso_geral, " ")))
+
+library(genTS)
+estilo_uso_NR <- 0
+for (i in 1:length(estilos_de_uso_geral)) {
+  if(is_empty(estilos_de_uso_geral[i])) estilo_uso_NR <- estilo_uso_NR + 1
+}
+
+casos_estilo_absoluton <- c(estilo_uso_A, estilo_uso_B, estilo_uso_C, estilo_uso_D, estilo_uso_Nao_Identificado, estilo_uso_NR)
+names(casos_estilo_absoluton) <- c("Estilo de Uso A",
+                                  "Estilo de Uso B",
+                                  "Estilo de Uso C",
+                                  "Estilo de Uso D",
+                                  "Não Identificado",
+                                  "Sem resposta")
+#casos_estilo_absoluton
+#   Estilo de Uso A  Estilo de Uso B  Estilo de Uso C  Estilo de Uso D Não Identificado     Sem resposta 
+#               743              492              258               55                2              179 
+
+#Cálculo da porcentagem COM os dados faltantes, considerando apenas as respostas de estilos de uso individualmente!
+pct_estilon <- paste(round(unname(casos_estilo_absoluton) / sum(unname(casos_estilo_absoluton)) * 100,1), "%")
+#pct_estilon
+#"43 %"   "28.5 %" "14.9 %" "3.2 %"  "0.1 %"  "10.4 %"
+
+```
+
+Com relação à variável estilo de uso do espaço virtual, no Gráfico 5 observa-se que o Estilo de Uso A: Uso Participativo no Espaço Virtual, individualmente possui o maior número de ocorrências, perfazendo **`r unname(casos_estilo_absoluton[which.max(unname(casos_estilo_absoluton))])`** respostas, ou **`r pct_estilon[which.max(unname(casos_estilo_absoluton))]`** do total. Em seguida tem-se o Estilo de Uso B: Busca e Pesquisa no Espaço Virtual perfazendo individualmente **`r pct_estilon[which.max(unname(casos_estilo_absoluton)) + 1]`** do total, ou seja, com **`r unname(casos_estilo_absoluton[which.max(unname(casos_estilo_absoluton)) + 1])`** ocorrências. 
+
+```{r estilos-de-uso_plotar_grafico, echo=FALSE}
+# Gráfico do tipo barra dos estilos de uso
+graph.estilos_uson <- barplot(casos_estilo_absoluton, 
+                             main = "Gráfico 6: Respondentes por estilo de uso do espaço virtual",
+                             xlab = "Estilos de uso", 
+                             ylab = "Quantidade",
+                             col = "orange",
+                             ylim = c(0,max(casos_estilo_absoluton) + 100))
+text(x = graph.estilos_uson, y = casos_estilo_absoluton, label = unname(casos_estilo_absoluton), cex=1, pos=3)
+axis(1, at=graph.estilos_uson, labels=paste("(", pct_estilon, ")"), tick=F, las=1, line=-1.0, cex.axis= 1.1)
+
+pct_estilos <- round(unname(casos_estilo_absoluton) / sum(unname(casos_estilo_absoluton)) * 100,1)
+
+```
+
+Fonte: Elaborado pela pesquisadora (2022).  
+
+Portanto, o Estilo de Uso A e o Estilo de Uso B correspondem, juntos, a **`r (pct_estilos[1] + pct_estilos[2])` %** das ocorrências dos **`r total_casos`** casos compartilhados nos trabalhos selecionados para este trabalho. Dos restantes **`r 100 - (pct_estilos[1] + pct_estilos[2]) ` %** de ocorrências, temos o Estilo C: Estruturação e Planejamento no Espaço Virtual que atingiu cerca de **`r pct_estilon[which.max(unname(casos_estilo_absoluton)) + 2]`** (**`r unname(casos_estilo_absoluton[which.max(unname(casos_estilo_absoluton)) + 2])`**) das ocorrências, e o tipo Estilo de Uso: Ação Concreta e Produção no Espaço Virtual, obteve apenas **`r pct_estilon[which.max(unname(casos_estilo_absoluton)) + 3]`** (**`r unname(casos_estilo_absoluton[which.max(unname(casos_estilo_absoluton)) + 3])`**) das ocorrências.
+Um número razoável de ocorrências (**`r unname(casos_estilo_absoluton[which.max(unname(casos_estilo_absoluton)) + 5])`** ou cerca de **`r pct_estilon[which.max(unname(casos_estilo_absoluton)) + 5]`** do total) dos dados do *dataset* de trabalho encontram-se sem resposta ou com o conteúdo da variável em branco.  
+
+## Referências Bibliográficas
+
+López Berlanga, M. C.., Vieira Barros , D.M., Sánchez Romero, C.(2019). El estilo de uso del espacio virtual de internet con estudiantes de Educación Secundaria. Revista De Estilos De Aprendizaje, 12(24), 77--88. <https://doi.org/10.55777/rea.v12i24.1389>  
+Barrera, A. V. Herramienta para la creación de un Entorno Personal de Aprendizaje.2017. 186 p. Trabajo Terminal (Escuela Superior de Cómputo) - Instituto Politécnico Nacional, México, 2017.  
+Ota, M. A. Adaptatividade em Ambientes Virtuais: uma proposta para personalizar a aprendizagem em cursos híbridos de ensino superior. 2018. 268 p. Tese (Doutorado em Ensino de Ciências e Matemática) - Universidade Cruzeiro do Sul, São Paulo, 2018.  
+Terçariol, A. A.de L., Barros, D. M. V. (2017). Os estilos de uso dos espaços virtuais e as redes sociais na pedagogia: um estudo exploratório.Revista De Estilos De Aprendizaje, 10(20).   <https://doi.org/10.55777/rea.v10i20.1067> 
+Sánchez Romero, C.et al.(2020).Estudio de Identificación de Los Estilos Del Uso Del Virtual de Los Seniors: perspectivas iniciales, 14(2), 136-163.  
+WICKHAM, H. Tidy Data. Journal of Statistical Software, [S. l.], v. 59, n. 10, p. 1–23, 2014. DOI: 10.18637/jss.v059.i10. Disponível em: https://www.jstatsoft.org/index.php/jss/article/view/v059i10. Acesso em: 26 jul. 2022. 
+da SILVA, D. Higienização de dados: o que é e 7 boas práticas para realizá-la. Blog da Zendesk, 11 ago 2021. Disponível em: <https://www.zendesk.com.br/blog/higienizacao-de-dados/>. Acesso em: 26 jun. 2022.   
+LINGUAGEM R. In: WIKIPÉDIA, a enciclopédia livre. Flórida: Wikimedia Foundation, 2022. Disponível em: <https://pt.wikipedia.org/w/index.php?title=R_(linguagem_de_programa%C3%A7%C3%A3o)&oldid=63783140>. Acesso em: 13 jun. 2022.  
+ASKHAM. N. Data Glossary or Data Dictionary? The Data Governance Coach. 14 nov. 2017. Disponível em: https://www.nicolaaskham.com/blog/2017/11/8/what-is-a-data-glossary-and-how-is-it-different-from-a-data-dictionary. Acesso em 08 mai. 2022.  
+BARROS, D. M. V. Diseño y aplicación del Cuestionario Estilo de Uso Espacio Virtual (CEUEV). In CUE, J. L. G, Estilos de aprendizaje y otras perspectivas pedagógicas del siglo XXI. México: Colegio de Postgraduados, 2013. P 149-164.  
+HAN, J.; KAMBER, M.; PEI, J. (2011). Data Mining: Concepts and Techniques (3rd ed.). Morgan Kaufmann. ISBN 978-0-12-381479-1.  
+KOTU, V. Data Science: Concepts and Practice. Cambridge: Morgan Kaufmann, 2019.
+METADADOS. In: WIKIPÉDIA, a enciclopédia livre. Flórida: Wikimedia Foundation, 2022. Disponível em: <https://pt.wikipedia.org/w/index.php?title=Metadados&oldid=63544067>. Acesso em: 08 mai. 2022.  
+SILVA, Leandro Augusto da, PERES, Sarajane Marques, BOSCARIOLI, Clodis. Introdução à Mineração de Dados com Aplicações em R. Rio de Janeiro: Elsevier, 2016. 
+TYAGI, Amit Kumar. Data Science and Data Analytics: Opportunities and Challenges. Flórida: CRC Press, 2022.  
+WICKHAM, Hadley, GROLEMUND, Garret. R for Data Science: Import, Tidy, Transform, Visualize and Model Data. Sebastopol: O'Relly Media, 2017.  
+ISO 8601. Data elements and interchange formats – Information interchange – Representation of dates and times. International Organization for Standardization (2004, 1988, 1997, ...). Disponível em: < https://www.qsl.net/g1smd/isopdf.htm>. Acesso em 01 jun. 2022.  
+COMMA-SEPARATED VALUES. In: Wikipedia, The Free Encyclopedia. Flórida: Wikimedia Foundation, 2022. Disponível em: < https://en.wikipedia.org/w/index.php?title=Comma-separated_values&oldid=1100789945>. Acesso em: 2 jun. 2022.  
+
+CARVALHO, A. Faixa Etária. Geografia - Manual do Enem, Quero Educação. 23 nov. 2018. Disponível em: <https://querobolsa.com.br/enem/geografia/faixa-etaria>. Acesso em: 01 jun. 2022. 

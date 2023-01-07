@@ -9,10 +9,12 @@ author:
  - João Pedro Albino (Tradução)
 date: "`r format(Sys.time(), '%d/%m/%Y')`"
 output:
-  word_document: default
-  pdf_document: default
+  pdf_document: 
+    latex_engine: xelatex
+    keep_tex: yes
   html_document:
     df_print: paged
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -74,7 +76,7 @@ Além disso, o pacote SmartEDA possui opções personalizadas para os dados.   P
 (4) Opções para calcular medidas de tendência central (como Média, Mediana, Moda, etc.), medidas de variância/dispersão (como Desvio Padrão, Variância, etc.), Número de observações, Proporções, Quantis, IQR, Porcentagem de Ações (PS) para dados numéricos.  
 A Figura 1 resume as várias funcionalidades do pacote SmartEDA.  
 
-![Figura 1: As diversas funcionalidades do SmartEDA.](D:/Github/with-a-little-help-from-my-friends/figuras/EDA-Funcionalidades-SmartEDA.jpg)
+![Figura 1: As diversas funcionalidades do SmartEDA.](/Users/jpalbino/Library/Mobile Documents/com~apple~CloudDocs/GitHub/with-a-little-help-from-my-friends/figuras/EDA-Funcionalidades-SmartEDA.jpg)
 
 
 ### Ilustração  
@@ -133,7 +135,6 @@ ExpParcoord(Carseats,Group="ShelveLoc",Stsize=c(10,15,20),Nvar=
                  c("Price","Income","Advertising","Population","Age","Education"))
 
 ```
-  
 
 ### Comparação com outros pacotes R
 
@@ -151,7 +152,7 @@ A métrica para avaliação é a disponibilidade de vários recursos desejados p
 (j) Padronizar/faltar imputação/diagnosticar outliers; e  
 (k) Relatório HTML usando rmarkdown/Shiny.
 
-![Figura 3: Tabela comparativa de pacotes EDA.](D:/Github/with-a-little-help-from-my-friends/figuras/EDA-Tabela-comparativa-pacotes.jpg)
+![Figura 3: Tabela comparativa de pacotes EDA.](/Users/jpalbino/Library/Mobile Documents/com~apple~CloudDocs/GitHub/with-a-little-help-from-my-friends/figuras/EDA-Tabela-comparativa-pacotes.jpg)
 
 ### Conclusão  
 

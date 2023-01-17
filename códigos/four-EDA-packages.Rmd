@@ -1,0 +1,237 @@
+---
+title: "Quatro pacotes em R para realizar AED automatizada."
+author:
+- Nicolo Cosimo Albanese
+- "Tradução - João Pedro Albino"
+date: "`r format(Sys.time(), '%d/%m/%Y')`"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+subtitle: Ferramentas úteis para a análise exploratória de dados por meio de exemplos
+  práticos em R.
+---
+```{r setup, include=FALSE}
+# Função para obter em qual ambiente (Sistema Operacional) o RStudio está sendo executado
+get_os <- function(){
+  sysinf <- Sys.info()
+  if (!is.null(sysinf)){
+    os <- sysinf['sysname']
+    if (os == 'Darwin')
+      os <- "osx"
+  } else { ## mystery machine
+    os <- .Platform$OS.type
+    if (grepl("^darwin", R.version$os))
+      os <- "osx"
+    if (grepl("linux-gnu", R.version$os))
+      os <- "linux"
+  }
+  tolower(os)
+}
+
+if (get_os() == "windows"){
+  knitr::opts_knit$set(root.dir = "D:/Github/with-a-little-help-from-my-friends")
+  knitr::opts_knit$set(fig_path = ".jpg", list(fig.path = "D:/Github/with-a-little-help-from-my-friends/figuras/", label = "EDA-"), 1:2)
+}
+if (get_os() == "osx"){
+     knitr::opts_knit$set(root.dir = "/Users/jpalbino/Library/Mobile Documents/com~apple~CloudDocs/GitHub//with-a-little-help-from-my-friends")
+     knitr::opts_knit$set(fig_path = ".jpg", list(fig.path = "/Users/jpalbino/Library/Mobile Documents/com~apple~CloudDocs/GitHub/with-a-little-help-from-my-friends/figuras/", label = "EDA-"), 1:2)
+}
+
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+![Imagem do autor.](/Users/jpalbino/Library/Mobile Documents/com~apple~CloudDocs/GitHub/with-a-little-help-from-my-friends/figuras/four-EDA-imagem1.jpg)
+
+## Índice
+1. Introdução  
+2. Pacotes de Análise de Dados Exploratórios Automatizados  
+2.1 Data Explorer  
+2.2 GGally  
+2.3 SmartEDA  
+2.4 tableone  
+3. Conclusões  
+4. Referências  
+
+## 1. Introdução  
+A **Análise Exploratória de Dados** (EDA - *Exploratory Data Analysis*) visa realizar uma investigação inicial sobre os dados, resumindo suas características por meio de técnicas estatísticas e de visualização. É uma etapa inicial crítica em qualquer fluxo de trabalho de Ciência de Dados.  
+Neste artigo, serão mostrados quatro pacotes em R que facilitam essa tarefa inicial e fornecem uma ajuda importante no manuseio, visualização e geração de relatórios de dados.  
+Como exemplo, será utilizado o Conjunto de Dados de Doenças Cardiovasculares[^1], composto pelos seguintes recursos (dicionário de ddos):
+
+1. id: identificador único do paciente (int)  
+2. sex : sexo do paciente (1: feminino, 2: masculino)  
+3. age: idade em dias (int)  
+4. height: altura em cm (int)  
+5. weight: peso em kg (float)  
+6. ap_hi: pressão arterial sistólica (int)
+7. ap_lo: pressão arterial diastólica (int)
+8. cholesterol: colesterol (1: normal, 2: acima do normal, 3: bem acima do normal)
+9. gluc: glicose (1: normal, 2: acima do normal, 3: bem acima do normal)
+10. smoke: se o paciente fuma ou não (binário)
+11. alco: consumo de álcool (binário)
+12. active: atividade física (binário)
+13. cardio: presença ou ausência de doença cardiovascular (binário)  
+
+Antes de importar o conjunto de dados para a linguagem R, será necessário carregar as bibliotecas que serão utilizadas neste exemplo:
+
+```{r instalando_bibliotecas}
+# --- Carregando as bibliotecas
+if (!("tidyverse") %in% installed.packages()) install.packages("tidyverse")
+if (!("dplyr") %in% installed.packages()) install.packages("dplyr")
+if (!("readr") %in% installed.packages()) install.packages("readr")
+
+library(dplyr)
+library(readr)
+
+```
+
+O próximo passo é importar o dataset para o R e observar suas primeiras linhas:
+```{r importar-e-pre-processar}
+# lendo o arquivo em csv
+df <- 
+  read_delim(
+    file = "./dados/cardio_train.csv",
+    col_types = "iifidiiffffff",
+    delim=";")
+
+
+# pre-processando (preparando os dados)
+df <- 
+  # remover a variável id
+  select(df, -id) %>%
+  # variável age: transformando dias -> anos
+  mutate(age = round(age / 365))
+
+# mostrando as primeiras linhas
+head(df)
+```
+
+Figura 1. Observação das primeiras colunas.  
+
+
+A *biblioteca Base* do R oferece a função (comando) summary [^2], uma função genérica utilizada para produzir visões gerais de diferentes objetos, tais como de um conjuntos de dados.  
+Em particular, quando um conjunto de dados é fornecido como entrada (por exemplo, *summary(df)*), a funçãao retorna diferentes métricas (tais como: média; mediana; min; max; …) para colunas (variáveis) numéricas e a distribuição (contagens) para colunas categóricas.  
+A função também retorna informações sobre *dados ausentes* (missing data), se existirem:  
+
+```{r sumário_df}
+summary(df)
+```
+
+Figura 2. Saída da função *summary(df)*.  
+
+Com as características do conteúdo do dataframe **df** visualizados e compreendidos, mostraremos os quatro pacotes aqui selecionados que fornecem recursos adicionais para a exploração dos dados.  
+
+## 2. Pacotes de Análise de Dados Exploratórios Automatizados
+### 2.1. DataExplores (Explorador de dados)    
+O DataExplorer[^3] simplifica e automatiza o processo de AED e a geração de relatórios.  
+O pacote verifica automaticamente cada variável e estabelecendo o perfil dos dados (data profilling[^4]) e oferece várias funções úteis para gerar gráficos diferentes em recursos discretos e contínuos.
+É importante ressaltar que o pacote permite gerar um relatório HTML completo sem esforço invocando a útil função create_report em um conjunto de dados (por exemplo, create_report(df)). É possível passar argumentos adicionais, tal como uma *variável de resposta y*, para adicionar diferentes análises bivariadas ao relatório.
+O trecho de codigo a seguir produz um arquivo do tipo HTML[^5] no diretório de trabalho. 
+
+```{r DataExplorer}
+# Carregando a biblioteca DataExplorer
+if (!("DataExplorer") %in% installed.packages()) install.packages("DataExplorer")
+library(DataExplorer)
+
+# Criando o relatório em formato HTML
+df %>%
+  create_report(
+    output_file = paste("Report", format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z"), sep=" - "),
+    report_title = "Relatório AED - Conjunto de dados sobre doenças cardiovasculares",
+    y = "cardio"
+  )
+
+```
+
+Quando aberto em um navegador, o relatório é mostrado da seguinte forma:  
+
+![Figura 3. Parte inicial do relatório em HTML.](/Users/jpalbino/Library/Mobile Documents/com~apple~CloudDocs/GitHub/with-a-little-help-from-my-friends/figuras/EDA-DataExplorer-Relatorio.png)
+
+A parte inicial do relatório em HTML apresenta um sumário detalhado da análise exploratória realizada.  
+Como pode ser visto no índice, o relatório compreende a maioria das tarefas realizadas durante o AED e pode ser gerado por uma única linha de código.  
+Outras funções adicionais do pacote para tarefas específicas são relatadas individualmente, como por exemplo:  
+
+#### 2.1.1 *plot_str(df)*: Plotagem da estrutura do conjunto de dados  
+
+```{r plot_DataExplorer-1_df}
+plot_str(df)
+```
+
+Figura 4. Saída do comando plot_str(df).  
+
+#### 2.1.2 *plot_bar(df)*: Gráfico de barras para cada variável discreta  
+
+```{r plot_DataExplorer-2_df}
+plot_bar(df)
+```
+
+Figura 5. Saída do comando plot_bar(df).  
+
+#### 2.1.3 *plot_bar(df)*: Gráfico de barras agrupado por uma variável discreta 
+A apresentação dos gráficos também podem ser agrupados por uma variável discreta, por exemplo, a presença de uma doença cardiovascular, utilizando o comando:
+
+```{r plot_DataExplorer-3_df}
+plot_bar(df, by="cardio")
+```
+
+Figura 6. Saída do comando plot_bar(df, by="cardio"), agrupado por uma variável discreta (cardio).  
+
+#### 2.1.4 *plot_qq(df)*: Gráfico quantil-quantil para cada variável contínua  
+Ao observar os gráficos, pode-se observar prontamente que os pacientes com doença cardiovascular apresentam maiores valores de colesterol e podem induzir a melhor investigação do risco de doença cardiovascular representado pelo colesterol mais elevado por meio de testes estatísticos.
+
+```{r plot_DataExplorer-4_df}
+plot_qq(df)
+```
+
+Figura 7. Saída do comando plot_qq(df).  
+
+Ao observar o primeiro gráfico QQ (variável age (idade)), pode-se notar que os pontos tendem a se curvar nas extremidades, indicando que a variável *ade* (idade) tem valores mais extremos do que teria se tivesse uma distribuição normal (esse comportamento cai sob o nome de "caudas pesadas").  
+
+#### 2.1.5 *plot_density(df)*: Gráfico de estimativas de densidade para cada característica contínua    
+
+```{r plot_DataExplorer-5_df}
+plot_density(df)
+```
+
+Figura 8. Saída do comando plot_density(df).  
+
+#### 2.1.6 *plot_correlation(df)*: Gráfico de mapa de calor de correlação (heatmap) 
+
+```{r plot_DataExplorer-6_df}
+plot_correlation(df)
+```
+
+Figura 9. Saída do comando plot_correlation(df). 
+
+#### 2.1.7 *plot_prcomp(df)*:  Gráfico da Análise de Componentes Principais (PCA)   
+
+Este comando realiza a Análise de Componentes Principais (PCA - Principal Component Analysis) e plota a porcentagem de variância explicada por cada componente principal.
+
+```{r plot_DataExplorer-7_df}
+plot_prcomp(df)
+```
+
+Figura 9. Saída do comando plot_prcomp(df). 
+
+Muitos outros recursos estão disponíveis na documentação do pacote DataExplorer[^6] contém a lista completa das funções disponíveis.
+
+
+
+[^1]: Cardiovascular Disease dataset. Disponível em: <https://www.kaggle.com/datasets/sulianova/cardiovascular-disease-dataset>. Acessado em: 13 jan. 2023.   
+[^2]: summary: Object Summaries. Disponível em: <rdocumentation.org/packages/base/versions/3.6.2/topics/summary>. Acessado em: 13 jan. 2023.
+[^3]: DataExplorer: Automate Data Exploration and Treatment. Disponível em:	<cran.r-project.org/package=DataExplorer>. Acessado em: 13 jan. 2023.
+[^4]: Perfil de dados (data profilling): Criação de perfil de dados é o processo de revisar a origem dos dados, entender sua estrutura, seu conteúdo e suas inter-relações, além de identificar o potencial desses dados para o projeto. 
+[^5]: HTML (abreviação para a expressão inglesa HyperText Markup Language, que significa: "Linguagem de Marcação de Hipertexto") é uma linguagem de marcação utilizada na construção de páginas na Web. Documentos HTML podem ser interpretados por navegadores.  
+[^6]: <cran.r-project.org/package=DataExplorer> 
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

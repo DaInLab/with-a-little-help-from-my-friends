@@ -1,5 +1,5 @@
 ---
-title:                       SmartEDA
+title: SmartEDA
 subtitle: Um pacote R para automatizar a Análise Exploratória de Dados
 author: 
  - Sayan Putatunda

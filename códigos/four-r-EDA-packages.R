@@ -67,35 +67,6 @@ ExpReport(
   op_file="Report.html",
   op_dir=getwd())
 
-
-df <- 
-  df %>%
-  # modify factor levels
-  mutate_at(c("cholesterol", "gluc"), ~ recode(.,
-                                               "1" = "normal",
-                                               "2" = "above normal", 
-                                               "3" = "well above normal")
-  ) %>%
-  mutate_at(c("smoke", "alco", "active", "cardio"), ~ recode(.,
-                                                             "0" = "no",
-                                                             "1" = "yes")
-  ) %>%
-  mutate_at(c("gender"), ~ recode(.,
-                                  "1" = "woman",
-                                  "2" = "male")
-  ) %>%
-  # rename columns
-  rename(
-    "systolic blood pressure" = "ap_hi",
-    "diastolic blood pressure" = "ap_lo",
-    "glucose" = "gluc",
-    "smoking" = "smoke",
-    "alcohol" = "alco",
-    "physical activity" = "active",
-    "cardiovascular disease" = "cardio"
-  )
-
-
 head(df)
 
 if (!("tableone") %in% installed.packages()) install.packages("tableone")

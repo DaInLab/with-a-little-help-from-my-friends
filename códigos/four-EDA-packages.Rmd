@@ -123,7 +123,7 @@ Figura 2. Saída da função *summary(df)*.
 Com as características do conteúdo do dataframe **df** visualizados e compreendidos, mostraremos os quatro pacotes aqui selecionados que fornecem recursos adicionais para a exploração dos dados.  
 
 ## 2. Pacotes de Análise de Dados Exploratórios Automatizados
-### 2.1. DataExplores (Explorador de dados)    
+### 2.1. DataExplorer (Explorador de dados)    
 O DataExplorer[^3] simplifica e automatiza o processo de AED e a geração de relatórios.  
 O pacote verifica automaticamente cada variável e estabelecendo o perfil dos dados (data profilling[^4]) e oferece várias funções úteis para gerar gráficos diferentes em recursos discretos e contínuos.
 É importante ressaltar que o pacote permite gerar um relatório HTML completo sem esforço invocando a útil função create_report em um conjunto de dados (por exemplo, create_report(df)). É possível passar argumentos adicionais, tal como uma *variável de resposta y*, para adicionar diferentes análises bivariadas ao relatório.

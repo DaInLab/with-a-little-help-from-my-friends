@@ -223,7 +223,7 @@ pct_ies
 names(casos_ies) <- c("ETEC", "FMJundiaí", "FJaú", "Fatec Catanduva", "FGV", "IMESB",
                           "SEBRAE", "UFSCar", "UNESP", "UNIARA", "UNOPAR")
                           
-# Gráfico 6 do tipo barra Instituição de Ensino Superior
+# Gráfico 6 do tipo barra por nome da Instituição de Ensino Superior
 graph.casos_ies <- barplot(casos_ies,
                                horiz = F,
                                main = "Gráfico 6: Quantidade de respondentes por Instituição de Ensino Superior",
@@ -235,25 +235,15 @@ graph.casos_ies <- barplot(casos_ies,
 text(x = graph.casos_ies, y = casos_ies, label = casos_ies, cex=1, pos=3)
 axis(1, at=graph.casos_ies, labels=paste("(", pct_ies , ")"), tick=F, las=1, line=-1.0, cex.axis= 1.1)
 
-# Dados do Gráfico 7
-casos_nivel <- table(dbf.xlsx$nivel_ensino, exclude = NULL)
-casos_nivel
-# Doutorado     Ensino Técnico Especialização/MBA          Graduação           Mestrado      Pós-doutorado 
-#        15                  1                  1                 21                 13                  1 
-
-pct_nivel <- paste(round(unname(casos_nivel) / sum(unname(casos_nivel)) * 100), "%")
-pct_nivel  
-#[1] "29 %" "2 %"  "2 %"  "40 %" "25 %" "2 %"
-
 # Rótulos muito grandes e dispersos. Dificulta a exibição nos gráficos!
 # Redução proposital no tamanho dos textos
 names(casos_ies) <- c("ETEC", "FMJundiaí", "FJaú", "Fatec Catanduva", "FGV", "IMESB",
                       "SEBRAE", "UFSCar", "UNESP", "UNIARA", "UNOPAR")
 
-# Gráfico 7 do tipo barra sitação empregatícia
+# Gráfico 6 do tipo barra respondentes por nome de IES
 graph.casos_ies <- barplot(casos_ies,
                            horiz = F,
-                           main = "Gráfico 6: Quantidade de respondentes por Instituição de Ensino Superior",
+                           main = "Gráfico 6: Quantidade de respondentes por IES",
                            xlab = "IES", 
                            ylab = "Respondentes",
                            col = "orange",
@@ -262,7 +252,7 @@ graph.casos_ies <- barplot(casos_ies,
 text(x = graph.casos_ies, y = casos_ies, label = unname(casos_ies), cex=1, pos=3)
 axis(1, at=graph.casos_ies, labels=paste("(", pct_ies , ")"), tick=F, las=1, line=-1.0, cex.axis= 1.1)
 
-# Dados do Gráfico 8
+# Dados do Gráfico 7
 casos_ensino<- table(dbf.xlsx$nivel_ensino, exclude = NULL)
 casos_ensino
 # Doutorado     Ensino Técnico Especialização/MBA          Graduação           Mestrado      Pós-doutorado 
@@ -272,12 +262,134 @@ pct_ensino <- paste(round(unname(casos_ensino) / sum(unname(casos_ensino)) * 100
 pct_ensino  
 #[1] "29 %" "2 %"  "2 %"  "40 %" "25 %" "2 %" 
 
-#Gráfico 8: Quantidade de respondentes nível de ensino
+#Gráfico 7: Quantidade de respondentes por nível de ensino
 # Gráfico tipo "pizza"
 pie(casos_ensino,
     edges = 200, radius = 0.8,
     clockwise = T,
     density = NULL, angle = 90, col = c("red", "orange", "yellow", "green", "black", "white"),
     labels = paste(names(casos_ensino), "-", pct_ensino),
-    main = "Gráfico 5: Quantidade de respondentes por nível de ensino")
+    main = "Gráfico 7: Quantidade de respondentes por nível de ensino")
 
+# Dados do Gráfico 8
+casos_tipo_ies<- table(dbf.xlsx$tipo_ies, exclude = NULL)
+casos_tipo_ies
+# Autarquia municipal             Privada             Pública 
+#                   1                   6                  45 
+names(casos_tipo_ies) = c("Municipal", "Privada", "Pública")
+pct_tipo_ies <- paste(round(unname(casos_tipo_ies) / sum(unname(casos_tipo_ies)) * 100), "%")
+pct_tipo_ies  
+#[1] "2 %"  "12 %" "87 %" 
+
+#Gráfico 8: Quantidade de respondentes por tipo de mantenedora de instituição de ensino
+# Gráfico tipo "pizza"
+pie(casos_tipo_ies,
+    edges = 200, radius = 0.8,
+    clockwise = T,
+    density = NULL, angle = 90, col = c("red", "orange", "blue"),
+    labels = paste(names(casos_tipo_ies), "-", pct_tipo_ies),
+    main = "Gráfico 8: Respondentes por nível de ensino")
+
+# Dados do Gráfico 9
+casos_local_estudante <- table(dbf.xlsx$local_estudante, exclude = NULL)
+casos_local_estudante
+# Local Outra cidade 
+#    18           34
+
+pct_local_estudante <- paste(round(unname(casos_local_estudante) / 
+                                     sum(unname(casos_local_estudante)) * 100), "%")
+pct_local_estudante 
+#[1] "35 %" "65 %" 
+
+#Gráfico 9: Quantidade de respondentes por local de moradia
+# Gráfico tipo "pizza"
+pie(casos_local_estudante,
+    edges = 200, radius = 0.8,
+    clockwise = T,
+    density = NULL, angle = 90, col = c("red", "orange", "blue"),
+    labels = paste(names(casos_local_estudante), "-", pct_local_estudante),
+    main = "Gráfico 9: Respondentes por local de moradia")
+
+# Dados do Gráfico 10
+casos_migrou_virtual <- table(dbf.xlsx$migrou_virtual, exclude = NULL)
+casos_migrou_virtual
+# Não Sim 
+#   1  51
+
+pct_migrou_virtual <- paste(round(unname(casos_migrou_virtual) / 
+                                     sum(unname(casos_migrou_virtual)) * 100), "%")
+pct_migrou_virtual 
+#[1] "2 %"  "98 %"" 
+
+#Gráfico 10: IES migrou virtual
+# Gráfico tipo "pizza"
+pie(casos_migrou_virtual,
+    edges = 200, radius = 0.8,
+    clockwise = T,
+    density = NULL, angle = 90, col = c("black", "orange", "blue"),
+    labels = paste(names(casos_migrou_virtual), "-", pct_migrou_virtual),
+    main = "Gráfico 10: IES migrou para virual")
+
+# Dados do Gráfico 11
+casos_ies_fechou_dorm <- table(dbf.xlsx$ies_fechou_dorm, exclude = NULL)
+casos_ies_fechou_dorm
+#          Não Não se aplica       Não sei           Sim 
+#            4             9            32             7
+
+pct_fechou_dorm <- paste(round(unname(casos_ies_fechou_dorm) / 
+                                    sum(unname(casos_ies_fechou_dorm)) * 100), "%")
+pct_fechou_dorm 
+#[1] "8 %"  "17 %" "62 %" "13 %" 
+
+#Gráfico 11: IES fechou dorms
+# Gráfico tipo "pizza"
+pie(casos_ies_fechou_dorm,
+    edges = 200, radius = 0.8,
+    clockwise = T,
+    density = NULL, angle = 90, col = c("black", "orange", "blue", "red"),
+    labels = paste(names(casos_ies_fechou_dorm), "-", pct_fechou_dorm),
+    main = "Gráfico 11: IES fechou dormitórios")
+
+# Gráfico 12: situacao_durante-pandemia
+# Núvem de palavras
+
+#Load the packages
+if(!"wordcloud" %in% installed.packages()) install.packages("wordcloud")
+library(wordcloud)
+if(!"wordcloud2" %in% installed.packages()) install.packages("wordcloud2")
+library(wordcloud2)
+if(!"RColorBrewer" %in% installed.packages()) install.packages("RColorBrewer")
+library(RColorBrewer)
+if(!"tm" %in% installed.packages()) install.packages("tm")
+library(tm)
+
+#Carregando o texto e eliminando os NA (missing data)
+texto <- na.omit(dbf.xlsx$situação_durante_pandemia)
+
+# Criando um corpus  
+docs <- Corpus(VectorSource(texto))
+
+# Limpando o texto
+# Para utilizar o comando "pipe" (%>%) ou operador "tee pipe" (%T>%) , pode-se "carregar" o pacote magrittr
+if(!"magrittr" %in% installed.packages()) install.packages("magrittr")
+library(magrittr)
+docs <- docs %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stripWhitespace)
+docs <- tm_map(docs, content_transformer(tolower))
+docs <- tm_map(docs, removeWords, stopwords("portuguese"))
+
+# Criar uma matrix de termos de documento
+# Uma matriz de termos de documento é uma matriz matemática que descreve a frequência 
+# dos termos que ocorrem em uma coleção de documentos.
+dtm <- TermDocumentMatrix(docs) 
+matrix <- as.matrix(dtm) 
+words <- sort(rowSums(matrix),decreasing=TRUE) 
+df <- data.frame(word = names(words),freq=words)
+
+# Gerar a núvem de palavras
+set.seed(1234) # para reprodutibilidade 
+wordcloud(words = df$word, freq = df$freq, min.freq = 2,      
+          max.words=200, random.order=FALSE, rot.per=0.35,       
+          colors=brewer.pal(8, "Dark2"))

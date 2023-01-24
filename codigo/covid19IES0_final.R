@@ -1,7 +1,7 @@
 # - ETAPA INICIAL
 #--- Importação e preparação dos dados
 # versão inicial em 05/01/2023.
-# versão do projeto "Impacto da Covid 19 nos Estudantes de ENsino Superior" no GitHub
+# versão do projeto "Impacto da Covid 19 nos Estudantes de Ensino Superior" no GitHub
 
 # Lendo o arquivo em .xlsx
 if (!("readxl") %in% installed.packages()) install.packages("readxl")

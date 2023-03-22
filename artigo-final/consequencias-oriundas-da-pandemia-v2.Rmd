@@ -1,0 +1,1069 @@
+---
+title: "Consequências Oriundas da Pandemia da Covid-19 nos Estudantes Universitários
+  Brasileiros"
+author:
+- name: Henrique Campos Mercez dos Santos
+- name: Lívia Inglesis Barcellos
+- name: Marcelo José dos Santos
+- name: Shelley Navari Christianini
+- name: João Pedro Albino
+  affiliation: "Universidade Estadual Paulista Júlio de Mesquita Filho - UNESP/Bauru"
+  e-mail: jp.albino@unesp.br
+  url: "<https://www.faac.unesp.br/#!/pos-graduacao/>"
+date: "15 mar. 2023"
+output:
+  html_document:
+    df_print: paged
+  word_document: default
+  pdf_document: default
+abstract: "Em março de 2020, a Organização Mundial de Saúde (ONU) declarou oficialmente
+  como pandemia a Covid-19. No Brasil, foi confirmado o primeiro caso do vírus em
+  fevereiro de 2020, tendo posteriormente o número de contaminados e de óbitos se
+  multiplicado rapidamente. No auge da pandemia, foi aplicada a quarentena rígida
+  o que restringiu a circulação de pessoas e obrigou o fechamento de comércios e serviços
+  considerados não essenciais. O país sofreu com a ausência de um plano efetivo na
+  coordenação e distribuição de vacinas com desequilíbrios regionais e problemas de
+  logística. O fechamento das universidades e a mudança repentina para o ensino remoto
+  acarretou a queda do desempenho acadêmico e do bem-estar emocional de estudantes,
+  funcionários e professores.  O objetivo deste artigo é o de lançar alguma luz neste
+  campo através da coleta e análise exploratória de dados sobre a COVID-19, visando
+  compreender como a pandemia afetou os estudantes universitários.\n"
+subtitle: Uma Análise Exploratória
+---
+
+```{r, include=FALSE}
+options(tinytex.verbose = TRUE)
+```
+
+```{r setup_inicial, include=FALSE}
+# Função para obter em qual ambiente (Sistema Operacional) o RStudio está sendo executado
+get_os <- function(){
+  sysinf <- Sys.info()
+  if (!is.null(sysinf)){
+    os <- sysinf['sysname']
+    if (os == 'Darwin')
+      os <- "osx"
+  } else { ## mystery machine
+    os <- .Platform$OS.type
+    if (grepl("^darwin", R.version$os))
+      os <- "osx"
+    if (grepl("linux-gnu", R.version$os))
+      os <- "linux"
+  }
+  tolower(os)
+}
+if (get_os() == "windows"){
+  knitr::opts_knit$set(root.dir = "E:/GitHub/with-a-little-help-from-my-friends/")
+  knitr::opts_knit$set(fig_path = ".png", list(fig.path = "D:/GitHub/with-a-little-help-from-my-friends/artigo-final/figura-", label = "aed"), 1:2)
+}
+if (get_os() == "osx"){
+     knitr::opts_knit$set(root.dir = "/Users/jpalbino/Library/Mobile Documents/com~apple~CloudDocs/GitHub/with-a-little-help-from-my-friends/artigo-final")
+     knitr::opts_knit$set(fig_path = ".png", list(fig.path = "/Users/jpalbino/Library/Mobile Documents/com~apple~CloudDocs/GitHub/with-a-little-help-from-my-friends/artigo-final/figura-", label = "aed"), 1:2)
+}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
+```{r importar_dados, echo=FALSE}
+# - ETAPA INICIAL
+#--- Importação e preparação dos dados
+# versão inicial em 05/01/2023.
+# versão do projeto "Impacto da Covid 19 nos Estudantes de Ensino Superior" no GitHub
+
+# Lendo o arquivo em .csv
+dbf.csv <-read.csv("./dados/COVID19IES.csv", header = TRUE, sep = ";", quote = "\"", dec = ".")
+```
+
+```{r, sumario, echo=FALSE}
+# Sumário do dataset
+#summary(dbf.csv)
+# número total de observações no dataframe
+total_casos <- nrow(dbf.csv)
+```
+
+## Introdução
+Em março de 2020, a Organização Mundial de Saúde (ONU) declarou oficialmente como pandemia a Covid-19 (UNA-SUS, 2020), doença infecciosa causada pelo vírus SARS-CoV-2, detetada pela primeira vez em dezembro de 2019, na China. No Brasil, foi confirmado o primeiro caso do vírus em fevereiro de 2020, tendo posteriormente o número de contaminados e de óbitos se multiplicado rapidamente.  
+Medidas de prevenção foram implementadas em todas as regiões do país para coibir a disseminação do vírus, tendo em vista a necessidade de preparar as unidades de pronto atendimento (UPA) e hospitais para receberem pacientes em larga escala em um curto período, uma vez que a contaminação entre os seres humanos pelo vírus SARS-CoV-2 é considerada alta (GUSSO et al, 2020).  
+No Brasil, a primeira vacina a ser utilizada foi a CoronaVac, desenvolvida pelo Instituto Butantã em parceria com a fabricante chinesa de medicamentos Sinovac Biontech. A vacinação da população iniciou-se em janeiro de 2021. Desde então, 80,3% da população já completou o calendário vacinal (UOL, 2023) com todas as doses recomendadas, porém, órgãos de saúde pública e privada ainda trabalham para que a cobertura vacinal seja ainda maior, tendo em vista que a vacina deve ser reforçada, em média, a cada 4 meses. 
+O impacto global da Covid-19 afetou diversos setores tais como saúde, política, economia e educação (The World Bank, 2023).   
+Considerando-se os fatores causados pela COVID-19, a proposta desta pesquisa exploratória-descritiva é compreender como os estudantes universitários vivenciaram e vivenciam os efeitos da pandemia. 
+Buscou-se investigar também de que forma se comportaram frente às restrições impostas pelos riscos de contágio, quais suas considerações a respeito das estratégias que foram adotadas pelas instituições de ensino superior, e como estes fatores influenciaram suas vidas.
+
+## Impactos da Pandemia da COVID-19
+A COVID-19 é uma síndrome respiratória aguda grave (SRAG) infecciosa causada pelo coronavírus, cujo agente etiológico é o SARS-CoV-2. Sua particularidade está na rapidez com que se manifesta entre seres humanos, levando a alta contaminação e elevação do número de casos (CAMPOS, MÔNICA RODRIGUES et al. 2020). 
+Inicialmente, os sintomas mais comuns são febre, tosse seca, perda dos sentidos, olfato e paladar, e, em casos mais moderados/graves, falta de ar. Contudo, a doença apresenta manifestações diferentes a depender do indivíduo. Desde então, várias mutações surgiram em diferentes partes do mundo, algumas, inclusive, associadas a uma maior transmissibilidade e virulência.  
+&emsp; Por isso, medidas de proteção como usar máscaras e higienizar as mãos com sabão e álcool em gel, evitar aglomerações e manter o distanciamento social, além de completar o esquema vacinal contra a Covid-19, são iniciativas que funcionam contra todas as variantes da Covid-19. (BUTANTAN, 2021).  
+
+Além disso, as medidas preventivas incluíram, inicialmente, o isolamento social, quando as autoridades recomendaram que a população permanecesse em casa, evitando assim aglomerações e, consequentemente, a transmissão do vírus. Nesse período, os estados e municípios adotaram diferentes medidas de isolamento social, com diferentes níveis de restrição dado o número de infectados (MORAES, 2020). 
+No auge da pandemia, antes da criação de uma vacina, foi aplicado o Lockdown (ou quarentena rígida) em determinadas localidades por um determinado período, restringindo a circulação de pessoas e a determinando o fechamento de comércios e serviços considerados não essenciais. Por último, seguiu-se a  vacinação, com uma campanha conduzida de forma descentralizada, com cada Estado e município sendo responsáveis por adquirir e distribuir as vacinas (VEJA, 2022). 
+Além de tais medidas, foram adotadas outras medidas adicionais de acordo com a situação local, tais como fechamento de escolas, restrições de circulação noturna, dentre outras.  
+As principais críticas às decisões tomadas pelos governos, tanto na esfera federal, estadual ou municipal do Brasil, se deram pela falta de planejamento. O país sofreu com a ausência de um plano efetivo na coordenação e distribuição de vacinas, tendo dificuldades principalmente quanto ao abastecimento, com desequilíbrios regionais e problemas de logística. A falta de apoio econômico e social para as pessoas afetadas pela pandemia também foi um fator de grande impacto, pois muitos foram afetados economicamente pela pandemia e pela necessidade de isolamento social (CEPAL, 2021). 
+A falta de transparência e de informações precisas sobre a pandemia, da real situação nacional e de como as medidas governamentais foram adotadas, foram muito criticadas, assim como a falta de dados consistentes e atualizados (World Health Organization, 2020).   
+A demora na compra das vacinas, impedindo a eficaz imunização no país, é uma das principais causas da política de negacionismo, onde governadores e líderes políticos minimizaram a gravidade da pandemia (O Globo, 2021) e se recusaram a adotar medidas recomendadas pelas autoridades de saúde mundiais, fator extremamente criticado por especialistas (FIOCRUZ,2021), pois levou a uma disseminação descontrolada do vírus e a consequente sobrecarga nos sistemas de saúde durante o pico do contágio da COVID-19.  
+A pandemia da COVID-19 teve um grande impacto na vida dos estudantes de nível superior no Brasil, de acordo com estudo realizado em 2020 pela Associação Nacional dos Dirigentes das Instituições Federais de Ensino Superior (ANDIFES, 2020).  
+Com as medidas de distanciamento social e a suspensão de atividades presenciais nas universidades, muitos estudantes tiveram que lidar com desafios significativos em relação à continuidade dos estudos e à adaptação às novas formas de aprendizado.
+O impacto financeiro também foi um fator significativo para muitos estudantes de nível superior no Brasil. A pandemia afetou a economia do país, aumentando o desemprego e a insegurança financeira, o que levou muitos estudantes a enfrentarem dificuldades para pagar suas despesas básicas e para continuar seus estudos (ANDIFES, 2020).  
+Portando, de acordo com De Negri (2020), pesquisadores e cientistas, no mundo todo, em muitos casos em um esforço concentrado envolvendo academia, governos e a iniciativa privada, se mobilizaram para estimar tanto os efeitos da doença sobre a saúde da população quanto os impactos econômicos e sociais dessa pandemia. Assim, afirmam os autores, pesquisas e projetos que busquem descrever e detalhar informações críticas sobre a pandemia e suas consequências imediatas serão sempre necessários.  
+Nesta linha de pensamento, a proposta deste trabalho é o de lançar alguma luz neste campo e coletar dados exploratórios sobre a COVID-19, visando compreender como a pandemia afetou os estudantes universitários e de que forma se comportaram frente a esta nova realidade que está impactando fortemente suas vidas.  
+
+## Metodologia
+O estudo apresentado neste artigo buscou compreender as influências da COVID-19 nos estudantes de ensino superior.  
+Para atingir tal objetivo foi utilizada uma amostra de característica não probabilística e por conveniência. Os indivíduos empregados nessa pesquisa foram selecionados porque estavam voluntariamente disponíveis, e não foram selecionados por meio de um critério estatístico. 
+A amostra, portanto, compreende alunos de diferentes níveis universitários (graduação e pós-graduação lato sensu e stricto sensu) matriculados nos diferentes períodos de sua formação (iniciantes e veteranos).  
+Levou-se em consideração uma abordagem quali-quantitativa, por envolver aspectos opinativos e informações com o intuito de identificar as principais dificuldades enfrentadas. Tal abordagem foi escolhida dada a coleta de dados, realizada através de uma *survey*, e com a corroboração de outras fontes de informação para a análise, a fim de enriquecer a pesquisa realizada.  
+
+&emsp; Toda a ciência é qualitativa, no sentido que pretende estabelecer uma qualidade a um objeto de estudo ao reproduzi-lo ou reconstruí-lo, ao explicá-lo ou compreendê-lo. A quantidade em si mesma nada representa se não se relaciona com determinada qualidade; as cifras e os dados não falam sozinhos, requerem uma interpretação que alude a uma teoria, à afirmação ou à negação de uma ideia. (...) técnicas quantitativas de levantamentos (surveys) que serão processados estatisticamente ou com histórias de vida que serão analisadas qualitativamente (BRICEÑO-LÉON, 2003). 
+
+Na intenção de identificar as principais dificuldades pelas instituições de ensino superior, foi adotado como instrumento de coleta de dados o uso de um questionário online auto aplicado utilizando o GoogleFormulários®, com perguntas fechadas e perguntas abertas, caracterizando-se, portanto, como uma pesquisa do tipo survey exploratória-descritiva.  
+Do ponto de vista da ciência de dados, o objetivo foi o de extrair conhecimento e insights a partir dos dados disponíveis sobre a COVID-19 na população universitária brasileira. Através da análise exploratória desses dados (AED), foi possível identificar padrões e tendências relacionadas à disseminação da doença entre os estudantes da amostra obtida, bem como explorar as possíveis consequências dessa disseminação, como o impacto no ensino e nas atividades acadêmicas.  
+Além disso, a ciência de dados pode ser usada para desenvolver modelos preditivos que possam ajudar a prever a propagação da COVID-19 nas universidades brasileiras e fornecer informações valiosas para apoiar as decisões tomadas pelos gestores das universidades, políticos e profissionais de saúde.  
+É importante ressaltar que a análise de dados em relação à COVID-19 na população universitária foi realizada com todo o cuidado e atenção, levando em consideração questões éticas e de privacidade dos indivíduos envolvidos, sendo a pesquisa aprovada pelo conselho de ética da UNESP e registrada na Plataforma Brasil sob o CAAE: 47289921.9.0000.5663.  
+Este artigo apresenta o relatório da análise exploratória de dados sobre como a pandemia de Coronavírus (Covid-19) afetou a vida e cotidiano dos estudantes universitários. O questionário ficou disponível de abril de 2021 a dezembro de 2022, contendo 50 questões.   
+COmo pode ser observado na figura do Gráfico 1, a pesquisa contou com a participação de 52 integrantes, sendo que 48% se declaram do gênero masculino, 46% feminino, 4% transgênero/transexual e 2% homem gay. A amostra foi composta ainda por 77% de alunos da UNESP e 23% de demais instituições. 
+
+```{r, grafico-1, echo=FALSE}
+# Dados do Gráfico 2
+casos_genero <- table(dbf.csv$genero)
+pct_genero <- paste(round(unname(casos_genero) / sum(unname(casos_genero)) * 100), "%")
+
+#Gráfico 1: Quantidade de respondentes por sexo
+# Gráfico tipo "pizza"
+pie(casos_genero,
+    edges = 200, radius = 0.8,
+    clockwise = F,
+    density = NULL, angle = 90, col = c("red", "orange", "yellow", "green"),
+    labels = paste(names(casos_genero), "-", pct_genero),
+    main = "Gráfico 1: Quantidade de respondentes por gênero")
+
+```
+
+## Análise Exploratória de Dados
+A Análise Exploratória de Dados (AED), de acordo com James et al. (2013), é uma abordagem de análise de dados que se concentra em compreender e resumir as principais características dos dados por meio de técnicas estatísticas e gráficas. O principal objetivo da AED é descobrir padrões, tendências, anomalias e relações entre as variáveis em um conjunto de dados, com o objetivo de gerar hipóteses e insights para análises mais aprofundadas, afirmam os autores.  
+De acordo com Tukey (1977), o processo de AED envolve a "coleta de dados, organização, sumarização, análise exploratória, modelagem e comunicação dos resultados". A AED pode ser realizada tanto em conjuntos de dados pequenos quanto grandes e complexos, e pode ser aplicada em diversas áreas, como ciências sociais, biologia, economia, engenharia, entre outras.  
+
+## Perfil dos entrevistados
+Para o perfil dos entrevistados foram analisadas as respostas obtidas pelo questionário, no período disponível. A faixa etária com maior número de entrevistados, correspondendo a 35%, é a faixa etária de 17 a 24 anos.  As faixas de 22 a 26 anos e 37 a 41 anos obtiveram 13% cada uma, 10% dos respondentes estão na faixa de 42 a 46 anos, de 47 a 51 anos e de 52 a 56 anos tiveram ambas 8%, 6% eram da faixa de 27 a 31 anos, 6% de 32 a 36 anos, e apenas 2% se enquadraram na faixa etária de 57 a 61 anos, como é possível observar no Gráfico 2. 
+
+```{r, grafico-2, echo=FALSE}
+## Gráfico 2 Faixa Etária dos respondentes
+
+# Versão 2, utilizando a definição divisão das faixas etárias:
+# 17 - 21
+# 22 - 26
+# 27 - 31
+# 32 - 36
+# 37 - 41
+# 42 - 46 
+# 47 - 51 
+# 52 - 56
+# 57 - 61
+
+idade_concat <- data.frame(idade=dbf.csv$idade, faixa_etaria="")
+
+for (k in 1:nrow(idade_concat)) {
+  if(idade_concat$idade[k] <= 21) idade_concat$faixa_etaria[k] <- "17-21"
+  if(idade_concat$idade[k] >= 22 & idade_concat$idade[k] <= 26) idade_concat$faixa_etaria[k] <- "22-26"
+  if(idade_concat$idade[k] >= 27 & idade_concat$idade[k] <= 31) idade_concat$faixa_etaria[k] <- "27-31"
+  if(idade_concat$idade[k] >= 32 & idade_concat$idade[k] <= 36) idade_concat$faixa_etaria[k] <- "32-36"
+  if(idade_concat$idade[k] >= 37 & idade_concat$idade[k] <= 41) idade_concat$faixa_etaria[k] <- "37-41"
+  if(idade_concat$idade[k] >= 42 & idade_concat$idade[k] <= 46) idade_concat$faixa_etaria[k] <- "42-46" 
+  if(idade_concat$idade[k] >= 47 & idade_concat$idade[k] <= 51) idade_concat$faixa_etaria[k] <- "47-51" 
+  if(idade_concat$idade[k] >= 52 & idade_concat$idade[k] <= 56) idade_concat$faixa_etaria[k] <- "52-56"
+  if(idade_concat$idade[k] >= 57 & idade_concat$idade[k] <= 61) idade_concat$faixa_etaria[k] <- "57-61"
+  if(idade_concat$idade[k] > 61) idade_concat$faixa_etaria[k] <- "61+"
+}
+casos_idade_concat <- table(idade_concat$faixa_etaria)
+#Cálculo da porcentagem das faixas etárias
+pct_idade3 <- paste0(round(unname(casos_idade_concat) / sum(unname(casos_idade_concat)) * 100,0), "%")
+# Gráfico do tipo barra das faixas etárias
+graph.idade_concat <- barplot(casos_idade_concat, 
+                               main = "Gráfico 2: Faixa etária dos respondentes",
+                               xlab = "Faixa etária", 
+                               ylab = "Respondentes",
+                               col = "orange",
+                               horiz = F,
+                               ylim = c(0,max(casos_idade_concat) + 5))
+text(x = graph.idade_concat, y = casos_idade_concat, label = unname(casos_idade_concat), cex=1, pos=3)
+axis(1, at=graph.idade_concat, labels=paste0("(", pct_idade3, ")"), tick=F, las=1, line=-1.0, cex.axis= 1.1)
+
+
+```
+
+Quanto ao estado civil dos participantes 54% são solteiros(as), 31% casados(as), 10% estão em uma união estável, 4% divorciados(as) e 1% viúvos(as). Tais dados estão representados no Gráfico 3 
+
+```{r, grafico-3, echo=FALSE}
+# Dados do Gráfico 3
+casos_conjugal <- table(dbf.csv$situacao_conjugal)
+pct_conjugal <- paste(round(unname(casos_conjugal) / sum(unname(casos_conjugal)) * 100), "%")
+
+#Gráfico 3: Quantidade de respondentes por sutuação conjugal
+# Gráfico tipo "pizza"
+pie(casos_conjugal,
+    edges = 200, radius = 0.8,
+    clockwise = F,
+    density = NULL, angle = 90, col = c("red", "orange", "yellow", "green", "black"),
+    labels = paste(names(casos_conjugal), "-", pct_conjugal),
+    main = "Gráfico 3: Quantidade de respondentes por sitação conjugal")
+```
+
+Ainda caracterizando o perfil dos entrevistados, na figura do Gráfico 4 foi apontado que o nível de escolaridade predominante da amostra é a graduação, com 21 respondentes (40%), seguido pelo doutorado com 15 (29%) e mestrado com 13 respondentes.  
+
+```{r, grafico-4, echo=FALSE}
+# Dados do Gráfico 4
+casos_ensino<- table(dbf.csv$nivel_ensino, exclude = NULL)
+pct_ensino <- paste(round(unname(casos_ensino) / sum(unname(casos_ensino)) * 100), "%")
+#Gráfico 7: Quantidade de respondentes por nível de ensino
+# Gráfico tipo "pizza"
+pie(casos_ensino,
+    edges = 200, radius = 0.8,
+    clockwise = T,
+    density = NULL, angle = 90, col = c("red", "orange", "yellow", "green", "black", "white"),
+    labels = paste(names(casos_ensino), "-", pct_ensino),
+    main = "Gráfico 4: Quantidade de respondentes por nível de ensino")
+```
+
+Observa-se no Gráfico 4 que os níveis de Pós-doutorado, MBA/Especialização e ensino técnico constam 1 entrevistado cada (2%). 
+Do total de respondentes da pesquisa, a grande maioria (86%) são de instituição pública, 12% de instituições privadas, e 2% de autarquia municipal (Gráfico 5). 
+
+```{r, grafico-5, echo=FALSE}
+# Dados do Gráfico 5
+casos_tipo_ies<- table(dbf.csv$tipo_ies, exclude = NULL)
+names(casos_tipo_ies) = c("Municipal", "Privada", "Pública")
+pct_tipo_ies <- paste(round(unname(casos_tipo_ies) / sum(unname(casos_tipo_ies)) * 100), "%")
+#Gráfico 5: Quantidade de respondentes por tipo de mantenedora de instituição de ensino
+# Gráfico tipo "pizza"
+pie(casos_tipo_ies,
+    edges = 200, radius = 0.8,
+    clockwise = T,
+    density = NULL, angle = 90, col = c("red", "orange", "blue"),
+    labels = paste(names(casos_tipo_ies), "-", pct_tipo_ies),
+    main = "Gráfico 5: Respondentes por tipo de mantenedora")
+```
+
+Ao analisar as condições financeiras dos participantes por meio do Gráfico 6, foi possível identificar que, do total de participantes da amostra, 56% estavam empregados, em diversos segmentos, 23% eram bolsistas ou estagiários, 13% eram dependentes e contavam com ajuda dos pais, 2% aposentados e 4% estavam desempregados.  
+
+```{r, grafico-6, echo=FALSE}
+# Dados do Gráfico 6
+casos_emprego <- table(dbf.csv$situacao_empregaticia)
+# Rótulos muito grandes  em grande quantidade. Dificuldade para exibir nos gráficos
+# Redução proposital dos textos
+names(casos_emprego) <- c("Aposentada", "Bolsista","Corretor", "Dep./Empr.", "Dependente",
+                          "Desemp.","Empregado","Empresária","Estagiário","Micro-emp.",
+                          "Serv. púb.", "Autôn/Dep.")
+pct_emprego <- paste(round(unname(casos_emprego) / sum(unname(casos_emprego)) * 100), "%")
+# Gráfico 6 do tipo barra sitação empregatícia
+graph.casos_emprego <- barplot(casos_emprego, 
+                              main = "Gráfico 6: Quantidade de respondentes por situação empregatícia",
+                              xlab = "Sitação Empregatícia", 
+                              ylab = "Respondentes",
+                              col = "orange",
+                              ylim = c(0,max(casos_emprego) + 5))
+text(x = graph.casos_emprego, y = casos_emprego, label = unname(casos_emprego), cex=1, pos=3)
+axis(1, at=graph.casos_emprego, labels=paste("(", pct_emprego, ")"), tick=F, las=1, line=-1.0, cex.axis= 1.1)
+```
+
+Com relação questão da vacinação, nesta amostra todos os participantes foram vacinados contra a Covid-19, como é possível observar no Gráfico 8. 
+
+```{r, grafico-8, echo=FALSE}
+# Dados do Gráfico 8
+casos_vacinado <- table(dbf.csv$vacinado, exclude = NULL)
+names(casos_vacinado) <- c("Duas doses ou dose única", 
+                               "Duas doses ou dose única e reforço", 
+                               "Duas doses ou dose única e doses de reforço",
+                               "N/A ou Não quero responder")
+pct_vacinado <- paste(round(unname(casos_vacinado) / 
+                                  sum(unname(casos_vacinado)) * 100), "%")
+#Gráfico 8: Está vacinado
+# Gráfico tipo "pizza"
+pie(casos_vacinado,
+    edges = 200, radius = 0.8,
+    clockwise = F,
+    density = NULL, angle = 90, col = c("gray",  "red", "blue","orange", "black", "white", "green"),
+    labels = paste(names(casos_vacinado), "-", pct_vacinado),
+    main = "Gráfico 8: Vacinação contra Covid-19")
+```
+
+Em sua maioria, foram tomadas as duas doses, ou dose única além das doses de reforço. 
+Outro fator importante a ser levado em consideração devido a pandemia é a questão de locomoção - impedidas pelas restrições e *lockdown* - e o fato de que a maior parte dos respondentes não eram residentes da cidade em que estudavam, pois apenas 18 (35%) dos entrevistados eram residentes na mesma cidade da universidade e/ou faculdade e a maioria, 34 (65%) de outras cidades. Destes, 90% estavam na sua residência permanente durante a pandemia e 10% não (Gráfico 9).  
+
+```{r, grafico-9, echo=FALSE}
+# Dados do Gráfico 9
+casos_aluno_mora_com <- table(dbf.csv$morando_com, exclude = NULL)
+pct_aluno_mora_com <- paste(round(unname(casos_aluno_mora_com) / 
+                                   sum(unname(casos_aluno_mora_com)) * 100), "%")
+#Gráfico 9: Aluno mora com quem?
+# Gráfico tipo "pizza"
+pie(casos_aluno_mora_com,
+    edges = 200, radius = 0.8,
+    clockwise = T,
+    density = NULL, angle = 90, col = c("orange", "blue", "red","black"),
+    labels = paste(names(casos_aluno_mora_com), "-", pct_aluno_mora_com),
+    main = "Gráfico 9: Aluno mora com/em")
+```
+
+Conforme demonstrado no Gráfico 9, dos respondentes, 69% moravam com a família, seguido de 25% morando sozinho e, em último ficaram os que residiam em república ou com colega de quarto (6%).  
+
+## Decisões tomadas, acesso à infraestrutura e aos docentes  
+Sobre a decisão de fechar o campus para evitar a circulação de pessoas e, consequentemente, evitar a circulação do vírus, como pode ser observado na figura do Gráfico 10, 77% dos pesquisados consideram a decisão tomada em momento oportuno, enquanto 13% consideram lenta a demora para a tomada de decisão e 10% definem como muito rápido.
+
+```{r, grafico-10, echo=FALSE}
+# Dados do Gráfico 10
+casos_fechar_ies <- table(dbf.csv$decisao_fechar, exclude = NULL)
+pct_fechar_ies <- paste(round(unname(casos_fechar_ies) / 
+                                   sum(unname(casos_fechar_ies)) * 100), "%")
+#Gráfico 10: Fechar IES e utilizar ferramentas online
+# Gráfico tipo "pizza"
+pie(casos_fechar_ies,
+    edges = 200, radius = 0.8,
+    clockwise = F,
+    density = NULL, angle = 90, col = c("red","blue", "gray","orange", "black", "white", "green"),
+    labels = paste(names(casos_fechar_ies), "-", pct_fechar_ies),
+    main = "Gráfico 10: Decisão de fechar IES e utilizar ferramentas online")
+```
+
+No que diz respeito à investigação se a Instituição de Nível Superior (IES) durante a pandemia transferiu todas suas atividades presenciais para o ensino remoto, apenas 2% dos alunos da amostra informaram que sua instituição não havia migrado para as aulas virtuais durante a pandemia, entretanto, 98% das IES da amostra se adaptaram de alguma forma para educação remota, como mostra o Grafico 11. 
+
+```{r, grafico-11, echo=FALSE}
+# Dados do Gráfico 11
+casos_migrou_virtual <- table(dbf.csv$migrou_virtual, exclude = NULL)
+pct_migrou_virtual <- paste(round(unname(casos_migrou_virtual) / 
+                                  sum(unname(casos_migrou_virtual)) * 100), "%")
+#Gráfico 11: IES migrou virtual
+# Gráfico tipo "pizza"
+pie(casos_migrou_virtual,
+    edges = 200, radius = 0.8,
+    clockwise = T,
+    density = NULL, angle = 90, col = c("black", "orange", "blue"),
+    labels = paste(names(casos_migrou_virtual), "-", pct_migrou_virtual),
+    main = "Gráfico 11: IES migrou para virual")
+```
+
+Já no tocante as formas de acesso aos recursos de infraestrutura oferecidos pela instituição (biblioteca, coordenação, orientação de assuntos acadêmicos, matrícula etc.) o Gráfico 12 mostra que, na opinião de 40% dos estudantes, o acesso aos recursos da IES pioraram durante a pandemia do COVID-19. Já 33% alegam que não houve mudanças. 
+
+```{r, grafico-12, echo=FALSE}
+# Dados do Gráfico 12
+casos_acesso_infra_ies <- table(dbf.csv$acesso_infra_ies, exclude = NULL)
+pct_acesso_infra_ies <- paste(round(unname(casos_acesso_infra_ies) / 
+                                        sum(unname(casos_acesso_infra_ies)) * 100), "%")
+#Gráfico 12: Acesso à infra-estrutura da IES
+# Gráfico tipo "pizza"
+pie(casos_acesso_infra_ies,
+    edges = 200, radius = 0.8,
+    clockwise = F,
+    density = NULL, angle = 90, col = c("gray", "orange", "blue", "red", "black", "white", "green"),
+    labels = paste(names(casos_acesso_infra_ies), "-", pct_acesso_infra_ies),
+    main = "Gráfico 12: Acesso à infra-estrutura da IES")
+```
+
+Os dados no Gráfico 12 indicam ainda que houve empate entre aqueles que alegam que houve melhorias e os que não sabem responder, ambos os lados representado 13% da amostra. 
+
+Ao abordar o acesso ao corpo docente das IES durante a pandemia (Gráfico 13), a maioria dos respondentes sentiu que o acesso aos professores foi pior (52%) que antes da pandemia, seguido por aqueles que acharam que não houve grandes dificuldades de comunicação (25%). Para uma parcela menor (15%) a disponibilidade dos docentes melhorou e apenas 8% não souberam responder.
+
+```{r, grafico-13, echo=FALSE}
+# Dados do Gráfico 13
+casos_acesso_professores <- table(dbf.csv$acesso_professores, exclude = NULL)
+pct_acesso_professores <- paste(round(unname(casos_acesso_professores) / 
+                           sum(unname(casos_acesso_professores)) * 100), "%")
+#Gráfico 13: Acesso aos professores na pandemia
+# Gráfico tipo "pizza"
+pie(casos_acesso_professores,
+    edges = 200, radius = 0.8,
+    clockwise = F,
+    density = NULL, angle = 90, col = c("gray", "orange", "blue", "red", "black", "white", "green"),
+    labels = paste(names(casos_acesso_professores), "-", pct_acesso_professores),
+    main = "Gráfico 13: Acesso aos professores na pandemia")
+```
+
+Quando questionados sobre a forma como as aulas foram ministradas durante a pandemia, de acordo com figura do Gráfico 14, 48% dos participantes não sentiram nenhuma alteração. Entretanto, 42% afirmaram que as aulas ministradas no estilo remoto foram piores que pelo método presencial, 8% não souberam dizer e apenas 2% acharam que o ensino remoto foi melhor. 
+
+```{r, grafico-14, echo=FALSE}
+# Dados do Gráfico 25
+casos_aulas <- table(dbf.csv$aulas_durante_pandemia, exclude = NULL)
+pct_aulas <- paste(round(unname(casos_aulas) / 
+                               sum(unname(casos_aulas)) * 100), "%")
+#Gráfico 14: Forma de ministrar as aulas
+# Gráfico tipo "pizza"
+pie(casos_aulas,
+    edges = 200, radius = 0.8,
+    clockwise = F,
+    density = NULL, angle = 90, col = c("gray", "orange", "blue", "red", "black", "white", "green"),
+    labels = paste(names(casos_aulas), "-", pct_aulas),
+    main = "Gráfico 14: Forma de ministrar as aulas na pandemia")
+```
+
+É interessante observar que, apesar de uma certa piora no acesso à infraestrutura e professores, grande parte dos estudantes não se sentiu afetado quanto à maneira como as aulas foram ministradas.  
+Após a vacinação e maior controle da pandemia, com dados coletados até o final de 2022, 60% dos entrevistados afirmaram que as universidades já haviam retomado as atividades de forma presencial nas IES, 29% haviam retornado em parte, 8% não haviam retomarado e 2% não sabiam informar (Gráfico 15). 
+
+```{r, grafico-15, echo=FALSE}
+# Dados do Gráfico 31
+casos_ies_reinicio <- table(dbf.csv$ies_reinicio, exclude = NULL)
+names(casos_ies_reinicio) <- c("Em parte", "N/A ou Não sabe", "Não retornou", "Retornou todas atividades")
+pct_ies_reinicio <- paste(round(unname(casos_ies_reinicio) / 
+                                 sum(unname(casos_ies_reinicio)) * 100), "%")
+#Gráfico 15: IES reiniciou atividades presenciais
+# Gráfico tipo "pizza"
+pie(casos_ies_reinicio,
+    edges = 200, radius = 0.8,
+    clockwise = F,
+    density = NULL, angle = 90, col = c("gray",  "red", "blue","orange", "black", "white", "green"),
+    labels = paste(names(casos_ies_reinicio), "-", pct_ies_reinicio),
+    main = "Gráfico 15: IES reiniciou atividades presenciais")
+```
+
+## Dificuldades enfrentadas pelos alunos
+
+Buscando compreender as principais dificuldades individuais que os alunos de ensino superior enfrentaram durante a pandemia, um conjunto de questões foram elaboradas no questionário para coletar informações sobre esforços que os estudantes tiveram que enfrentar para cursar as disciplinas remotamente.  
+Partindo da necessidade em utilizar a internet para as aulas, os alunos foram questionados quanto à qualidade do serviço de acesso à internet que tiveram que utilizar, comparando a antes e durante a pandemia da Covid-19.  
+De acordo com o Gráfico 16, 65% dos respondentes afirmaram que não houve nenhuma mudança, para 13% o acesso aos serviços de internet piorou e 19% sentiram que houve melhora. Apenas 2% não souberam responder.
+De modo geral, para os estudantes pesquisados o acesso a internet não mudou.
+
+```{r, grafico-16, echo=FALSE}
+# Dados do Gráfico 16
+casos_acesso_internet <- table(dbf.csv$acesso_internet, exclude = NULL)
+pct_acesso_internet <- paste(round(unname(casos_acesso_internet) / 
+                                  sum(unname(casos_acesso_internet)) * 100), "%")
+#Gráfico 16: Acesso aos serviços de internet
+# Gráfico tipo "pizza"
+pie(casos_acesso_internet,
+    edges = 200, radius = 0.8,
+    clockwise = T,
+    density = NULL, angle = 90, col = c("gray", "orange", "blue", "red","black", "white"),
+    labels = paste(names(casos_acesso_internet), "-", pct_acesso_internet),
+    main = "Gráfico 16: Acesso aos serviços de internet")
+```
+
+No que concerne à mudança para o ensino virtual remoto e a mudança na forma de aprendizado, os dados do Gráfico 17 mostram que 38% dos participantes considera que não houve queda no seu desempenho escolar e 27% consideram que o seu desempenho acadêmico aumentou no ensino remoto, se comparado ao presencial.
+
+```{r, grafico-30, echo=FALSE}
+# Dados do Gráfico 17
+casos_performance <- table(dbf.csv$desempenho_escolar, exclude = NULL)
+pct_performance <- paste(round(unname(casos_performance) / 
+                                sum(unname(casos_performance)) * 100), "%")
+#Gráfico 17: Desempenho escolar
+# Gráfico tipo "pizza"
+pie(casos_performance,
+    edges = 200, radius = 0.8,
+    clockwise = F,
+    density = NULL, angle = 90, col = c("gray",  "red", "blue","orange", "black", "white", "green"),
+    labels = paste(names(casos_performance), "-", pct_performance),
+    main = "Gráfico 17: Desempenho escolar na pandemia")
+```
+
+Entretanto, como também pode ser visualizado no Gráfico 17, 31% consideraram seu rendimento comprometido e 2% não souberam opinar.  
+Com as restrições sociais introduzidas durante o período de isolamento social, é importante também entender como a pandemia dificultou de forma abrangente a vida dos docentes. 
+Quando questionados diretamente quais os fatos vivenciados durante o período agudo da pandemia que os afetaram com intensidade, os alunos, de acordo com os dados do Gráfico 18, responderam que, que pelas orientações de distanciamento e fechamento dos serviços, tiveram dificuldades para se deslocar e/ou viajar (36%), além de necessitarem da ajuda de pessoas desconhecidas (8%), sentiram alguma discriminação por pessoas desconhecidas (2%) e que tais atribulações alteraram suas condições de vida (17%) . 
+
+```{r, grafico-18, echo=FALSE}
+# Dados do Gráfico 18
+casos_aluno_vivenciou <- table(dbf.csv$vivenciou, exclude = NULL)
+names(casos_aluno_vivenciou) <- c("Ajuda/assistência pessoas desconhecidas", "Alterações nas condições de vida", 
+                                  "Dificuldade viajar/se deslocar", "Discriminação por desconhecidos", "Não se aplica")
+pct_aluno_vivenciou <- paste(round(unname(casos_aluno_vivenciou) / 
+                                           sum(unname(casos_aluno_vivenciou)) * 100), "%")
+#Gráfico 18: Dificuldades vividas pelo aluno
+# Gráfico tipo "pizza"
+pie(casos_aluno_vivenciou,
+    edges = 200, radius = 0.8,
+    clockwise = T,
+    density = NULL, angle = 90, col = c("gray", "orange", "blue", "red","black"),
+    labels = paste(names(casos_aluno_vivenciou), "-", pct_aluno_vivenciou),
+    main = "Gráfico 18: Dificuldades vividas pelo aluno")
+```
+
+Além das dificuldades apontadas nos dados do Gráfico 18, dada as restrições sociais a vida financeira dos discentes também foi afetada de 
+maneira importante. Os dados compilados no Gráfico 19 ilustram a opiniãodos alunos em relação aos seus gastos durante o a pandemia onde 40% alegam que as despesas não sofreram alteração, 33% que houve incremento nas suas despesas e 27% tiveram redução.
+
+```{r, grafico-34, echo=FALSE}
+# Dados do Gráfico 19
+casos_despesas <- table(dbf.csv$despesas, exclude = NULL)
+pct_despesas <- paste(round(unname(casos_despesas) / 
+                              sum(unname(casos_despesas)) * 100), "%")
+#Gráfico 19: Despesas durante a pandemia
+# Gráfico tipo "pizza"
+pie(casos_despesas,
+    edges = 200, radius = 0.8,
+    clockwise = F,
+    density = NULL, angle = 90, col = c("red","gray", "blue","orange", "black", "white", "green"),
+    labels = paste(names(casos_despesas), "-", pct_despesas),
+    main = "Gráfico 19: Despesas durante a pandemia")
+```
+
+Apesar da maioria dos entrevistados não terem sofrido com o aumento de despesas, já com relação ao seu poder de compra observamos no Gráfico 20 que 48% observaram uma queda no seu poder de compra e 44% consideram que sua renda continuou mais ou menos a mesma. 
+
+```{r, grafico-20, echo=FALSE}
+# Dados do Gráfico 20
+casos_renda <- table(dbf.csv$renda_financeira, exclude = NULL)
+pct_renda <- paste(round(unname(casos_renda) / 
+                              sum(unname(casos_renda)) * 100), "%")
+#Gráfico 35: Renda durante a pandemia
+# Gráfico tipo "pizza"
+pie(casos_renda,
+    edges = 200, radius = 0.8,
+    clockwise = F,
+    density = NULL, angle = 90, col = c("gray", "red", "blue","orange", "black", "white", "green"),
+    labels = paste(names(casos_renda), "-", pct_renda),
+    main = "Gráfico 20: Renda durante a pandemia")
+```
+  
+Como pode ser observado no Gráfico 20, apenas 6% tiveram aumento nos rendimentos e 2% não quiseram e/ou souberam opinar. 
+
+Ainda que muitas universidades públicas ofereçam auxílio financeiro para que estudantes possam morar no campus (ou próximo de) para estudarem, de acordo com os dados do Gráfico 21 observa-se que durante o período de pandemia 85% dos entrevistados não tiveram nenhum respaldo por parte da instituição educacional ou de outra organização. 
+
+```{r, grafico-21, echo=FALSE}
+# Dados do Gráfico 21
+casos_ajuda <- table(dbf.csv$ajuda_financeira, exclude = NULL)
+pct_ajuda <- paste(round(unname(casos_ajuda) / 
+                           sum(unname(casos_ajuda)) * 100), "%")
+#Gráfico 21: Recebeu auxílio financeiro da IES
+# Gráfico tipo "pizza"
+pie(casos_ajuda,
+    edges = 200, radius = 0.8,
+    clockwise = F,
+    density = NULL, angle = 90, col = c("red","blue", "gray","orange", "black", "white", "green"),
+    labels = paste(names(casos_ajuda), "-", pct_ajuda),
+    main = "Gráfico 21: Recebeu auxílio financeiro da IES")
+```
+
+Quanto ao nível de endividamento durante a pandemia, os estudantes afirmaram que 69% não tiveram alteração nos seus débitos, como é possível observar no Gráfico 22.
+
+```{r, grafico-22, echo=FALSE}
+# Dados do Gráfico 22
+casos_endividamento <- table(dbf.csv$nivel_endividamento, exclude = NULL)
+pct_endividamento <- paste(round(unname(casos_endividamento) / 
+                           sum(unname(casos_endividamento)) * 100), "%")
+#Gráfico 22: Dívidas durante pandemia
+# Gráfico tipo "pizza"
+pie(casos_endividamento,
+    edges = 200, radius = 0.8,
+    clockwise = F,
+    density = NULL, angle = 90, col = c("red","blue", "gray","orange", "black", "white", "green"),
+    labels = paste(names(casos_endividamento), "-", pct_endividamento),
+    main = "Gráfico 22: Dívidas durante a pandemia")
+```
+
+Já 13% afirmaram ter aumentado o seu nível de endividamento, 12% uma diminuição, e 6% não souberam informar, como ilustram os dados no Gráfico 22. 
+Pensando em um cenário "pós-pandêmico" (após o pico da pandemia 2020/2022), foi solicitado aos participantes manifestar quais gastos realizados por cada estudante que cresceram em diversos segmentos. 
+Nesta questão de resposta múltipla os respondentes poderiam indicar mais de um segmento concomitantemente. Os dados compilados das respostas estão ilustrados no Gráfico 23.  
+
+```{r, grafico-23, echo=FALSE}
+## Gráfico 23 
+# Descobrindo as ocorrências
+if(!("stringr") %in% installed.packages()) install.packages("stringr")
+library(stringr)
+perfil_despesas <- dbf.csv$despesas_cresceram # selecionando todos os casos da variável despesas cresceram
+relacionadas_saude <- length(na.omit(str_match(perfil_despesas, "Relacionadas com saúde")))
+viagens_deslocamentos <- length(na.omit(str_match(perfil_despesas, "Viagens/deslocamentos")))
+transporte_urbano <- length(na.omit(str_match(perfil_despesas, "Transporte urbano")))
+aluguel <- length(na.omit(str_match(perfil_despesas, "Aluguel")))
+internet <- length(na.omit(str_match(perfil_despesas, "Internet")))
+alimentacao <- length(na.omit(str_match(perfil_despesas, "Alimentação")))  
+outras <- length(na.omit(str_match(perfil_despesas, "Outras")))
+casos_perfil_despesas <- c(relacionadas_saude, viagens_deslocamentos, transporte_urbano, aluguel, internet, alimentacao, outras)
+names(casos_perfil_despesas) <- c("Relac. saúde", "Deslocamento", "Transp. urbano", 
+                                  "Aluguel", "Internet", "Alimentação", "Outras")
+pct_perfil_despesas <- paste0(round(unname(casos_perfil_despesas) / sum(unname(casos_perfil_despesas)) * 100,0), "%")
+# Gráfico do tipo barras
+graph.perfil.despesas <- barplot(casos_perfil_despesas, 
+                       main = "Gráfico 23: Despesas que cresceram na pandemia",
+                       xlab = "Despesas", 
+                       ylab = "Quantidade",
+                       col = "orange",
+                       ylim = c(0,max(casos_perfil_despesas) + 30))
+text(x = graph.perfil.despesas, y = casos_perfil_despesas, label = unname(casos_perfil_despesas), cex=1, pos=3)
+axis(1, at=graph.perfil.despesas, labels=paste("(", pct_perfil_despesas, ")"), tick=F, las=1, line=-1.0, cex.axis= 1.1)      
+```
+
+Dentre os gastos citados pelos respondentes pós pandemia e agrupados na figura do Gráfico 22, observa-se que o maior crescimento apontado foi com alimentação (25%), seguido pelo transporte urbano (15%) e deslocamento (14%). 
+Levando em consideração que, em sua maioria, os entrevistados tiveram que retomar pelo menos parcialmente ou de forma híbrida para seu trabalho e faculdade, tais despesas justificam ser os itens mais sinalizados.  
+
+## Análise qualitativa
+Questões das chuvas de palavras!
+Como agregar e analisá-las ?
+
+```{r, grafico-24, echo=FALSE}
+# Gráfico 23: situacao_durante-pandemia
+# Núvem de palavras
+
+#Load the packages
+if(!"wordcloud" %in% installed.packages()) install.packages("wordcloud")
+library(wordcloud)
+if(!"wordcloud2" %in% installed.packages()) install.packages("wordcloud2")
+library(wordcloud2)
+if(!"RColorBrewer" %in% installed.packages()) install.packages("RColorBrewer")
+library(RColorBrewer)
+if(!"tm" %in% installed.packages()) install.packages("tm")
+library(tm)
+
+#Carregando o texto e eliminando os NA (missing data)
+texto <- na.omit(dbf.csv$situação_durante_pandemia)
+
+# Criando um corpus  
+docs <- Corpus(VectorSource(texto))
+
+# Limpando o texto
+# Para utilizar o comando "pipe" (%>%) ou operador "tee pipe" (%T>%) , pode-se "carregar" o pacote magrittr
+if(!"magrittr" %in% installed.packages()) install.packages("magrittr")
+library(magrittr)
+docs <- docs %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stripWhitespace)
+docs <- tm_map(docs, content_transformer(tolower))
+docs <- tm_map(docs, removeWords, stopwords("portuguese"))
+
+# Criar uma matrix de termos de documento
+# Uma matriz de termos de documento é uma matriz matemática que descreve a frequência 
+# dos termos que ocorrem em uma coleção de documentos.
+dtm <- TermDocumentMatrix(docs) 
+matrix <- as.matrix(dtm) 
+words <- sort(rowSums(matrix),decreasing=TRUE) 
+df <- data.frame(word = names(words),freq=words)
+
+# Gerar a núvem de palavras
+set.seed(1234) # para reprodutibilidade 
+wordcloud(words = df$word, freq = df$freq, min.freq = 1, # menor "min.freq", maior/precisão, menor número/palavras     
+          max.words=200, random.order=FALSE, rot.per=0.35,       
+          colors=brewer.pal(8, "Dark2"))
+mtext("Gráfico 24: Situação durante a pandemia", side=3, line = 3)
+print("Principais ocorrências de palavras em situação durante a pandemia")
+for (k in 1:length (which(pmax(df$freq) > 2))) {
+  print(paste(df$word[k], df$freq[k],sep = " = " ))
+}
+```
+
+```{r, grafico-25, echo=FALSE}
+#Gráfico 24: Qualidade de vida
+#Carregando o texto e eliminando os NA (missing data)
+texto <- na.omit(dbf.csv$qualidade_de_vida)
+# Criando um corpus  
+docs <- Corpus(VectorSource(texto))
+# Limpando o texto
+docs <- docs %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stripWhitespace)
+docs <- tm_map(docs, content_transformer(tolower))
+docs <- tm_map(docs, removeWords, stopwords("portuguese"))
+# Criar uma matrix de termos de documento
+dtm <- TermDocumentMatrix(docs) 
+matrix <- as.matrix(dtm) 
+words <- sort(rowSums(matrix),decreasing=TRUE) 
+df <- data.frame(word = names(words),freq=words)
+# Gerar a núvem de palavras
+set.seed(1234) # para reprodutibilidade 
+wordcloud(words = df$word, freq = df$freq, min.freq = 1, # maior "min.freq", maior/precisão, menor número/palavras     
+          max.words=200, random.order=FALSE, rot.per=0.35,       
+          colors=brewer.pal(8, "Dark2"))
+mtext("Gráfico 25: Qualidade de vida", side=3, line = 3)
+print("Principais ocorrências de palavras em qualidade de vida")
+for (k in 1:length (which(pmax(df$freq) > 2))) {
+  print(paste(df$word[k], df$freq[k],sep = " = " ))
+  }
+```
+
+### -----------------------------------------------------------
+### Gráficos opinando com relação às ações tomadas pela IES  
+
+```{r, grafico-26, echo=FALSE}
+#Gráfico 41: IES fez de positivo na pandemia
+#Carregando o texto e eliminando os NA (missing data)
+texto <- na.omit(dbf.csv$ies_positivo)
+# Criando um corpus  
+docs <- Corpus(VectorSource(texto))
+# Limpando o texto
+docs <- docs %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stripWhitespace)
+docs <- tm_map(docs, content_transformer(tolower))
+docs <- tm_map(docs, removeWords, stopwords("portuguese"))
+# Criar uma matrix de termos de documento
+dtm <- TermDocumentMatrix(docs) 
+matrix <- as.matrix(dtm) 
+words <- sort(rowSums(matrix),decreasing=TRUE) 
+df <- data.frame(word = names(words),freq=words)
+# Gerar a núvem de palavras
+set.seed(1234) # para reprodutibilidade 
+wordcloud(words = df$word, freq = df$freq, min.freq = 1, # maior "min.freq", maior/precisão, menor número/palavras     
+          max.words=200, random.order=FALSE, rot.per=0.35,       
+          colors=brewer.pal(8, "Dark2"))
+mtext("Gráfico 26: IES fez de positivo na pandemia", side=3, line = 3)
+print("Principais ocorrências de palavras do que a IES fez de positivo na pandemia")
+for (k in 1:length (which(pmax(df$freq) > 2))) {
+     print(paste(df$word[k], df$freq[k],sep = " = " ))
+}
+```
+
+```{r, grafico-27, echo=FALSE}
+#Gráfico 42: IES poderia melhorar na pandemia
+#Carregando o texto e eliminando os NA (missing data)
+texto <- na.omit(dbf.csv$ies_melhorar)
+# Criando um corpus  
+docs <- Corpus(VectorSource(texto))
+# Limpando o texto
+docs <- docs %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stripWhitespace)
+docs <- tm_map(docs, content_transformer(tolower))
+docs <- tm_map(docs, removeWords, stopwords("portuguese"))
+# Criar uma matrix de termos de documento
+dtm <- TermDocumentMatrix(docs) 
+matrix <- as.matrix(dtm) 
+words <- sort(rowSums(matrix),decreasing=TRUE) 
+df <- data.frame(word = names(words),freq=words)
+# Gerar a núvem de palavras
+set.seed(1234) # para reprodutibilidade 
+wordcloud(words = df$word, freq = df$freq, min.freq = 1, # maior "min.freq", maior/precisão, menor número/palavras     
+          max.words=200, random.order=FALSE, rot.per=0.35,       
+          colors=brewer.pal(8, "Dark2"))
+mtext("Gráfico 27: IES poderia melhorar na pandemia", side=3, line = 3)
+print("Principais ocorrências de palavras do que a IES poderia melhorar na pandemia")
+for (k in 1:length (which(pmax(df$freq) > 2))) {
+  print(paste(df$word[k], df$freq[k],sep = " = " ))
+}
+```
+
+```{r, grafico-28, echo=FALSE}
+#Gráfico 43: IES poderia melhor ajudar na pandemia
+#Carregando o texto e eliminando os NA (missing data)
+texto <- na.omit(dbf.csv$ies_ajudar)
+# Criando um corpus  
+docs <- Corpus(VectorSource(texto))
+# Limpando o texto
+docs <- docs %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stripWhitespace)
+docs <- tm_map(docs, content_transformer(tolower))
+docs <- tm_map(docs, removeWords, stopwords("portuguese"))
+# Criar uma matrix de termos de documento
+dtm <- TermDocumentMatrix(docs) 
+matrix <- as.matrix(dtm) 
+words <- sort(rowSums(matrix),decreasing=TRUE) 
+df <- data.frame(word = names(words),freq=words)
+# Gerar a núvem de palavras
+set.seed(1234) # para reprodutibilidade 
+wordcloud(words = df$word, freq = df$freq, min.freq = 1, # maior "min.freq", maior/precisão, menor número/palavras     
+          max.words=200, random.order=FALSE, rot.per=0.35,       
+          colors=brewer.pal(8, "Dark2"))
+mtext("Gráfico 28: IES poderia melhor ajudar na pandemia", side=3, line = 3)
+print("Principais ocorrências de palavras do que a IES poderia melhora ajudar na pandemia")
+for (k in 1:length (which(pmax(df$freq) > 2))) {
+  print(paste(df$word[k], df$freq[k],sep = " = " ))
+}
+```
+
+## ------------------------------------------------------
+## Gráficos avaliando a situação psicológica dos alunos
+
+
+```{r, grafico-nono, echo=FALSE}
+# Dados do Gráfico 30
+casos_prosseguir_estudos <- table(dbf.csv$capacidade_prosseguir_estudos, exclude = NULL)
+pct_prosseguir_estudos <- paste(round(unname(casos_prosseguir_estudos) / 
+                                     sum(unname(casos_prosseguir_estudos)) * 100), "%")
+#Gráfico 30: Capacidade prosseguir estudos
+# Gráfico tipo "pizza"
+pie(casos_prosseguir_estudos,
+    edges = 200, radius = 0.8,
+    clockwise = T,
+    density = NULL, angle = 90, col = c("gray", "orange", "blue", "red","black", "white", "green"),
+    labels = paste(names(casos_prosseguir_estudos), "-", pct_prosseguir_estudos),
+    main = "Gráfico 30: Capacidade para prosseguir ou concluir estudos")
+```
+
+```{r, grafico-xoxo, echo=FALSE}
+# Dados do Gráfico 31
+casos_socializacao <- table(dbf.csv$capacidade_socializacao, exclude = NULL)
+pct_socializacao <- paste(round(unname(casos_socializacao) / 
+                                        sum(unname(casos_socializacao)) * 100), "%")
+#Gráfico 31: Capacidade de socialização
+# Gráfico tipo "pizza"
+pie(casos_socializacao,
+    edges = 200, radius = 0.8,
+    clockwise = T,
+    density = NULL, angle = 90, col = c("gray", "orange", "blue", "red","black", "white", "green"),
+    labels = paste(names(casos_socializacao), "-", pct_socializacao),
+    main = "Gráfico 31: Capacidade de socialização")
+```
+
+```{r, grafico-yoyo, echo=FALSE}
+# Dados do Gráfico 32
+casos_bem_estar <- table(dbf.csv$bem_estar_psicologico, exclude = NULL)
+pct_bem_estar <- paste(round(unname(casos_bem_estar) / 
+                                  sum(unname(casos_bem_estar)) * 100), "%")
+#Gráfico 32: Bem-estar psicológico
+# Gráfico tipo "pizza"
+pie(casos_bem_estar,
+    edges = 200, radius = 0.8,
+    clockwise = F,
+    density = NULL, angle = 90, col = c("gray", "orange", "blue", "white", "black", "red",  "green"),
+    labels = paste(names(casos_bem_estar), "-", pct_bem_estar),
+    main = "Gráfico 32: Bem-estar psicológico")
+
+```
+
+
+```{r, grafico-zaza, echo=FALSE}
+# Dados do Gráfico 33
+casos_espaco_fisico <- table(dbf.csv$espaco_físico, exclude = NULL)
+pct_espaco_fisico <- paste(round(unname(casos_espaco_fisico) / 
+                                      sum(unname(casos_espaco_fisico)) * 100), "%")
+#Gráfico 33: Espaço físico utilizado para atividades escolares
+# Gráfico tipo "pizza"
+pie(casos_espaco_fisico,
+    edges = 200, radius = 0.8,
+    clockwise = F,
+    density = NULL, angle = 90, col = c("gray", "orange", "blue", "red", "black", "white", "green"),
+    labels = paste(names(casos_espaco_fisico), "-", pct_espaco_fisico),
+    main = "Gráfico 33: Espaço físico utilizado para atividades escolares")
+```
+
+```{r, grafico-mana, echo=FALSE}
+# Dados do Gráfico 34
+casos_disposicao <- table(dbf.csv$disposicao_atividades, exclude = NULL)
+pct_disposicao <- paste(round(unname(casos_disposicao) / 
+                                   sum(unname(casos_disposicao)) * 100), "%")
+#Gráfico 34: Disposição para participar das atividades escolares
+# Gráfico tipo "pizza"
+pie(casos_disposicao,
+    edges = 200, radius = 0.8,
+    clockwise = F,
+    density = NULL, angle = 90, col = c("gray",  "red", "blue","orange", "black", "white", "green"),
+    labels = paste(names(casos_disposicao), "-", pct_disposicao),
+    main = "Gráfico 34: Disposição para participar das atividades escolares")
+```
+
+
+```{r, grafico-mona, echo=FALSE}
+# Dados do Gráfico 35
+casos_ansiedade <- table(dbf.csv$nivel_ansiedade, exclude = NULL)
+pct_aniedade <- paste(round(unname(casos_ansiedade) / 
+                                sum(unname(casos_ansiedade)) * 100), "%")
+#Gráfico 35: Nível de ansiedade para o futuro
+# Gráfico tipo "pizza"
+pie(casos_ansiedade,
+    edges = 200, radius = 0.8,
+    clockwise = F,
+    density = NULL, angle = 90, col = c("white","blue", "gray","orange", "black", "red", "green"),
+    labels = paste(names(casos_ansiedade), "-", pct_aniedade),
+    main = "Gráfico 35:  Nível de ansiedade quanto ao futuro")
+```
+
+```{r, grafico-zumba, echo=FALSE}
+# Dados do Gráfico 36
+casos_ansiedade_planejamento <- table(dbf.csv$ansiedade_planejamento, exclude = NULL)
+pct_ansiedade_planejamento <- paste(round(unname(casos_ansiedade_planejamento) / 
+                              sum(unname(casos_ansiedade_planejamento)) * 100), "%")
+#Gráfico 36: Nível de ansiedade para planejamento pessoal
+# Gráfico tipo "pizza"
+pie(casos_ansiedade_planejamento,
+    edges = 200, radius = 0.8,
+    clockwise = F,
+    density = NULL, angle = 90, col = c("black","blue", "gray","orange", "red", "white", "green"),
+    labels = paste(names(casos_ansiedade_planejamento), "-", pct_ansiedade_planejamento),
+    main = "Gráfico 36: Nível de ansiedade para planejamento pessoal")
+```
+
+```{r, grafico-cuca, echo=FALSE}
+# Dados do Gráfico 37
+casos_ansiedade_longo <- table(dbf.csv$ansiedade_longo_prazo, exclude = NULL)
+pct_ansiedade_longo <- paste(round(unname(casos_ansiedade_longo) / 
+                                            sum(unname(casos_ansiedade_longo)) * 100), "%")
+#Gráfico 37: Nível de ansiedade para planejamento a longo prazo
+# Gráfico tipo "pizza"
+pie(casos_ansiedade_longo,
+    edges = 200, radius = 0.8,
+    clockwise = F,
+    density = NULL, angle = 90, col = c("black","blue", "gray","orange", "red", "white", "green"),
+    labels = paste(names(casos_ansiedade_longo), "-", pct_ansiedade_longo),
+    main = "Gráfico 37: Nível de ansiedade para planejamento a longo prazo")
+```
+
+
+## --------------------------------------------------
+## Opinião dos alunos sobre as dificuldades - principais palavras utilizadas
+
+```{r, grafico-38, echo=FALSE}
+#Gráfico 38: Dificuldades financeiras durante a pandemia
+#Carregando o texto e eliminando os NA (missing data)
+texto <- na.omit(dbf.csv$dificuldades_financeiras)
+# Criando um corpus  
+docs <- Corpus(VectorSource(texto))
+# Limpando o texto
+docs <- docs %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stripWhitespace)
+docs <- tm_map(docs, content_transformer(tolower))
+docs <- tm_map(docs, removeWords, stopwords("portuguese"))
+# Criar uma matrix de termos de documento
+dtm <- TermDocumentMatrix(docs) 
+matrix <- as.matrix(dtm) 
+words <- sort(rowSums(matrix),decreasing=TRUE) 
+df <- data.frame(word = names(words),freq=words)
+# Gerar a núvem de palavras
+set.seed(1234) # para reprodutibilidade 
+wordcloud(words = df$word, freq = df$freq, min.freq = 1, # maior "min.freq", maior/precisão, menor número/palavras     
+          max.words=200, random.order=FALSE, rot.per=0.35,       
+          colors=brewer.pal(8, "Dark2"))
+mtext("Gráfico 38: Dificuldades financeiras durante a pandemia", side=3, line = 3)
+print("Principais ocorrências de palavras das dificuldades financeiras durante a pandemia")
+for (k in 1:length (which(pmax(df$freq) > 2))) {
+    print(paste(df$word[k], df$freq[k],sep = " = " ))
+  }
+```
+
+
+```{r, grafico-sobrou, echo=FALSE}
+#Gráfico 39: Dificuldades acadêmicas durante a pandelia
+#Carregando o texto e eliminando os NA (missing data)
+texto <- na.omit(dbf.csv$dificuldades_academicas)
+# Criando um corpus  
+docs <- Corpus(VectorSource(texto))
+# Limpando o texto
+docs <- docs %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stripWhitespace)
+docs <- tm_map(docs, content_transformer(tolower))
+docs <- tm_map(docs, removeWords, stopwords("portuguese"))
+# Criar uma matrix de termos de documento
+dtm <- TermDocumentMatrix(docs) 
+matrix <- as.matrix(dtm) 
+words <- sort(rowSums(matrix),decreasing=TRUE) 
+df <- data.frame(word = names(words),freq=words)
+# Gerar a núvem de palavras
+set.seed(1234) # para reprodutibilidade 
+wordcloud(words = df$word, freq = df$freq, min.freq = 1, # maior "min.freq", maior/precisão, menor número/palavras     
+          max.words=200, random.order=FALSE, rot.per=0.35,       
+          colors=brewer.pal(8, "Dark2"))
+mtext("Gráfico 39: Dificuldades acadêmicas durante a pandemia", side=3, line = 3)
+print("Principais ocorrências de palavras das dificuldades acadêmicas durante a pandemia")
+for (k in 1:length (which(pmax(df$freq) > 2))) {
+    print(paste(df$word[k], df$freq[k],sep = " = " ))
+  }
+```
+
+
+```{r, grafico-40, echo=FALSE}
+#Gráfico 40: Comentários finais
+#Carregando o texto e eliminando os NA (missing data)
+texto <- na.omit(dbf.csv$detalhes_finais)
+
+# Criando um corpus  
+docs <- Corpus(VectorSource(texto))
+
+# Limpando o texto
+docs <- docs %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stripWhitespace)
+docs <- tm_map(docs, content_transformer(tolower))
+docs <- tm_map(docs, removeWords, stopwords("portuguese"))
+
+# Criar uma matrix de termos de documento
+dtm <- TermDocumentMatrix(docs) 
+matrix <- as.matrix(dtm) 
+words <- sort(rowSums(matrix),decreasing=TRUE) 
+df <- data.frame(word = names(words),freq=words)
+
+# Gerar a núvem de palavras
+set.seed(1234) # para reprodutibilidade 
+wordcloud(words = df$word, freq = df$freq, min.freq = 1, # maior "min.freq", maior/precisão, menor número/palavras     
+          max.words=200, random.order=FALSE, rot.per=0.35,       
+          colors=brewer.pal(8, "Dark2"))
+mtext("Gráfico 40: Comentários finais", side=3, line = 3)
+print("Principais ocorrências de palavras nos comentários finais")
+for (k in 1:length (which(pmax(df$freq) > 2))) {
+     print(paste(df$word[k], df$freq[k],sep = " = " ))
+}
+```
+
+
+## Sobras ?
+
+
+```{r, grafico-nana, echo=FALSE}
+# Dados do Gráfico 19
+casos_acesso_saude <- table(dbf.csv$acesso_servicos_saude, exclude = NULL)
+pct_acesso_saude <- paste(round(unname(casos_acesso_saude) / 
+                                     sum(unname(casos_acesso_saude)) * 100), "%")
+#Gráfico 19: Acesso aos serviços de saude
+# Gráfico tipo "pizza"
+pie(casos_acesso_saude,
+    edges = 200, radius = 0.8,
+    clockwise = T,
+    density = NULL, angle = 90, col = c("gray", "orange", "blue", "red","black"),
+    labels = paste(names(casos_acesso_saude), "-", pct_acesso_saude),
+    main = "Gráfico ?: Acesso aos serviços de saude")
+```
+
+## Resultados e Discussão  
+Após a análise dos dados oriundos do questionário, foi observado que as respostas recebidas não estão totalmente distantes da realidade brasileira após período crítico de pandemia. Porém, deve-se ressaltar alguns tópicos que chamam a atenção por revelarem informações sobre dificuldades que, até então, pareciam representar uma parcela distante da população comparada à bolha social de cada indivíduo.  
+Como primeiro exemplo, deve-se citar os 2% universitários que não migraram para o ensino virtual. Esse valor ainda foi superior que o identificado em escolas públicas e particulares, segundo pesquisa divulgada pela Agência Senado:  
+
+No ensino privado, 70,9% das escolas ficaram fechadas no ano passado. O número é consideravelmente menor que o da rede pública: 98,4% das escolas federais, 97,5% das municipais e 85,9% das estaduais. (Agência Senado)
+
+Contudo, de acordo com o  Presidente da Comissão de Educação da Alerj durante a pandemia, Flavio Serafini (Psol), a rede estadual não conseguia apresentar (na época) uma solução que garantisse o direito ao ensino durante a pandemia. 
+Mais de um terço dos alunos sequer acessou o aplicativo do estado, e a média de uso diário é inferior a 10% do total de estudantes na maioria dos dias. Isso mostra que o que foi desenvolvido até agora é muito limitado. Faltou uma política de inclusão digital mais estruturante." (EXTRA, 2021). 
+Isso fez com que a qualidade da aprendizagem caísse e o déficit educacional aumentasse, agravando ainda mais a desigualdade. 
+A crise financeira iniciada em 2014 foi causada por um conjunto de choques de oferta e demanda, obrigando gestores públicos a adotarem instrumentos políticos para atenuar seus efeitos (Mariano, 2016), porém a tão temida crise da pandemia não teve quaisquer indícios ou sinais semelhantes ao anterior. De acordo com  o relatório  do Banco Mundial, a recessão decorrente da pandemia atingiu seu ápice, em número de países atingidos, nos últimos 120 anos (PODER 360, 2022). 
+
+"O Brasil desembolsou 15% do PIC (...) para conter os efeitos da covid no 1 ano de pandemia. (...) O endividamento dos países tende a se agravar, disse Ramalho, por outra consequência global da pandemia: a alta da inflação." (PODER 360, 2022).  
+
+De acordo com a fonte, o Banco Mundial ainda estima que 76 milhões de pessoas entraram em 2020 para a extrema pobreza. O crescimento da desigualdade não foi causado apenas por conta da pandemia, contudo os mais vulneráveis ficaram excluídos até de medidas como o  Auxílio Emergencial, já que  muitos não têm acesso à internet. Segundo o IBGE, em 2021, 92,3% dos domicílios urbanos brasileiros têm acesso à Internet (PNAD, 2022). Entretanto, a desigualdade também se apresenta nesses casos, já que 100% dos lares da classe A têm ao menos um computador, e apenas 13% dos de classe D e E.  
+Paralelamente, é importante destacar que boa parte dos entrevistados sofreram consequências mais brandas no âmbito educacional. Apesar de enfrentarem as mesmas dificuldades, como por exemplo, a falta de acesso à estrutura universitária em determinadas situações, de modo geral pode-se concluir que não sofreram impactos grandiosos que resultam no rompimento das atividades acadêmicas ou sua conclusão.  
+
+## Conclusão
+Diante dos resultados apresentados, conclui-se que a maior parte dos estudantes universitários desta pesquisa conseguiu passar pelo período problemático da pandemia sem grandes mudanças na sua vida acadêmica.  
+As universidades em que estão matriculados migraram para o ensino remoto e adaptando-se às necessidades para atender os docentes, inclusive no quesito infraestrutura, mesmo boa parte relatando algumas dificuldades em acessá-la sem grandes problemas. 
+No quesito financeiro, ao contrário das expectativas de refletir o cenário nacional, os resultados mostraram que boa parte não sofreu grandes impactos e puderam continuar com sua rotina sem alardes. Um ponto interessante a ser citado uma vez que, mesmo possuindo fonte de renda, alguns receberam auxílio para complementar.  
+Quanto ao desempenho durante o período de ensino remoto, ainda que alguns sentiram maiores dificuldades e até mesmo uma queda em sua performance, conta-se um desempenho positivo entre a maioria que manteve a mesma produtividade.  
+Uma das principais limitações deste estudo é o fato de a amostra engloba basicamente estudantes de uma única universidade pública no Brasil, ou seja, os resultados podem não ser representativos de toda a população universitária em nível nacional ou até mesmo regional. No entanto, a taxa está dentro da faixa esperada de respostas pelos autores, usando pesquisas on-line com estudantes universitários.  
+Considerando que não usamos uma amostragem aleatória e que a prevalência de problemas financeiros, logísticos de isolamento, de desempenho estudantil, e satisfação quanto às medidas adotadas pelas universidades, podem variar de acordo com o momento em que a avaliação foi feita, e concepção pessoal. Por conta das diferenças populacionais, e instrumentos usados, comparações entre outros levantamentos e pesquisas devem ser feitas com cautela.  
+
+## Bibliografia
+BUTANTAN. Por que acontecem mutações do SARS-CoV-2 e quais as diferenças entre cada uma das variantes. 2021 . Disponível em: https://butantan.gov.br/noticias/por-que-acontecem-mutacoes-do-sars-cov-2-e-quais-as-diferencas-entre-cada-uma-das-variantes.
+
+BRICEÑO-LEÓN, R. (2003). Quatro modelos de integração de técnicas qualitativas e quantitativas de investigação nas ciências sociais. O Clássico e o novo–tendências, objetos e abordagens em ciências sociais e saúde, 157-186. Disponível em: https://books.scielo.org/id/d5t55/pdf/goldenberg-9788575412510.pdf#page=157.  
+
+CAMPOS, Mônica Rodrigues et al. Carga de doença da COVID-19 e de suas complicações agudas e crônicas: reflexões sobre a mensuração (DALY) e perspectivas no Sistema Único de Saúde. Cadernos de Saúde Pública [online]. v. 36, n. 11. Disponível em: <https://doi.org/10.1590/0102-311X00148920>. ISSN 1678-4464. https://doi.org/10.1590/0102-311X00148920. Acessado 23 Janeiro 2023.  
+
+CEPAL. Pandemia provoca aumento nos níveis de pobreza sem precedentes nas últimas décadas e tem um forte impacto na desigualdade e no emprego. 2021. Disponível em: 
+https://www.cepal.org/pt-br/comunicados/pandemia-provoca-aumento-niveis-pobreza-sem-precedentes-ultimas-decadas-tem-forte.  
+
+DE NEGRI, Fernanda et al. Ciência e Tecnologia frente à pandemia: Como a pesquisa científica e a inovação estão ajudando a combater o novo coronavírus no Brasil e no mundo. Centro de Pesquisa em Ciência, Tecnologia e Sociedade. IPEA, Brasília, DF. 23 dez. 2020. Disponível em: https://www.ipea.gov.br/cts/pt/central-de-conteudo/artigos/artigos/182-corona. Acesso em: 14 mai. 2022.  
+
+EXTRA. Migração para as escolas públicas cresce 30% na pandemia, e rede privada perde 50 mil alunos. 2021. Disponível em: https://extra.globo.com/noticias/rio/migracao-para-as-escolas-publicas-cresce-30-na-pandemia-rede-privada-perde-50-mil-alunos-25138212.html.  
+
+FIOCRUZ. 2021. Aula inaugural analisa consequências das decisões brasileiras no enfrentamento à pandemia. Disponível em: https://informe.ensp.fiocruz.br/noticias/51262.  
+
+GUSSO, Hélder Lima et al. Ensino Superior em Tempos de Pandemia: Diretrizes à Gestão Universitária. Educação & Sociedade, vol. 41, p. 1-27, set. 2020.  
+
+IBGE. PNAD Contínua - Módulo de Tecnologia de Informação e Comunicação (TIC)  2021.  Disponível em: https://www.ibge.gov.br/estatisticas/multidominio/ciencia-tecnologia-e-inovacao/17270-pnad-continua.html?=&t=resultados.  
+
+JAMES, G., WITTEN, D., HASTIE, T., TIBSHIRANI, R. (2013). An Introduction to Statistical Learning. Springer.  
+
+MARIANO, Jefferson, Barcellos, Lívia I. (2017). Estratégias de gestão dos municípios em cenário de crise socioeconômica. Geografia e Pesquisa, 11(2).  
+
+MORAES, Rodrigo Fracalossi de. Medidas Legais de Incentivo ao Distanciamento Social: Comparação das Políticas de Governos Estaduais e Prefeituras das Capitais no Brasil. IPEA, Brasília, DF, abr. 2020. Disponível em: http:// https://repositorio.ipea.gov.br/handle/11058/10096. Acesso em: 13 mar. 2023.  
+
+O GLOBO.  Por que o negacionismo atrapalha o combate à Covid?. 2021. Disponível em:
+https://oglobo.globo.com/podcast/por-que-negacionismo-atrapalha-combate-covid-1-24931788.  
+
+PODER 360.  Pandemia causou recessão mais ampla que as guerras mundiais. 2022. Disponível em: https://www.poder360.com.br/economia/pandemia-causou-recessao-mais-ampla-que-as-guerras-mundiais/.  
+
+UOL. Covid: 172,6 milhões de brasileiros completam vacinação, 80,3% da população. Disponível em:
+https://noticias.uol.com.br/saude/ultimas-noticias/redacao/2023/01/11/vacinacao-covid-19-coronavirus-11-de-janeiro.htm?cmpid=copiaecola. Acesso em: 12 de jan. de 2023. 
+
+UNA-SUS. Organização Mundial de Saúde declara pandemia do novo Coronavírus. Disponível em:
+https://www.unasus.gov.br/noticia/organizacao-mundial-de-saude-declara-pandemia-de-coronavirus. Acesso em: 10 de jan. de 2023.  
+
+VEJA. As lições da pandemia de Covid-19 – que está chegando ao fim. 2021 . Disponível em:
+https://veja.abril.com.br/saude/os-sinais-de-que-a-pandemia-de-covid-19-vai-acabar-em-breve/.  
+
+World Health Organization. (2020). Pandemic influenza preparedness and response: A WHO guidance document. Disponível em: https://www.who.int/csr/disease/influenza/pipguidance2009/en/. Acesso em 13 mar. 2023.  
+
+

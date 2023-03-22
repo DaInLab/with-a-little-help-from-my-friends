@@ -1,0 +1,434 @@
+---
+title: "Quatro pacotes em R para realizar AED automatizada."
+author:
+- Nicolo Cosimo Albanese
+- "Tradução - João Pedro Albino"
+date: "`r format(Sys.time(), '%d/%m/%Y')`"
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
+subtitle: Ferramentas úteis para a análise exploratória de dados por meio de exemplos
+  práticos em R.
+---
+```{r setup, include=FALSE}
+# Função para obter em qual ambiente (Sistema Operacional) o RStudio está sendo executado
+get_os <- function(){
+  sysinf <- Sys.info()
+  if (!is.null(sysinf)){
+    os <- sysinf['sysname']
+    if (os == 'Darwin')
+      os <- "osx"
+  } else { ## mystery machine
+    os <- .Platform$OS.type
+    if (grepl("^darwin", R.version$os))
+      os <- "osx"
+    if (grepl("linux-gnu", R.version$os))
+      os <- "linux"
+  }
+  tolower(os)
+}
+
+if (get_os() == "windows"){
+  knitr::opts_knit$set(root.dir = "D:/Github/with-a-little-help-from-my-friends")
+  knitr::opts_knit$set(fig_path = ".jpg", list(fig.path = "D:/Github/with-a-little-help-from-my-friends/figuras/", label = "EDA-"), 1:2)
+}
+if (get_os() == "osx"){
+     knitr::opts_knit$set(root.dir = "/Users/jpalbino/Library/Mobile Documents/com~apple~CloudDocs/GitHub//with-a-little-help-from-my-friends")
+     knitr::opts_knit$set(fig_path = ".jpg", list(fig.path = "/Users/jpalbino/Library/Mobile Documents/com~apple~CloudDocs/GitHub/with-a-little-help-from-my-friends/figuras/", label = "EDA-"), 1:2)
+}
+
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+![Imagem do autor.](/Users/jpalbino/Library/Mobile Documents/com~apple~CloudDocs/GitHub/with-a-little-help-from-my-friends/figuras/four-EDA-imagem1.jpg)
+
+## Índice
+1. Introdução  
+2. Pacotes de Análise de Dados Exploratórios Automatizados  
+2.1 Data Explorer  
+2.2 GGally  
+2.3 SmartEDA  
+2.4 tableone  
+3. Conclusões  
+4. Referências  
+
+## 1. Introdução  
+A **Análise Exploratória de Dados** (EDA - *Exploratory Data Analysis*) visa realizar uma investigação inicial sobre os dados, resumindo suas características por meio de técnicas estatísticas e de visualização. É uma etapa inicial crítica em qualquer fluxo de trabalho de Ciência de Dados.  
+Neste artigo, serão mostrados quatro pacotes em R que facilitam essa tarefa inicial e fornecem uma ajuda importante no manuseio, visualização e geração de relatórios de dados.  
+Como exemplo, será utilizado o Conjunto de Dados de Doenças Cardiovasculares[^1], composto pelos seguintes recursos (dicionário de ddos):
+
+1. id: identificador único do paciente (int)  
+2. sex : sexo do paciente (1: feminino, 2: masculino)  
+3. age: idade em dias (int)  
+4. height: altura em cm (int)  
+5. weight: peso em kg (float)  
+6. ap_hi: pressão arterial sistólica (int)
+7. ap_lo: pressão arterial diastólica (int)
+8. cholesterol: colesterol (1: normal, 2: acima do normal, 3: bem acima do normal)
+9. gluc: glicose (1: normal, 2: acima do normal, 3: bem acima do normal)
+10. smoke: se o paciente fuma ou não (binário)
+11. alco: consumo de álcool (binário)
+12. active: atividade física (binário)
+13. cardio: presença ou ausência de doença cardiovascular (binário)  
+
+Antes de importar o conjunto de dados para a linguagem R, será necessário carregar as bibliotecas que serão utilizadas neste exemplo:
+
+```{r instalando_bibliotecas}
+# --- Carregando as bibliotecas
+if (!("tidyverse") %in% installed.packages()) install.packages("tidyverse")
+if (!("dplyr") %in% installed.packages()) install.packages("dplyr")
+if (!("readr") %in% installed.packages()) install.packages("readr")
+
+library(dplyr)
+library(readr)
+
+```
+
+O próximo passo é importar o dataset para o R e observar suas primeiras linhas:
+```{r importar-e-pre-processar}
+# lendo o arquivo em csv
+df <- 
+  read_delim(
+    file = "./dados/cardio_train.csv",
+    col_types = "iifidiiffffff",
+    delim=";")
+
+
+# pre-processando (preparando os dados)
+df <- 
+  # remover a variável id
+  select(df, -id) %>%
+  # variável age: transformando dias -> anos
+  mutate(age = round(age / 365))
+
+# mostrando as primeiras linhas
+head(df)
+```
+
+Figura 1. Observação das primeiras colunas.  
+
+
+A *biblioteca Base* do R oferece a função (comando) summary [^2], uma função genérica utilizada para produzir visões gerais de diferentes objetos, tais como de um conjuntos de dados.  
+Em particular, quando um conjunto de dados é fornecido como entrada (por exemplo, *summary(df)*), a funçãao retorna diferentes métricas (tais como: média; mediana; min; max; …) para colunas (variáveis) numéricas e a distribuição (contagens) para colunas categóricas.  
+A função também retorna informações sobre *dados ausentes* (missing data), se existirem:  
+
+```{r sumário_df}
+summary(df)
+```
+
+Figura 2. Saída da função *summary(df)*.  
+
+Com as características do conteúdo do dataframe **df** visualizados e compreendidos, mostraremos os quatro pacotes aqui selecionados que fornecem recursos adicionais para a exploração dos dados.  
+
+## 2. Pacotes de Análise de Dados Exploratórios Automatizados
+### 2.1. DataExplorer (Explorador de dados)    
+O DataExplorer[^3] simplifica e automatiza o processo de AED e a geração de relatórios.  
+O pacote verifica automaticamente cada variável e estabelecendo o perfil dos dados (data profilling[^4]) e oferece várias funções úteis para gerar gráficos diferentes em recursos discretos e contínuos.
+É importante ressaltar que o pacote permite gerar um relatório HTML completo sem esforço invocando a útil função create_report em um conjunto de dados (por exemplo, create_report(df)). É possível passar argumentos adicionais, tal como uma *variável de resposta y*, para adicionar diferentes análises bivariadas ao relatório.
+O trecho de codigo a seguir produz um arquivo do tipo HTML[^5] no diretório de trabalho. 
+
+```{r DataExplorer}
+# Carregando a biblioteca DataExplorer
+if (!("DataExplorer") %in% installed.packages()) install.packages("DataExplorer")
+library(DataExplorer)
+
+# Criando o relatório em formato HTML
+df %>%
+  create_report(
+    output_file = paste("Report", format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z"), sep=" - "),
+    report_title = "Relatório AED - Conjunto de dados sobre doenças cardiovasculares",
+    y = "cardio"
+  )
+
+```
+
+Quando aberto em um navegador, o relatório é mostrado da seguinte forma:  
+
+![Figura 3. Parte inicial do relatório em HTML.](/Users/jpalbino/Library/Mobile Documents/com~apple~CloudDocs/GitHub/with-a-little-help-from-my-friends/figuras/EDA-DataExplorer-Relatorio.png)
+
+A parte inicial do relatório em HTML apresenta um sumário detalhado da análise exploratória realizada.  
+Como pode ser visto no índice, o relatório compreende a maioria das tarefas realizadas durante o AED e pode ser gerado por uma única linha de código.  
+Outras funções adicionais do pacote para tarefas específicas são relatadas individualmente, como por exemplo:  
+
+#### 2.1.1 *plot_str(df)*: Plotagem da estrutura do conjunto de dados  
+
+```{r plot_DataExplorer-1_df}
+plot_str(df)
+```
+
+Figura 4. Saída do comando plot_str(df).  
+
+#### 2.1.2 *plot_bar(df)*: Gráfico de barras para cada variável discreta  
+
+```{r plot_DataExplorer-2_df}
+plot_bar(df)
+```
+
+Figura 5. Saída do comando plot_bar(df).  
+
+#### 2.1.3 *plot_bar(df)*: Gráfico de barras agrupado por uma variável discreta 
+A apresentação dos gráficos também podem ser agrupados por uma variável discreta, por exemplo, a presença de uma doença cardiovascular, utilizando o comando:
+
+```{r plot_DataExplorer-3_df}
+plot_bar(df, by="cardio")
+```
+
+Figura 6. Saída do comando plot_bar(df, by="cardio"), agrupado por uma variável discreta (cardio).  
+
+#### 2.1.4 *plot_qq(df)*: Gráfico quantil-quantil para cada variável contínua  
+Ao observar os gráficos, pode-se observar prontamente que os pacientes com doença cardiovascular apresentam maiores valores de colesterol e podem induzir a melhor investigação do risco de doença cardiovascular representado pelo colesterol mais elevado por meio de testes estatísticos.
+
+```{r plot_DataExplorer-4_df}
+plot_qq(df)
+```
+
+Figura 7. Saída do comando plot_qq(df).  
+
+Ao observar o primeiro gráfico QQ (variável age (idade)), pode-se notar que os pontos tendem a se curvar nas extremidades, indicando que a variável *ade* (idade) tem valores mais extremos do que teria se tivesse uma distribuição normal (esse comportamento cai sob o nome de "caudas pesadas").  
+
+#### 2.1.5 *plot_density(df)*: Gráfico de estimativas de densidade para cada característica contínua    
+
+```{r plot_DataExplorer-5_df}
+plot_density(df)
+```
+
+Figura 8. Saída do comando plot_density(df).  
+
+#### 2.1.6 *plot_correlation(df)*: Gráfico de mapa de calor de correlação (heatmap) 
+
+```{r plot_DataExplorer-6_df}
+plot_correlation(df)
+```
+
+Figura 9. Saída do comando plot_correlation(df). 
+
+#### 2.1.7 *plot_prcomp(df)*:  Gráfico da Análise de Componentes Principais (PCA)   
+
+Este comando realiza a Análise de Componentes Principais (PCA - Principal Component Analysis) e plota a porcentagem de variância explicada por cada componente principal.
+
+```{r plot_DataExplorer-7_df}
+plot_prcomp(df)
+```
+
+Figura 9. Saída do comando plot_prcomp(df). 
+
+Muitos outros recursos estão disponíveis na documentação do pacote **DataExplorer[^6]** contém a lista completa das funções disponíveis.
+
+### 2.2 GGally  
+O GGally[^7] estende o popular pacote de plotagem ggplot2 fornecendo recursos para visualizar automaticamente conjuntos de dados e combinar objetos geométricos.
+Em particular, pode-se alavancar a função ggpairs[^8] em um conjunto de dados (por exemplo, ggpairs(df)) e obter o gráfico de pares mostrando as interações de cada variável com cada uma das outras.  
+
+A etapa inicial é carregar o pacote GGally:  
+
+```{r carregando_GGally}
+if (!("GGally") %in% installed.packages()) install.packages("GGally")
+library(GGally)
+```
+Preparando os dados e plotando o gráfico:  
+
+```{r preparando_GGally}
+# change plot size (optional)
+options(repr.plot.width = 20, repr.plot.height = 10)
+
+df %>% 
+  select("age", "cholesterol", "height", "weight") %>%
+  ggpairs(mapping = aes(color = df$cardio, alpha = 0.5))
+```
+Figura 10. Gráfico do pacote GGAlly.  
+
+A função **ggpairs** oferece uma maneira fácil de gerar gráficos para análise descritiva, sendo útil para **identificar valores discrepantes **,  **observar distribuições ** e  **inspecionar visualmente as diferenças entre os grupos**.  
+Em nosso exemplo, optamos por simplificar a geração de gráficos para apenas quatro variáveis do conjunto de dados (**df %>% select("idade", "colesterol", "altura", "peso")**) e aplicamos cores diferentes com base na presença de doença cardiovascular através da estética **ggplot2 (aes(color = df$cardio, alpha = 0.5))**.  
+Os gráficos podem ser personalizados especificando os tipos de gráficos desejados nos painéis inferior, superior e diagonal[^9].  
+
+### 2.3 SmartEDA
+O SmartEDA[^10] é um kit de ferramentas poderoso que automatiza a maioria das tarefas AED, fornecendo funções para:
+•	Estatísticas descritivas  
+• Visualização de dados  
+• Tabelas personalizadas  
+• Relatórios HTML.    
+Da mesma forma que foi mostrado com o **DataExplorer**, no pacote **SmartEDA** pode-se gerar um relatório HTML completo utilizando-se a função **ExpReport**. Pode-se especificar uma variável de resposta **Target** para incluir mais análises bivariadas no relatório proposto.  
+O **snippet**[^11] abaixo produz um arquivo chamado **Report.html** no diretório de trabalho. 
+Quando aberto com um navegador, ele mostra a seguinte estrutura:  
+
+```{r pacote-SmartEda}
+if (!("SmartEDA") %in% installed.packages()) install.packages("SmartEDA")
+library(SmartEDA)
+
+# similarly, with dplyr syntax: df %>% ExpReport(...)
+ExpReport(
+  df,
+  Target="cardio",
+  label=NULL,
+  op_file="Report.html",
+  op_dir=getwd())
+```
+
+![Figura 11. Parte inicial do relatório AED do pacote SmartEDA, com sumário completo.](/Users/jpalbino/Library/Mobile Documents/com~apple~CloudDocs/GitHub/with-a-little-help-from-my-friends/figuras/SmartEDA-imagem1.jpg)
+
+O relatório emitido pelo pacote SmartEda contém um completo conjunto de análises exploratórias e pode ser produzido sem esforços de codificação.  
+Adicionais funções para tarefas específicas no pacote são relatadas nos exemplos mostrados nos tópicos a seguir.  
+#### 2.3.1 ExpData(data=df, type=1). Exibir um resumo geral de um conjunto de dados.  
+
+```{r pacote-SmartEda-1}
+ExpData(data=df, type=1)
+```
+
+Figura 12. Saída do comando ExpData(data=df, type=1).  
+A função ExpData() exibe as dimensões do conjunto de dados, os nomes e tipos de cada variável e apresenta um resumo geral dos dados ausentes (missing data).  
+
+#### 2.3.2 ExpData(data=df, type=2). Mostrar de forma resumida a estrutura do conjunto de dados.  
+
+```{r pacote-SmartEda-2}
+ExpData(data=df, type=2)
+```
+
+Figura 13. Saída do comando ExpData(data=df, type=2).  
+
+#### 2.3.3 ExpCatStat(df, Target="cardio", Pclass="1", plot=TRUE). Exibir a importância da variável selecionada com base no valor da informação.  
+A função fornece dados estatísticos resumidos da variável selecionada para todas as variáveis categóricas ou caracter do dataframe.  
+
+```{r pacote-SmartEda-3}
+ExpCatStat(df, Target="cardio", Pclass="1", plot=T)
+```  
+Figura 13. Saída do comando ExpCatStat(df, Target="cardio", Pclass="1", plot=T).  
+
+A partir dessa saída, podemos obter informações sobre o *grau de associação* e o *poder preditivo* de cada covariável em relação à variável doença cardiovascular (Target="cardiovascular disease"). Em particular, podemos observar que a pressão arterial sistólica e diastólica são categorizadas como “Altamente preditivas” de doenças cardiovasculares, enquanto o colesterol e a idade parecem ser “Médias preditivas”. A função também produz um gráfico do valor da informação de cada variável.  
+A função **ExpCatStat()** combina os resultados do peso da evidência, valor da informação e estatísticas resumidas. 
+O pacote SmartEDA oferece uma diversidade de funções úteis para produzir gráficos e tabelas. A lista completa de funções disponíveis, juntamente com exemplos, está disponível na documentação do pacote[^12] ou no GitHub[^10].  
+
+### 2.4 tableone  
+Em artigos de revistas biomédicas, a **Tabela 1** fornece uma análise quantitativa das características basais dos pacientes. O pacote *tableone* visa produzir a típica análise quantitativa Tablela 1 (daí o nome) de publicações de pesquisa.  
+
+A primeira etapa é carregar o pacote na sessão, através do snippet abaixo:  
+
+```{r tableone}
+if (!("tableone") %in% installed.packages()) install.packages("tableone")
+library(tableone)
+```
+
+Antes de utilizar o pacotem**tableone**, será realizada uma etapa opcional de pré-processamento para tornar as categorias e os nomes das variáveis (colunas) mais legíveis, através do seguinte pedaço de código:  
+
+```{r pre-processamento-tableone}
+df <-
+df %>%
+# # modificar níveis dos fatores 
+  mutate_at(c("cholesterol", "gluc"), ~ recode(.,
+  "1" = "normal",
+  "2" = "above normal", 
+  "3" = "well above normal")
+  ) %>%
+  mutate_at(c("smoke", "alco", "active", "cardio"), ~ recode(.,
+                                                             "0" = "no",
+                                                             "1" = "yes") ) %>%
+  mutate_at(c("gender"), ~ recode(.,
+                                  "1" = "woman",
+                                  "2" = "male")
+  ) %>%
+  # renomear colunas
+  rename(
+    "systolic blood pressure" = "ap_hi",
+    "diastolic blood pressure" = "ap_lo",
+    "glucose" = "gluc",
+    "smoking" = "smoke",
+    "alcohol" = "alco",
+    "physical activity" = "active",
+    "cardiovascular disease" = "cardio"
+    ) 
+
+head(df)
+```
+Figura 13. Saída do comando ExpCatStat(df, Target="cardio", Pclass="1", plot=T).  
+
+Agora usaremos a função **CreateTableOne** para gerar um objeto que resume todas as variáveis de uma linha base para a medição (baseline/linha de base), contínuas e categóricas, estratificando opcionalmente por uma ou mais variáveis e realizando testes estatísticos.  
+Neste caso, decidiu-se por estratificar pela presença de doença cardiovascular através do argumento dos estratos:  
+
+```{r estratificacao-tableone}
+# # realizamos uma estratificação com base na presença de doença cardiovascular
+tableOne <- CreateTableOne(vars = colnames(select(df, -"cardiovascular disease")),
+strata = c("cardiovascular disease"), data = df)
+
+# passamos uma lista de variáveis contínuas não normalmente distribuídas no argumento "nonnormal"
+print(
+tableOne,
+nonnormal = c("age", "weight", "height", "systolic blood pressure", "diastolic blood pressure"),
+showAllLevels = TRUE)
+```
+
+Figura 14. Saída estratificada da função print(tableOne).
+
+Pela tabela, pode-se observar que:
+• *Variáveis categóricas* são representadas como *contagens* e *porcentagens*.
+• *As variáveis contínuas* são exibidas como:
+- Em caso de *distribuição normal*: *média* e *desvio padrão*.
+- Em caso de *distribuição não normal*: *mediana* e *intervalos interquartis*.
+A tabela fornece uma visão geral imediata e intuitiva das características basais estratificadas por doença cardiovascular.
+É possível visualizar apenas as variáveis categóricas ou contínuas, acessando respectivamente os elementos **CatTable** e **ContTable** do objeto *TableOne*.  
+Por exemplo:  
+
+```{r}
+# somente parte categórica 
+tableOne$CatTable
+```
+
+Figura 15. Saída estratificada somente parte da categórica do objeto tableOne.  
+
+## 3.	Conclusions  
+
+Neste artigo, foram utiilizados quatro pacotes em R que executam diferentes tarefas de AED, de tabelas de resumo a relatórios HTML detalhados, e que, portanto, facilitam significativamente a exploração de um **dataset** (conjunto de dados).
+O R oferece vários pacotes com recursos que resumem dados numéricos e categóricos de maneira organizada e rápida. Citamos alguns: skimr[^13], Hmisc[^14], desctable[^15], summarytools[^16], dlookr[^17].
+Finalizando, em Putatunda et al. (2019) [^18] é compartilhada uma comparação perspicaz entre diferentes pacotes que fornecem recursos de AED e estão disponíveis no CRAN:  
+
+![Figura 16. Comparação entre os recursos EDA de diferentes pacotes R. Fonte: Putatunda et al. (2019).](/Users/jpalbino/Library/Mobile Documents/com~apple~CloudDocs/GitHub/with-a-little-help-from-my-friends/figuras/comparacao-EDA-features.jpg)  
+
+A título de curiosidade, podemos observar a quantidade de downloads dos pacotes citados no último ano (2022) da seguinte forma:  
+```{r dlstats}
+if (!("dlstats") %in% installed.packages()) install.packages("dlstats")
+library(dlstats)
+
+stats <- cran_stats(c("SmartEDA", "DataExplorer", "tableone", "GGally", "Hmisc", 
+                      "exploreR", "dlookr", "desctable", "summarytools"))
+
+stats %>%
+  filter(start >= "2022-01-01" & end < "2023-01-01") %>% select(package, downloads) %>%
+  group_by(package) %>%
+  summarize(downloads = sum(downloads)) %>% arrange(desc(downloads))
+```
+
+Figura 17. Downloads dos pacotes citados no ano de 2022.
+
+Também podemos observar a tendência de download de pacotes ao longo do tempo:
+
+```{r timeline-downloads}
+# a escala log10 é usada porque a diferença entre downloads é comparativamente grande
+ggplot(stats, aes(end, log10(downloads), group=package, color=package)) + geom_line()
+```
+
+Figura 18. Downloads dos pacotes entre 2018 e 2022.
+
+
+[^1]: Cardiovascular Disease dataset. Disponível em: <https://www.kaggle.com/datasets/sulianova/cardiovascular-disease-dataset>. Acessado em: 13 jan. 2023.   
+[^2]: summary: Object Summaries. Disponível em: <rdocumentation.org/packages/base/versions/3.6.2/topics/summary>. Acessado em: 13 jan. 2023.
+[^3]: DataExplorer: Automate Data Exploration and Treatment. Disponível em:	<cran.r-project.org/package=DataExplorer>. Acessado em: 13 jan. 2023.
+[^4]: Perfil de dados (data profilling): Criação de perfil de dados é o processo de revisar a origem dos dados, entender sua estrutura, seu conteúdo e suas inter-relações, além de identificar o potencial desses dados para o projeto. 
+[^5]: HTML (abreviação para a expressão inglesa HyperText Markup Language, que significa: "Linguagem de Marcação de Hipertexto") é uma linguagem de marcação utilizada na construção de páginas na Web. Documentos HTML podem ser interpretados por navegadores.  
+[^6]: Pacote DataExplorer. Oferece processo automatizado de exploração de dados para tarefas analíticas e modelagem preditiva, para que os usuários possam se concentrar na compreensão dos dados e na extração de insights. Disponível em: <https://cran.r-project.org/web/packages/DataExplorer/DataExplorer.pdf>. Acessado em: 18 jan. 2023. 
+[^7]: Pacote GGally. O pacote R 'ggplot2' é um sistema de plotagem baseado na gramática dos gráficos. 'GGally' estende 'ggplot2' adicionando várias funções. Disponível em: <https://cran.r-project.org/web/packages/GGally/GGally.pdf>. Acesso em: 18 jan. 2023.  
+[^8]:	Disponível em: <rdocumentation.org/packages/GGally/versions/1.5.0/topics/ggpairs>. Acesso em: 18 jan. 2023.  
+[^9]:	Disponível em: <https://www.rdocumentation.org/packages/GGally/versions/1.5.0/topics/ggpairs>. Acesso em: 18 jan. 2023.  
+[^10]: Disponível em: <https://github.com/daya6489/SmartEDA>. Acesso em: 18 jan. 2023.  
+[^11]: Snippet: é um termo de programação para uma pequena região de código-fonte. São unidades operacionais definidas para serem incorporadas em programas maiores. Conforme definido em: SNIPSET. In: Wikipedia, The Free Encyclopedia. Flórida: Wikimedia Foundation, 2022. Disponível em: <https://en.wikipedia.org/w/index.php?title=Snippet_(programming)&oldid=1085945801>. Acesso em: 2 mai. 2022.
+[^12]: Disponível em: <https://cran.r-project.org/package=SmartEDA>. Acesso em: 18 jan. 2023.  
+[^13]: Disponível em: <https://cran.r-project.org/package=skimr>. Acesso em: 18 jan. 2023.   
+[^14]: Disponível em: <https://cran.r-project.org/package=Hmisc>. Acesso em: 18 jan. 2023.   
+[^15]: Disponível em: <https://cran.r-project.org/package=desctable>. Acesso em: 18 jan. 2023.   
+[^16]: Disponível em: <https://cran.r-project.org/package=summarytools>. Acesso em: 18 jan. 2023.   
+[^17]: Disponível em: <https://cran.r-project.org/package=dlookr>. Acesso em: 18 jan. 2023.   
+[^18]: Putatunda, Sayan and Ubrangala, Dayananda and Rama, Kiran and Kondapalli, Ravi, “SmartEDA: An R Package for Automated Exploratory Data Analysis”, Journal of Open Source Software, vol. 4, 2019, link: <https://joss.theoj.org/papers/10.21105/joss.01509>.
+
+
+
+
+
+

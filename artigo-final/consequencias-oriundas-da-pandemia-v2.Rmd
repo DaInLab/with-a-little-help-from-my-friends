@@ -1,6 +1,6 @@
 ---
-title: "Consequências Oriundas da Pandemia da Covid-19 nos Estudantes Universitários
-  Brasileiros"
+title: Consequências Oriundas da Pandemia da Covid-19 nos Estudantes Universitários
+  Brasileiros""
 author:
 - name: Henrique Campos Mercez dos Santos
 - name: Lívia Inglesis Barcellos
@@ -54,7 +54,7 @@ get_os <- function(){
 }
 if (get_os() == "windows"){
   knitr::opts_knit$set(root.dir = "E:/GitHub/with-a-little-help-from-my-friends/")
-  knitr::opts_knit$set(fig_path = ".png", list(fig.path = "D:/GitHub/with-a-little-help-from-my-friends/artigo-final/figura-", label = "aed"), 1:2)
+  knitr::opts_knit$set(fig_path = ".png", list(fig.path = "E:/GitHub/with-a-little-help-from-my-friends/artigo-final/figura-", label = "aed"), 1:2)
 }
 if (get_os() == "osx"){
      knitr::opts_knit$set(root.dir = "/Users/jpalbino/Library/Mobile Documents/com~apple~CloudDocs/GitHub/with-a-little-help-from-my-friends/artigo-final")
@@ -68,7 +68,7 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 # - ETAPA INICIAL
 #--- Importação e preparação dos dados
 # versão inicial em 05/01/2023.
-# versão do projeto "Impacto da Covid 19 nos Estudantes de Ensino Superior" no GitHub
+# versão do projeto "Consequências Oriundas da Pandemia da Covid-19 nos Estudantes Universitários Brasileiros" no GitHub
 
 # Lendo o arquivo em .csv
 dbf.csv <-read.csv("./dados/COVID19IES.csv", header = TRUE, sep = ";", quote = "\"", dec = ".")

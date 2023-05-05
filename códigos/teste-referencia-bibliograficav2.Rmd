@@ -1,0 +1,80 @@
+---
+title: "Testando Referências Bibliográgicas"
+author:
+- Paulo Barros
+- João Pedro Albino
+date: "`r Sys.Date()`"
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+bibliography: referencias.bib
+csl: "unesp-guara-abnt.csl"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = F, message = F)
+```
+
+## 1. Resultados e Discussão
+
+```{r bibliotecas}
+# base de dados dos Pinguins de Palmer
+library(tidyverse, quietly = TRUE)
+library(palmerpenguins)
+library(gt, quietly = TRUE)
+data(package='palmerpenguins')
+```
+
+## 2. Olhando o dataset " penguins"
+
+Visão geral:  
+
+```{r visao-geral, echo=FALSE}
+penguins %>% head() %>%
+  gt()
+```
+
+
+Primeiro vamos lembrar os nomes das nossas variáveis:
+
+```{r nomes-variaveis, echo=FALSE}
+penguins %>% names()
+```
+
+Vamos agora montar uma tabela de dados descritivos somente das informações do bico com as variáveis bill_lengthe bill_depth que são o comprimento e largura do bico, respectivamente.  
+
+```{r dados-descritivos, echo=FALSE}
+penguins %>%
+  group_by(species) %>%
+  select(bill_length_mm,bill_depth_mm) %>%
+  summarise(across(.cols = everything(), .fns = list(Media = mean, Desvio = sd), 
+                   na.rm=TRUE,
+                   .names = "{col}_{fn}")) %>% gt()
+```
+
+
+E agora vamos montar um simples gráfico de dispersão entre as variáveis bill_lengthe bill_depth.  
+
+```{r gráfico-dispersao, echo=FALSE}
+penguins %>%
+  ggplot(aes(x=bill_length_mm, y=bill_depth_mm, color = species)) +
+  geom_point(alpha=.5, size = 2.2) +
+  facet_wrap(~ island)
+```
+
+
+Vamos ver um exemplo de como fazer citações no markdown. Lembram do nosso arquivo de referências com as obras em BibTeX?  
+Quando eu quero fazer uma citação, basta adicionar "[], @ e o identificador" e o Markdown substitui pra gente a saída com a devida referência.  
+Vamos testar? Vamos citar o primeiro artigo no nosso exemplo [@gorman2014structural] , essa seria a forma de citar, então (Gorman e LTER, 2014). 
+
+Agora vamos aprender como fazer uma citação direta do autor no texto.  
+Simplesmente citamos o autor e ao passar a tag identificadora da referência, incluimos um sinal de - antes do @, dessa forma o markdown sabe que ele só precisa inserir o ano da citação e incluir o autor na lista de referências. 
+
+Por exemplo, podemos ver no gráfico de dispersão com base nos dados obtidos por Gorman e colaboradores [-@gorman2014structural] , que somente os pinguins da espécie P. adeliae ocorrem nas três ilhas amostradas.    
+Se você observar a sessão de referência mais abaixo vai encontrar a referência que acabamos de inserir no texto.
+Caso deseje citar multiplas obras em uma mesma citação, basta separar os @ com ; dentro dos [ ]: [@gorman2014structural ; @lter2016structural].
+
+Por favor, cite este trabalho como [@barros2022].
+
+## Referências
